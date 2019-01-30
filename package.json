@@ -1,0 +1,32 @@
+{
+  "name": "@writetome51/pagination-data-controller",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/writetome51/pagination-data-controller.git"
+  },
+  "keywords": [
+    "pagination",
+    "controller",
+    "app",
+    "application",
+    "typescript",
+    "class"
+  ],
+  "author": "Steve Thompson",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/writetome51/pagination-data-controller/issues"
+  },
+  "homepage": "https://github.com/writetome51/pagination-data-controller#readme",
+  "dependencies": {
+    "@writetome51/base-class": "~0.0.2",
+    "@writetome51/batchinator": "~2.0.0"
+  }
+}
