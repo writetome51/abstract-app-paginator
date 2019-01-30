@@ -14,6 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var base_class_1 = require("@writetome51/base-class");
+var batchinator_1 = require("@writetome51/batchinator");
 // This is designed so it handles both a Batchinator and a Paginator.
 // The Paginator is needed to simply show a page.
 // The Batchinator is needed just in case the full data set is so big it requires batchination.
@@ -23,17 +24,17 @@ var base_class_1 = require("@writetome51/base-class");
 // The class will still work the same way.
 var PaginationDataController = /** @class */ (function (_super) {
     __extends(PaginationDataController, _super);
-    // itemsPerBatch: integer (default is 500).  The browser cache item limit.
-    // itemsPerPage: integer (default is 25)
     function PaginationDataController(
     // begin injected dependencies...
-    __batchinator, __paginator, __dataService
+    __paginator, __dataService
     // end injected dependencies.
     ) {
         var _this = _super.call(this) || this;
-        _this.__batchinator = __batchinator;
         _this.__paginator = __paginator;
         _this.__dataService = __dataService;
+        // itemsPerBatch: integer (default is 500).  The browser cache item limit.
+        // itemsPerPage: integer (default is 25)
+        _this.__batchinator = new batchinator_1.Batchinator();
         // @ts-ignore
         _this.__batchinator.totalDataCount = _this.__dataService.getTotalDataCount();
         _this.itemsPerBatch = 500;

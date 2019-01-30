@@ -1,6 +1,7 @@
 # PaginationDataController
 
-A TypeScript/JavaScript class.  
+A TypeScript/JavaScript class that connects a paginator both with its data source and  
+with the view.  
 
 
 ## Installation
@@ -20,18 +21,35 @@ You must have npm installed first. Then, in the command line:
 
 ## Constructor
 ```
-constructor()
+constructor(
+    __batchinator: Batchinator,
+    __paginator: {
+        data: any[];
+        itemsPerPage: number;
+        currentPageNumber: number;
+    },
+    __dataService: IDataService
+)
 ```
 
 ## Properties
 ```
+itemsPerBatch: integer
+    // The browser cache item limit. Default is 500.
+    // If the data set is small enough that it doesn't need to be
+    // broken into batches, set this.itemsPerBatch to the total 
+    // number of items in the data set.
+
+itemsPerPage: integer
+    // Default is 25.
+
 className : string (read-only)
     // Not important. Inherited from BaseClass (see Inheritance Chain below).
 ```
 
 ## Methods
 ```
-
+showPage(pageNumber): void 
 ```
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .

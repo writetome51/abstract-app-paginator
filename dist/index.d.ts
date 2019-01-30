@@ -19,7 +19,7 @@ export declare class PaginationDataController extends BaseClass {
 			itemsPerPage: number;
 			currentPageNumber: number;
 		},
-		__dataService: any
+		__dataService: IDataService
 	);
 
 
@@ -29,4 +29,10 @@ export declare class PaginationDataController extends BaseClass {
 	private __showPageInCurrentBatch;
 	private __loadBatchAndPage;
 	private __loadBatchContainingPage;
+}
+
+
+export interface IDataService {
+	getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
+	getTotalDataCount: () => number;
 }

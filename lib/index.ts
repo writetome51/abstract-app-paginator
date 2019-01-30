@@ -16,15 +16,17 @@ export class PaginationDataController extends BaseClass {
 	// itemsPerBatch: integer (default is 500).  The browser cache item limit.
 	// itemsPerPage: integer (default is 25)
 
+	private __batchinator = new Batchinator();
+
 
 	constructor(
 		// begin injected dependencies...
-		private __batchinator: Batchinator,
 		private __paginator: { data: any[], itemsPerPage: number, currentPageNumber: number },
 		private __dataService: IDataService
 		// end injected dependencies.
 	) {
 		super();
+
 		// @ts-ignore
 		this.__batchinator.totalDataCount = this.__dataService.getTotalDataCount();
 		this.itemsPerBatch = 500;
@@ -90,5 +92,5 @@ export class PaginationDataController extends BaseClass {
 
 export interface IDataService {
 	getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
-	getTotalDataCount: () => string;
+	getTotalDataCount: () => number;
 }
