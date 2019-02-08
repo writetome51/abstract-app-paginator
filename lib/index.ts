@@ -31,6 +31,7 @@ export class PaginationDataController extends BaseClass {
 		this.__batchinator.totalDataCount = this.__dataService.getTotalDataCount();
 		this.itemsPerBatch = 500;
 		this.itemsPerPage = 25;
+		this.__loadBatchAndPage(1);
 	}
 
 

@@ -39,6 +39,7 @@ var PaginationDataController = /** @class */ (function (_super) {
         _this.__batchinator.totalDataCount = _this.__dataService.getTotalDataCount();
         _this.itemsPerBatch = 500;
         _this.itemsPerPage = 25;
+        _this.__loadBatchAndPage(1);
         return _this;
     }
     Object.defineProperty(PaginationDataController.prototype, "itemsPerPage", {

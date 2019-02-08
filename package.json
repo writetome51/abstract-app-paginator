@@ -26,7 +26,8 @@
   },
   "homepage": "https://github.com/writetome51/pagination-data-controller#readme",
   "devDependencies": {
-    "typescript": "^3.0.1"
+    "typescript": "^3.0.1",
+    "@writetome51/app-paginator": "~1.0.0"
   },
   "dependencies": {
     "@writetome51/base-class": "~0.0.2",
