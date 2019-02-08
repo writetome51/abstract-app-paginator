@@ -31,8 +31,6 @@ export class PaginationDataController extends BaseClass {
 		this.__batchinator.totalDataCount = this.__dataService.getTotalDataCount();
 		this.itemsPerBatch = 500;
 		this.itemsPerPage = 25;
-
-		this.__loadBatchAndPage(1);
 	}
 
 
@@ -57,15 +55,15 @@ export class PaginationDataController extends BaseClass {
 	}
 
 
-	showPage(pageNumber): void {
+	setCurrentPage(pageNumber): void {
 		if (this.__batchinator.currentBatchContainsPage(pageNumber)) {
-			this.__showPageInCurrentBatch(pageNumber);
+			this.__setCurrentPageInCurrentBatch(pageNumber);
 		}
 		else this.__loadBatchAndPage(pageNumber);
 	}
 
 
-	private __showPageInCurrentBatch(pageNumber) {
+	private __setCurrentPageInCurrentBatch(pageNumber) {
 		this.__paginator.currentPageNumber =
 			this.__batchinator.getCurrentPageNumberForPaginator(pageNumber);
 	}
@@ -73,7 +71,7 @@ export class PaginationDataController extends BaseClass {
 
 	private __loadBatchAndPage(pageNumber) {
 		this.__loadBatchContainingPage(pageNumber);
-		this.__showPageInCurrentBatch(pageNumber);
+		this.__setCurrentPageInCurrentBatch(pageNumber);
 	}
 
 

@@ -1,7 +1,6 @@
 # PaginationDataController
 
-A TypeScript/JavaScript class that connects a paginator both with its data source and  
-with the view.  
+A TypeScript/JavaScript class that connects a paginator with its data source and tells it what to show in the view.   Both a paginator object and a dataService object must be injected in the constructor.
 
 
 ## Installation
@@ -22,7 +21,6 @@ You must have npm installed first. Then, in the command line:
 ## Constructor
 ```
 constructor(
-    __batchinator: Batchinator,
     __paginator: {
         data: any[];
         itemsPerPage: number;
@@ -49,7 +47,9 @@ className : string (read-only)
 
 ## Methods
 ```
-showPage(pageNumber): void 
+setCurrentPage(pageNumber): void
+    // To be called on triggering an event, like 'click' .  The actual page data will be in the paginator object.
+    // That same object will have to be available in the view.
 ```
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .

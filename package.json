@@ -25,6 +25,9 @@
     "url": "https://github.com/writetome51/pagination-data-controller/issues"
   },
   "homepage": "https://github.com/writetome51/pagination-data-controller#readme",
+  "devDependencies": {
+    "typescript": "^3.0.1"
+  },
   "dependencies": {
     "@writetome51/base-class": "~0.0.2",
     "@writetome51/batchinator": "~2.0.0"

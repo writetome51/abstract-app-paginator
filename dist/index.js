@@ -39,7 +39,6 @@ var PaginationDataController = /** @class */ (function (_super) {
         _this.__batchinator.totalDataCount = _this.__dataService.getTotalDataCount();
         _this.itemsPerBatch = 500;
         _this.itemsPerPage = 25;
-        _this.__loadBatchAndPage(1);
         return _this;
     }
     Object.defineProperty(PaginationDataController.prototype, "itemsPerPage", {
@@ -63,20 +62,20 @@ var PaginationDataController = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    PaginationDataController.prototype.showPage = function (pageNumber) {
+    PaginationDataController.prototype.setCurrentPage = function (pageNumber) {
         if (this.__batchinator.currentBatchContainsPage(pageNumber)) {
-            this.__showPageInCurrentBatch(pageNumber);
+            this.__setCurrentPageInCurrentBatch(pageNumber);
         }
         else
             this.__loadBatchAndPage(pageNumber);
     };
-    PaginationDataController.prototype.__showPageInCurrentBatch = function (pageNumber) {
+    PaginationDataController.prototype.__setCurrentPageInCurrentBatch = function (pageNumber) {
         this.__paginator.currentPageNumber =
             this.__batchinator.getCurrentPageNumberForPaginator(pageNumber);
     };
     PaginationDataController.prototype.__loadBatchAndPage = function (pageNumber) {
         this.__loadBatchContainingPage(pageNumber);
-        this.__showPageInCurrentBatch(pageNumber);
+        this.__setCurrentPageInCurrentBatch(pageNumber);
     };
     PaginationDataController.prototype.__loadBatchContainingPage = function (pageNumber) {
         this.__batchinator.set_currentBatchNumber_basedOnPage(pageNumber);
