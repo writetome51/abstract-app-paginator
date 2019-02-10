@@ -5,7 +5,7 @@ var __extends = (this && this.__extends) || (function () {
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
             function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
-    }
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -36,7 +36,7 @@ var PaginationDataController = /** @class */ (function (_super) {
         // itemsPerPage: integer (default is 25)
         _this.__batchinator = new batchinator_1.Batchinator();
         // @ts-ignore
-        _this.__batchinator.totalDataCount = _this.__dataService.getTotalDataCount();
+        _this.__batchinator.totalDataCount = _this.__dataService.getDataTotal();
         _this.itemsPerBatch = 500;
         _this.itemsPerPage = 25;
         _this.__loadBatchAndPage(1);

@@ -29,7 +29,10 @@ constructor(
         itemsPerPage: number;
         currentPageNumber: number;
     },
-    __dataService: IDataService
+    __dataService: {
+        getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
+        getDataTotal: () => number;
+    }
 )
 ```
 

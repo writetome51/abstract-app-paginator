@@ -22,13 +22,16 @@ export class PaginationDataController extends BaseClass {
 	constructor(
 		// begin injected dependencies...
 		private __paginator: { data: any[], itemsPerPage: number, currentPageNumber: number },
-		private __dataService: IDataService
+		private __dataService: {
+			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
+			getDataTotal: () => number;
+		}
 		// end injected dependencies.
 	) {
 		super();
 
 		// @ts-ignore
-		this.__batchinator.totalDataCount = this.__dataService.getTotalDataCount();
+		this.__batchinator.totalDataCount = this.__dataService.getDataTotal();
 		this.itemsPerBatch = 500;
 		this.itemsPerPage = 25;
 		this.__loadBatchAndPage(1);
@@ -86,10 +89,4 @@ export class PaginationDataController extends BaseClass {
 	}
 
 
-}
-
-
-export interface IDataService {
-	getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
-	getTotalDataCount: () => number;
 }
