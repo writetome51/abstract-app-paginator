@@ -10,7 +10,7 @@ import { Batchinator } from '@writetome51/batchinator';
 // The class will still work the same way.
 
 
-export class PaginationDataController extends BaseClass {
+export abstract class PaginationDataController extends BaseClass {
 
 	// itemsPerBatch: integer (default is 500).  The browser cache item limit.
 	// itemsPerPage: integer (default is 25)

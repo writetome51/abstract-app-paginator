@@ -1,9 +1,10 @@
 # PaginationDataController
 
-A TypeScript/JavaScript class that connects a paginator with its data source and tells it what to show in the view.   
+An abstract TypeScript/JavaScript class that connects a paginator with its data source and tells  
+it what to show in the view.  
 Both a paginator object and a dataSource object must be injected in the constructor.  
-The actual page data will be in the paginator object.
-That same object will have to be available in the view.
+The actual page data will be in the paginator object.  That same object will have to be  
+available in the view.
 
 
 ## Installation

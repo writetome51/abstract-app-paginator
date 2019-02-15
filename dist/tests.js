@@ -1,7 +1,31 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
 var app_paginator_1 = require("@writetome51/app-paginator");
+var TestPaginationDataController = /** @class */ (function (_super) {
+    __extends(TestPaginationDataController, _super);
+    function TestPaginationDataController(
+    // begin injected dependencies...
+    paginator, dataSource
+    // end injected dependencies.
+    ) {
+        return _super.call(this, paginator, dataSource) || this;
+    }
+    return TestPaginationDataController;
+}(index_1.PaginationDataController));
 var DataService = /** @class */ (function () {
     function DataService() {
     }
@@ -17,7 +41,7 @@ var DataService = /** @class */ (function () {
     return DataService;
 }());
 var paginator = new app_paginator_1.AppPaginator();
-var pageDataCtlr = new index_1.PaginationDataController(paginator, new DataService());
+var pageDataCtlr = new TestPaginationDataController(paginator, new DataService());
 pageDataCtlr.itemsPerBatch = 10;
 pageDataCtlr.itemsPerPage = 5;
 pageDataCtlr.setCurrentPage(1);

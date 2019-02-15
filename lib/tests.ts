@@ -2,6 +2,22 @@ import { PaginationDataController } from './index';
 import { AppPaginator } from '@writetome51/app-paginator';
 
 
+class TestPaginationDataController extends PaginationDataController {
+
+	constructor(
+		// begin injected dependencies...
+		paginator: { data: any[], itemsPerPage: number, currentPageNumber: number },
+		dataSource: {
+			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
+			getDataTotal: () => number;
+		}
+		// end injected dependencies.
+	) {
+		super(paginator, dataSource);
+	}
+}
+
+
 class DataService {
 
 	getData(batchNumber, numItemsToGet) {
@@ -17,7 +33,7 @@ class DataService {
 
 
 let paginator = new AppPaginator();
-let pageDataCtlr = new PaginationDataController(paginator, new DataService());
+let pageDataCtlr = new TestPaginationDataController(paginator, new DataService());
 pageDataCtlr.itemsPerBatch = 10;
 pageDataCtlr.itemsPerPage = 5;
 
@@ -36,3 +52,4 @@ console.log(paginator.currentPage);
 
 pageDataCtlr.setCurrentPage(1);
 console.log(paginator.currentPage);
+
