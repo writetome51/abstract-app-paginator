@@ -11,7 +11,7 @@ var DataService = /** @class */ (function () {
         if (batchNumber === 2)
             return [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     };
-    DataService.prototype.getTotalDataCount = function () {
+    DataService.prototype.getDataTotal = function () {
         return 20;
     };
     return DataService;

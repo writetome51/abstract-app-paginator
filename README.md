@@ -1,7 +1,7 @@
 # PaginationDataController
 
 A TypeScript/JavaScript class that connects a paginator with its data source and tells it what to show in the view.   
-Both a paginator object and a dataService object must be injected in the constructor.  
+Both a paginator object and a dataSource object must be injected in the constructor.  
 The actual page data will be in the paginator object.
 That same object will have to be available in the view.
 
@@ -29,7 +29,7 @@ constructor(
         itemsPerPage: number;
         currentPageNumber: number;
     },
-    __dataService: {
+    __dataSource: {
         getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
         getDataTotal: () => number;
     }

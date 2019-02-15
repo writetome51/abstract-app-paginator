@@ -5,7 +5,6 @@ import { Batchinator } from '@writetome51/batchinator';
 // This is designed so it handles both a Batchinator and a Paginator.
 // The Paginator is needed to simply show a page.
 // The Batchinator is needed just in case the full data set is so big it requires batchination.
-// This makes the controller more flexible.
 // If the data set doesn't require batchination, set this.itemsPerBatch to the total number of items
 // in the data set.
 // The class will still work the same way.
@@ -22,7 +21,7 @@ export class PaginationDataController extends BaseClass {
 	constructor(
 		// begin injected dependencies...
 		private __paginator: { data: any[], itemsPerPage: number, currentPageNumber: number },
-		private __dataService: {
+		private __dataSource: {
 			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
 			getDataTotal: () => number;
 		}
@@ -31,7 +30,7 @@ export class PaginationDataController extends BaseClass {
 		super();
 
 		// @ts-ignore
-		this.__batchinator.totalDataCount = this.__dataService.getDataTotal();
+		this.__batchinator.totalDataCount = this.__dataSource.getDataTotal();
 		this.itemsPerBatch = 500;
 		this.itemsPerPage = 25;
 		this.__loadBatchAndPage(1);
@@ -82,7 +81,7 @@ export class PaginationDataController extends BaseClass {
 	private __loadBatchContainingPage(pageNumber) {
 		this.__batchinator.set_currentBatchNumber_basedOnPage(pageNumber);
 
-		this.__paginator.data = this.__dataService.getData(
+		this.__paginator.data = this.__dataSource.getData(
 			this.__batchinator.currentBatchNumber,
 			this.__batchinator.itemsPerBatch
 		);

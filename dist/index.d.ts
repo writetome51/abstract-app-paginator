@@ -3,10 +3,11 @@ import { BaseClass } from '@writetome51/base-class';
 
 export declare class PaginationDataController extends BaseClass {
 
+
 	itemsPerPage: number;
 	itemsPerBatch: number;
 	private __paginator;
-	private __dataService;
+	private __dataSource;
 	private __batchinator;
 
 
@@ -16,7 +17,7 @@ export declare class PaginationDataController extends BaseClass {
 			itemsPerPage: number;
 			currentPageNumber: number;
 		},
-		__dataService: {
+		__dataSource: {
 			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
 			getDataTotal: () => number;
 		}

@@ -18,7 +18,6 @@ var batchinator_1 = require("@writetome51/batchinator");
 // This is designed so it handles both a Batchinator and a Paginator.
 // The Paginator is needed to simply show a page.
 // The Batchinator is needed just in case the full data set is so big it requires batchination.
-// This makes the controller more flexible.
 // If the data set doesn't require batchination, set this.itemsPerBatch to the total number of items
 // in the data set.
 // The class will still work the same way.
@@ -26,17 +25,17 @@ var PaginationDataController = /** @class */ (function (_super) {
     __extends(PaginationDataController, _super);
     function PaginationDataController(
     // begin injected dependencies...
-    __paginator, __dataService
+    __paginator, __dataSource
     // end injected dependencies.
     ) {
         var _this = _super.call(this) || this;
         _this.__paginator = __paginator;
-        _this.__dataService = __dataService;
+        _this.__dataSource = __dataSource;
         // itemsPerBatch: integer (default is 500).  The browser cache item limit.
         // itemsPerPage: integer (default is 25)
         _this.__batchinator = new batchinator_1.Batchinator();
         // @ts-ignore
-        _this.__batchinator.totalDataCount = _this.__dataService.getDataTotal();
+        _this.__batchinator.totalDataCount = _this.__dataSource.getDataTotal();
         _this.itemsPerBatch = 500;
         _this.itemsPerPage = 25;
         _this.__loadBatchAndPage(1);
@@ -80,7 +79,7 @@ var PaginationDataController = /** @class */ (function (_super) {
     };
     PaginationDataController.prototype.__loadBatchContainingPage = function (pageNumber) {
         this.__batchinator.set_currentBatchNumber_basedOnPage(pageNumber);
-        this.__paginator.data = this.__dataService.getData(this.__batchinator.currentBatchNumber, this.__batchinator.itemsPerBatch);
+        this.__paginator.data = this.__dataSource.getData(this.__batchinator.currentBatchNumber, this.__batchinator.itemsPerBatch);
     };
     return PaginationDataController;
 }(base_class_1.BaseClass));

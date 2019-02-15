@@ -1,4 +1,4 @@
-import { IDataService, PaginationDataController } from './index';
+import { PaginationDataController } from './index';
 import { AppPaginator } from '@writetome51/app-paginator';
 
 
@@ -10,7 +10,7 @@ class DataService {
 	}
 
 
-	getTotalDataCount(): number {
+	getDataTotal(): number {
 		return 20;
 	}
 }
@@ -32,7 +32,6 @@ console.log(paginator.currentPage);
 
 pageDataCtlr.setCurrentPage(4);
 console.log(paginator.currentPage);
-
 
 
 pageDataCtlr.setCurrentPage(1);
