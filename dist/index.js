@@ -21,9 +21,9 @@ var batchinator_1 = require("@writetome51/batchinator");
 // If the data set doesn't require batchination, set this.itemsPerBatch to the total number of items
 // in the data set.
 // The class will still work the same way.
-var PaginationDataController = /** @class */ (function (_super) {
-    __extends(PaginationDataController, _super);
-    function PaginationDataController(
+var PaginatorDataController = /** @class */ (function (_super) {
+    __extends(PaginatorDataController, _super);
+    function PaginatorDataController(
     // begin injected dependencies...
     __paginator, __dataSource
     // end injected dependencies.
@@ -41,7 +41,7 @@ var PaginationDataController = /** @class */ (function (_super) {
         _this.__loadBatchAndPage(1);
         return _this;
     }
-    Object.defineProperty(PaginationDataController.prototype, "itemsPerPage", {
+    Object.defineProperty(PaginatorDataController.prototype, "itemsPerPage", {
         get: function () {
             return this.__batchinator.itemsPerPage;
         },
@@ -52,7 +52,7 @@ var PaginationDataController = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(PaginationDataController.prototype, "itemsPerBatch", {
+    Object.defineProperty(PaginatorDataController.prototype, "itemsPerBatch", {
         get: function () {
             return this.__batchinator.itemsPerBatch;
         },
@@ -62,25 +62,25 @@ var PaginationDataController = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    PaginationDataController.prototype.setCurrentPage = function (pageNumber) {
+    PaginatorDataController.prototype.setCurrentPage = function (pageNumber) {
         if (this.__batchinator.currentBatchContainsPage(pageNumber)) {
             this.__setCurrentPageInCurrentBatch(pageNumber);
         }
         else
             this.__loadBatchAndPage(pageNumber);
     };
-    PaginationDataController.prototype.__setCurrentPageInCurrentBatch = function (pageNumber) {
+    PaginatorDataController.prototype.__setCurrentPageInCurrentBatch = function (pageNumber) {
         this.__paginator.currentPageNumber =
             this.__batchinator.getCurrentPageNumberForPaginator(pageNumber);
     };
-    PaginationDataController.prototype.__loadBatchAndPage = function (pageNumber) {
+    PaginatorDataController.prototype.__loadBatchAndPage = function (pageNumber) {
         this.__loadBatchContainingPage(pageNumber);
         this.__setCurrentPageInCurrentBatch(pageNumber);
     };
-    PaginationDataController.prototype.__loadBatchContainingPage = function (pageNumber) {
+    PaginatorDataController.prototype.__loadBatchContainingPage = function (pageNumber) {
         this.__batchinator.set_currentBatchNumber_basedOnPage(pageNumber);
         this.__paginator.data = this.__dataSource.getData(this.__batchinator.currentBatchNumber, this.__batchinator.itemsPerBatch);
     };
-    return PaginationDataController;
+    return PaginatorDataController;
 }(base_class_1.BaseClass));
-exports.PaginationDataController = PaginationDataController;
+exports.PaginatorDataController = PaginatorDataController;

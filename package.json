@@ -1,5 +1,5 @@
 {
-  "name": "@writetome51/pagination-data-controller",
+  "name": "@writetome51/paginator-data-controller",
   "version": "1.0.0",
   "description": "A TypeScript/JavaScript class that connects a paginator both with its data source and with the view",
   "main": "dist/index.js",
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/writetome51/pagination-data-controller.git"
+    "url": "git+https://github.com/writetome51/paginator-data-controller.git"
   },
   "keywords": [
-    "pagination",
+    "paginator",
     "controller",
     "app",
     "application",
@@ -22,9 +22,9 @@
   "author": "Steve Thompson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/writetome51/pagination-data-controller/issues"
+    "url": "https://github.com/writetome51/paginator-data-controller/issues"
   },
-  "homepage": "https://github.com/writetome51/pagination-data-controller#readme",
+  "homepage": "https://github.com/writetome51/paginator-data-controller#readme",
   "devDependencies": {
     "typescript": "^3.0.1",
     "@writetome51/app-paginator": "~1.0.0"

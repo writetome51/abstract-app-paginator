@@ -1,4 +1,4 @@
-# PaginationDataController
+# PaginatorDataController
 
 An abstract TypeScript/JavaScript class that connects a paginator with its data source and tells  
 it what to show in the view.  
@@ -11,15 +11,15 @@ available in the view.
 
 You must have npm installed first. Then, in the command line:
 
-    npm install @writetome51/pagination-data-controller
+    npm install @writetome51/paginator-data-controller
 
 ## Loading
 
     // if using TypeScript:
-    import { PaginationDataController } from '@writetome51/pagination-data-controller';
+    import { PaginatorDataController } from '@writetome51/paginator-data-controller';
     // if using ES5 JavaScript:
-    var PaginationDataController = 
-            require('@writetome51/pagination-data-controller').PaginationDataController;
+    var PaginatorDataController = 
+            require('@writetome51/paginator-data-controller').PaginatorDataController;
     
 
 ## Constructor
@@ -55,8 +55,10 @@ className : string (read-only)
 ## Methods
 ```
 setCurrentPage(pageNumber): void
-    // To be called on triggering an event, like 'click' .  The actual page data will be in the paginator object.
-    // That same object will have to be available in the view.
+    // To be called on triggering an event, like 'click' .  The class makes sure 
+    // the correct batch is loaded and the paginator's .currentPageNumber is correct.
+    // The actual page data will be in the paginator object.
+    // That object will have to be available in the view.
 ```
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .
@@ -103,7 +105,7 @@ protected   _runMethod_and_returnThis(
 
 ## Inheritance Chain
 
-PaginationDataController<--[BaseClass](https://github.com/writetome51/typescript-base-class#baseclass)
+PaginatorDataController<--[BaseClass](https://github.com/writetome51/typescript-base-class#baseclass)
 
 
 ## License

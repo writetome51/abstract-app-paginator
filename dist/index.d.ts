@@ -1,7 +1,7 @@
 import { BaseClass } from '@writetome51/base-class';
 
 
-export declare abstract class PaginationDataController extends BaseClass {
+export declare abstract class PaginatorDataController extends BaseClass {
 
 
 	itemsPerPage: number;
