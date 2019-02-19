@@ -18,9 +18,6 @@ var batchinator_1 = require("@writetome51/batchinator");
 // This is designed so it handles both a Batchinator and a Paginator.
 // The Paginator is needed to simply show a page.
 // The Batchinator is needed just in case the full data set is so big it requires batchination.
-// If the data set doesn't require batchination, set this.itemsPerBatch to the total number of items
-// in the data set.
-// The class will still work the same way.
 var PaginatorDataController = /** @class */ (function (_super) {
     __extends(PaginatorDataController, _super);
     function PaginatorDataController(
@@ -57,7 +54,11 @@ var PaginatorDataController = /** @class */ (function (_super) {
             return this.__batchinator.itemsPerBatch;
         },
         set: function (value) {
-            this.__batchinator.itemsPerBatch = value;
+            if (this.__batchinator.totalDataCount < value) {
+                this.__batchinator.itemsPerBatch = this.__batchinator.totalDataCount;
+            }
+            else
+                this.__batchinator.itemsPerBatch = value;
         },
         enumerable: true,
         configurable: true

@@ -41,9 +41,8 @@ constructor(
 ```
 itemsPerBatch: integer
     // The browser cache item limit. Default is 500.
-    // If the data set is small enough that it doesn't need to be
-    // broken into batches, set this.itemsPerBatch to the total 
-    // number of items in the data set.
+    // If the number assigned to this is greater than the total number
+    // of items, it's automatically reset to the total number of items.
 
 itemsPerPage: integer
     // Default is 25.

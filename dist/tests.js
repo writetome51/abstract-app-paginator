@@ -58,3 +58,4 @@ pageDataCtlr.setCurrentPage(5);
 console.log(paginator.currentPage);
 pageDataCtlr.setCurrentPage(6);
 console.log(paginator.currentPage);
+console.log(pageDataCtlr.itemsPerBatch);
