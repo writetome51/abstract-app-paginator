@@ -28,7 +28,7 @@ constructor(
     __paginator: {
         data: any[];
         itemsPerPage: number;
-        currentPageNumber: number;
+        currentPageNumber: number; // changing this number changes the page.
     },
     __dataSource: {
         getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
