@@ -1,7 +1,7 @@
 {
   "name": "@writetome51/paginator-data-controller",
   "version": "0.0.1",
-  "description": "A TypeScript/JavaScript class that connects a paginator both with its data source and with the view",
+  "description": "A TypeScript/JavaScript class that connects a paginator with its data source and tells it what to show in the view",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
