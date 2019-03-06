@@ -20,7 +20,7 @@ export abstract class PaginatorDataController extends BaseClass {
 		private __paginator: { data: any[], itemsPerPage: number, currentPageNumber: number },
 		private __dataSource: {
 			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
-			getDataTotal: () => number;
+			getDataTotal: () => number; // returns total number of items in data set.
 		}
 		// end injected dependencies.
 	) {

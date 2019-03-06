@@ -1,6 +1,6 @@
 {
   "name": "@writetome51/paginator-data-controller",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A TypeScript/JavaScript class that connects a paginator with its data source and tells it what to show in the view",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -26,11 +26,10 @@
   },
   "homepage": "https://github.com/writetome51/paginator-data-controller#readme",
   "devDependencies": {
-    "typescript": "^3.0.1",
-    "@writetome51/app-paginator": "~1.0.0"
+    "@writetome51/app-paginator": "~2.0.1"
   },
   "dependencies": {
-    "@writetome51/base-class": "~0.0.2",
-    "@writetome51/batchinator": "~2.0.0"
+    "@writetome51/base-class": "~0.0.3",
+    "@writetome51/batchinator": "~2.0.1"
   }
 }

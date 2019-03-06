@@ -7,21 +7,6 @@ The actual page data will be in the paginator object.  That same object will hav
 available in the view.
 
 
-## Installation
-
-You must have npm installed first. Then, in the command line:
-
-    npm install @writetome51/paginator-data-controller
-
-## Loading
-
-    // if using TypeScript:
-    import { PaginatorDataController } from '@writetome51/paginator-data-controller';
-    // if using ES5 JavaScript:
-    var PaginatorDataController = 
-            require('@writetome51/paginator-data-controller').PaginatorDataController;
-    
-
 ## Constructor
 ```
 constructor(
@@ -101,10 +86,24 @@ protected   _runMethod_and_returnThis(
 ) : this
 ```
 
-
 ## Inheritance Chain
 
 PaginatorDataController<--[BaseClass](https://github.com/writetome51/typescript-base-class#baseclass)
+
+
+## Installation
+
+You must have npm installed first. Then, in the command line:
+
+    npm install @writetome51/paginator-data-controller
+
+## Loading
+
+    // if using TypeScript:
+    import { PaginatorDataController } from '@writetome51/paginator-data-controller';
+    // if using ES5 JavaScript:
+    var PaginatorDataController = 
+            require('@writetome51/paginator-data-controller').PaginatorDataController;
 
 
 ## License
