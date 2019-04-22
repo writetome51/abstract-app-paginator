@@ -4,28 +4,30 @@ A TypeScript/Javascript class for pagination in a real-world web app.
 It supports paginating data that can only be fetched from its source in batches if  
 the entire dataset is too big to be fetched all at once.  If the user requests a page  
 that isn't in the currently fetched batch, AppPaginator automatically fetches the  
-batch that contains that page and shows the requested page.
+batch that contains that page and shows the requested page.  
 A dataSource object must be injected in the constructor.  
 
 
 ## Constructor
 ```ts
 constructor(
-	// This parameter supplies AppPaginator with data to paginate:
-	__dataSource: {
-		getData: (
-			batchNumber,
-				// This number is which 'chunk' of items to be returned (i.e, assume numberOfItemsToGet is 50.
-				// If batchNumber is 1, getData() returns items 1 thru 50.  If batchNumber is 2, getData() returns 
-				// items 51 thru 100).
+    // This supplies AppPaginator with data to paginate:
+    __dataSource: {
+        getData: (
+            batchNumber,
+                // This number is which 'chunk' of items to be returned (i.e, say 
+                // numberOfItemsToGet is 50.  If batchNumber is 1, getData() returns 
+                // items 1 thru 50.  If batchNumber is 2, getData() returns items 51 thru 100).
 
-			numberOfItemsToGet
-				// When getData() is called, this number will be the cacheItemLimit (see properties below).
+            numberOfItemsToGet
+                // When getData() is called, this number will be the cacheItemLimit 
+                // (see properties below).
 
-		) => any[],
+        ) => any[],
 
-        	getDataTotal: () => number  // must return number of items in entire dataset, not the batch.
-	}
+        getDataTotal: () => number
+            // must return number of items in entire dataset, not the batch.
+    }
 )
 ```
 
