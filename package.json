@@ -9,11 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/writetome51/paginator-data-controller.git"
+    "url": "git+https://github.com/writetome51/app-paginator.git"
   },
   "keywords": [
+    "data",
     "paginator",
-    "controller",
+    "pagination",
     "app",
     "application",
     "typescript",
@@ -22,9 +23,9 @@
   "author": "Steve Thompson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/writetome51/paginator-data-controller/issues"
+    "url": "https://github.com/writetome51/app-paginator/issues"
   },
-  "homepage": "https://github.com/writetome51/paginator-data-controller#readme",
+  "homepage": "https://github.com/writetome51/app-paginator#readme",
   "devDependencies": {},
   "dependencies": {
     "@writetome51/array-paginator": "~4.0.0",

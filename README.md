@@ -1,16 +1,31 @@
 # AppPaginator
 
 A TypeScript/Javascript class for pagination in a real-world web app.   
+It supports paginating data that can only be fetched from its source in batches if  
+the entire dataset is too big to be fetched all at once.  If the user requests a page  
+that isn't in the currently fetched batch, AppPaginator automatically fetches the  
+batch that contains that page and shows the requested page.
 A dataSource object must be injected in the constructor.  
 
 
 ## Constructor
 ```ts
 constructor(
-    __dataSource: {
-        getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
-        getDataTotal: () => number;
-    }
+	// This parameter supplies AppPaginator with data to paginate:
+	__dataSource: {
+		getData: (
+			batchNumber,
+				// This number is which 'chunk' of items to be returned (i.e, assume numberOfItemsToGet is 50.
+				// If batchNumber is 1, getData() returns items 1 thru 50.  If batchNumber is 2, getData() returns 
+				// items 51 thru 100).
+
+			numberOfItemsToGet
+				// When getData() is called, this number will be the cacheItemLimit (see properties below).
+
+		) => any[],
+
+        	getDataTotal: () => number  // must return number of items in entire dataset, not the batch.
+	}
 )
 ```
 
@@ -19,25 +34,30 @@ constructor(
 cacheItemLimit: integer (default is 500).
     // Total number of items app can hold at once. Set this to the largest
     // number that doesn't negatively affect app performance.
-    // (If you set it to a value larger than this.totalItems, it's automatically 
-    // reset to this.totalItems)
+    // If you set it to a value larger than this.totalItems, it's automatically 
+    // reset to this.totalItems .
 
 itemsPerPage: integer (default is 25)
 
 currentPageNumber: integer
     // Setting this automatically updates this.currentPage
 
-currentPage: any[]  (read-only) (all items in current page)
+currentPage: any[]  (read-only)
+    // All items in the current page.
 
 totalPages: integer  (read-only)
 
-totalItems: integer  (read-only) (number of items in entire dataset)
+totalItems: integer  (read-only)
+    // number of items in entire dataset.
 
 className : string (read-only)
     // Not important. Inherited from BaseClass (see Inheritance Chain below).
 ```
 
 ## Methods
+<details>
+<summary>view methods</summary>
+
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .
 ```ts
@@ -79,6 +99,8 @@ protected   _runMethod_and_returnThis(
     additionalAction?: Function // takes the result returned by method as an argument.
 ) : this
 ```
+</details>
+
 
 ## Inheritance Chain
 
