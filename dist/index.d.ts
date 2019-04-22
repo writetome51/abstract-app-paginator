@@ -1,22 +1,21 @@
 import { BaseClass } from '@writetome51/base-class';
 
 
-export declare abstract class PaginatorDataController extends BaseClass {
+export declare class AppPaginator extends BaseClass {
 
-
+	cacheItemLimit: number;
 	itemsPerPage: number;
-	itemsPerBatch: number;
-	private __paginator;
+	currentPageNumber: number;
+	readonly currentPage: any[];
+	readonly totalPages: number;
+	readonly totalItems: number;
+
 	private __dataSource;
 	private __batchinator;
+	private __arrPaginator;
 
 
 	constructor(
-		__paginator: {
-			data: any[];
-			itemsPerPage: number;
-			currentPageNumber: number;
-		},
 		__dataSource: {
 			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
 			getDataTotal: () => number;
@@ -24,10 +23,8 @@ export declare abstract class PaginatorDataController extends BaseClass {
 	);
 
 
-	setCurrentPage(pageNumber: number): void;
-
-
 	private __setCurrentPageInCurrentBatch;
 	private __loadBatchAndPage;
 	private __loadBatchContainingPage;
+
 }

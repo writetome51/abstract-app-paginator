@@ -1,21 +1,4 @@
-import { PaginatorDataController } from './index';
-import { AppPaginator } from '@writetome51/app-paginator';
-
-
-class TestPaginatorDataController extends PaginatorDataController {
-
-	constructor(
-		// begin injected dependencies...
-		paginator: { data: any[], itemsPerPage: number, currentPageNumber: number },
-		dataSource: {
-			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
-			getDataTotal: () => number;
-		}
-		// end injected dependencies.
-	) {
-		super(paginator, dataSource);
-	}
-}
+import { AppPaginator } from './index';
 
 
 class DataService {
@@ -33,28 +16,28 @@ class DataService {
 }
 
 
-let paginator = new AppPaginator();
-let pageDataCtlr = new TestPaginatorDataController(paginator, new DataService());
-pageDataCtlr.itemsPerBatch = 10;
-pageDataCtlr.itemsPerPage = 5;
+let appPaginator = new AppPaginator(new DataService());
+appPaginator.cacheItemLimit = 10;
+appPaginator.itemsPerPage = 5;
 
-pageDataCtlr.setCurrentPage(1);
-console.log(paginator.currentPage);
+appPaginator.currentPageNumber = 1;
+console.log(appPaginator.currentPage);
 
-pageDataCtlr.setCurrentPage(2);
-console.log(paginator.currentPage);
+appPaginator.currentPageNumber = 2;
+console.log(appPaginator.currentPage);
 
-pageDataCtlr.setCurrentPage(3);
-console.log(paginator.currentPage);
+appPaginator.currentPageNumber = 3;
+console.log(appPaginator.currentPage);
 
-pageDataCtlr.setCurrentPage(4);
-console.log(paginator.currentPage);
+appPaginator.currentPageNumber = 4;
+console.log(appPaginator.currentPage);
 
-pageDataCtlr.setCurrentPage(5);
-console.log(paginator.currentPage);
+appPaginator.currentPageNumber = 5;
+console.log(appPaginator.currentPage);
 
-pageDataCtlr.setCurrentPage(6);
-console.log(paginator.currentPage);
+appPaginator.currentPageNumber = 6;
+console.log(appPaginator.currentPage);
 
-console.log(pageDataCtlr.itemsPerBatch);
+console.log(appPaginator.cacheItemLimit);
 
+console.log(appPaginator.currentPageNumber);

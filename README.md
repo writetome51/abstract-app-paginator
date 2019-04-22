@@ -1,20 +1,12 @@
-# PaginatorDataController
+# AppPaginator
 
-An abstract TypeScript/JavaScript class that connects a paginator with its data source and tells  
-it what to show in the view.  
-Both a paginator object and a dataSource object must be injected in the constructor.  
-The actual page data will be in the paginator object.  That same object will have to be  
-available in the view.
+A TypeScript/Javascript class for pagination in a real-world web app.   
+A dataSource object must be injected in the constructor.  
 
 
 ## Constructor
 ```
 constructor(
-    __paginator: {
-        data: any[];
-        itemsPerPage: number;
-        currentPageNumber: number; // changing this number changes the page.
-    },
     __dataSource: {
         getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
         getDataTotal: () => number;
@@ -24,13 +16,17 @@ constructor(
 
 ## Properties
 ```
-itemsPerBatch: integer
-    // The browser cache item limit. Default is 500.
-    // If the number assigned to this is greater than the total number
-    // of items, it's automatically reset to the total number of items.
+cacheItemLimit: integer (default is 500).
 
-itemsPerPage: integer
-    // Default is 25.
+itemsPerPage: integer (default is 25)
+
+currentPageNumber: integer
+
+currentPage: any[]  (read-only) (all items in current page)
+
+totalPages: integer  (read-only)
+
+totalItems: integer  (read-only) (number of items in entire dataset)
 
 className : string (read-only)
     // Not important. Inherited from BaseClass (see Inheritance Chain below).
