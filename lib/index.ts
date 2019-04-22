@@ -2,25 +2,29 @@ import { BaseClass } from '@writetome51/base-class';
 import { Batchinator } from '@writetome51/batchinator';
 import { ArrayPaginator } from '@writetome51/array-paginator';
 
-// This is designed so it handles a DataSource, a Batchinator, and an ArrayPaginator.
-// The ArrayPaginator is only designed for paginating a dataset small enough to fit entirely
-// inside it without having to split it into batches.  The Batchinator is needed just in 
-// case the entire dataset is so big it must be split into batches, where 1 batch is the total number 
-// of items the ArrayPaginator can hold without negatively affecting the app performance.  
-// The Batchinator tells DataSource what data, and how much of it, to fetch.  It tells 
-// ArrayPaginator what page to show.
-
 
 export class AppPaginator extends BaseClass {
 
-	// cacheItemLimit: integer (default is 500).
+	// cacheItemLimit: integer (default is 500). It's total num items app can hold at once.
 	// itemsPerPage: integer (default is 25)
 	// currentPageNumber: integer
 	// currentPage: any[]  (read-only) (all items in current page)
 	// totalPages: integer  (read-only)
 	// totalItems: integer  (read-only) (number of items in entire dataset)
 
+
+	// The Batchinator is needed just in case cacheItemLimit is smaller than totalItems.
+	// This means the app can't fetch the entire dataset at once, and it must be split into batches,
+	// where 1 batch is the size of cacheItemLimit.  The Batchinator tells DataSource what data to
+	// fetch (i.e, if cacheItemLimit is 50, and Batchinator wants batch 1, it tells DataSource to
+	// fetch items 1 thru 50.  If it wants batch 2, it tells DataSource to fetch items 51 thru 100).
+	// It also tells ArrayPaginator what page to show.
+
 	private __batchinator = new Batchinator();
+
+	// The ArrayPaginator is only designed for paginating a dataset small enough to fit entirely
+	// inside it without having to split it into batches.
+
 	private __arrPaginator = new ArrayPaginator();
 
 
@@ -43,7 +47,7 @@ export class AppPaginator extends BaseClass {
 
 	set cacheItemLimit(value) {
 		this.__batchinator.itemsPerBatch = value;  // batchinator validates value.
-		if (this.__batchinator.totalDataCount < value) {
+		if (value > this.__batchinator.totalDataCount) {
 			this.__batchinator.itemsPerBatch = this.__batchinator.totalDataCount;
 		}
 	}
@@ -68,8 +72,7 @@ export class AppPaginator extends BaseClass {
 	set currentPageNumber(value) {
 		if (this.__batchinator.currentBatchContainsPage(value)) {
 			this.__setCurrentPageInCurrentBatch(value);
-		}
-		else this.__loadBatchAndPage(value);
+		} else this.__loadBatchAndPage(value);
 	}
 
 

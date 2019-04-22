@@ -5,7 +5,7 @@ A dataSource object must be injected in the constructor.
 
 
 ## Constructor
-```
+```ts
 constructor(
     __dataSource: {
         getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
@@ -15,12 +15,17 @@ constructor(
 ```
 
 ## Properties
-```
+```ts
 cacheItemLimit: integer (default is 500).
+    // Total number of items app can hold at once. Set this to the largest
+    // number that doesn't negatively affect app performance.
+    // (If you set it to a value larger than this.totalItems, it's automatically 
+    // reset to this.totalItems)
 
 itemsPerPage: integer (default is 25)
 
 currentPageNumber: integer
+    // Setting this automatically updates this.currentPage
 
 currentPage: any[]  (read-only) (all items in current page)
 
@@ -33,16 +38,9 @@ className : string (read-only)
 ```
 
 ## Methods
-```
-setCurrentPage(pageNumber): void
-    // To be called on triggering an event, like 'click' .  The class makes sure 
-    // the correct batch is loaded and the paginator's .currentPageNumber is correct.
-    // The actual page data will be in the paginator object.
-    // That object will have to be available in the view.
-```
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .
-```
+```ts
 protected   _createGetterAndOrSetterForEach(
                   propertyNames: string[],
                   configuration: IGetterSetterConfiguration
@@ -84,23 +82,20 @@ protected   _runMethod_and_returnThis(
 
 ## Inheritance Chain
 
-PaginatorDataController<--[BaseClass](https://github.com/writetome51/typescript-base-class#baseclass)
+AppPaginator<--[BaseClass](https://github.com/writetome51/typescript-base-class#baseclass)
 
 
 ## Installation
 
-You must have npm installed first. Then, in the command line:
-
-    npm install @writetome51/paginator-data-controller
+`npm install @writetome51/app-paginator`
 
 ## Loading
-
-    // if using TypeScript:
-    import { PaginatorDataController } from '@writetome51/paginator-data-controller';
-    // if using ES5 JavaScript:
-    var PaginatorDataController = 
-            require('@writetome51/paginator-data-controller').PaginatorDataController;
-
+```ts
+// if using TypeScript:
+import { AppPaginator } from '@writetome51/app-paginator';
+// if using ES5 JavaScript:
+var AppPaginator = require('@writetome51/app-paginator').AppPaginator;
+```
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)

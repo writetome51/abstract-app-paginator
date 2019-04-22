@@ -23,19 +23,19 @@ appPaginator.itemsPerPage = 5;
 appPaginator.currentPageNumber = 1;
 console.log(appPaginator.currentPage);
 
-appPaginator.currentPageNumber = 2;
+++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage);
 
-appPaginator.currentPageNumber = 3;
+++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage);
 
-appPaginator.currentPageNumber = 4;
+++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage);
 
-appPaginator.currentPageNumber = 5;
+++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage);
 
-appPaginator.currentPageNumber = 6;
+++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage);
 
 console.log(appPaginator.cacheItemLimit);
