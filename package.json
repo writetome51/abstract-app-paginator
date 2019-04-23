@@ -26,7 +26,9 @@
     "url": "https://github.com/writetome51/app-paginator/issues"
   },
   "homepage": "https://github.com/writetome51/app-paginator#readme",
-  "devDependencies": {},
+  "devDependencies": {
+    "@writetome51/array-get-adjacent-at": "~1.0.4"
+  },
   "dependencies": {
     "@writetome51/array-paginator": "~4.0.0",
     "@writetome51/base-class": "~0.0.3",

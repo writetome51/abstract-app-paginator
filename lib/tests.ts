@@ -1,23 +1,25 @@
 import { AppPaginator } from './index';
+import { getAdjacentAt } from '@writetome51/array-get-adjacent-at';
 
 
 class DataService {
 
+	data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+		18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
+
 	getData(batchNumber, numItemsToGet) {
-		if (batchNumber === 1) return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-		if (batchNumber === 2) return [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-		if (batchNumber === 3) return [21, 22, 23, 24, 25, 26, 27, 28];
+		return getAdjacentAt(((batchNumber - 1) * numItemsToGet), numItemsToGet, this.data);
 	}
 
-
-	getDataTotal(): number {
-		return 28;
+	get dataTotal(){
+		return this.data.length;
 	}
 }
 
+let dataService = new DataService();
+let appPaginator = new AppPaginator(dataService);
 
-let appPaginator = new AppPaginator(new DataService());
-appPaginator.cacheItemLimit = 10;
+appPaginator.cacheItemLimit = 0;
 appPaginator.itemsPerPage = 5;
 
 appPaginator.currentPageNumber = 1;
@@ -37,6 +39,8 @@ console.log(appPaginator.currentPage);
 
 ++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage);
+
+
 
 console.log(appPaginator.cacheItemLimit);
 

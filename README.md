@@ -25,8 +25,8 @@ constructor(
 
         ) => any[],
 
-        getDataTotal: () => number
-            // must return number of items in entire dataset, not the batch.
+        dataTotal: number
+            // must be number of items in entire dataset, not the batch.
     }
 )
 ```

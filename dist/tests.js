@@ -1,24 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_1 = require("./index");
+var array_get_adjacent_at_1 = require("@writetome51/array-get-adjacent-at");
 var DataService = /** @class */ (function () {
     function DataService() {
+        this.data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
+            18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28];
     }
     DataService.prototype.getData = function (batchNumber, numItemsToGet) {
-        if (batchNumber === 1)
-            return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        if (batchNumber === 2)
-            return [11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-        if (batchNumber === 3)
-            return [21, 22, 23, 24, 25, 26, 27, 28];
+        return array_get_adjacent_at_1.getAdjacentAt(((batchNumber - 1) * numItemsToGet), numItemsToGet, this.data);
     };
-    DataService.prototype.getDataTotal = function () {
-        return 28;
-    };
+    Object.defineProperty(DataService.prototype, "dataTotal", {
+        get: function () {
+            return this.data.length;
+        },
+        enumerable: true,
+        configurable: true
+    });
     return DataService;
 }());
-var appPaginator = new index_1.AppPaginator(new DataService());
-appPaginator.cacheItemLimit = 10;
+var dataService = new DataService();
+var appPaginator = new index_1.AppPaginator(dataService);
+appPaginator.cacheItemLimit = 0;
 appPaginator.itemsPerPage = 5;
 appPaginator.currentPageNumber = 1;
 console.log(appPaginator.currentPage);
