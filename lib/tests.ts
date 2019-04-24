@@ -19,13 +19,13 @@ class DataService {
 let dataService = new DataService();
 let appPaginator = new AppPaginator(dataService);
 
-appPaginator.cacheItemLimit = 0;
+appPaginator.cacheItemLimit = 8;
 appPaginator.itemsPerPage = 5;
 
-appPaginator.currentPageNumber = 1;
-console.log(appPaginator.currentPage);
+appPaginator.currentPageNumber = 1; // it contains first 6.
+console.log(appPaginator.currentPage); //  shows first 5.
 
-++appPaginator.currentPageNumber;
+++appPaginator.currentPageNumber; // it contains second 6.
 console.log(appPaginator.currentPage);
 
 ++appPaginator.currentPageNumber;

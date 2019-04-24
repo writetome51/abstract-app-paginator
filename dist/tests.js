@@ -21,11 +21,11 @@ var DataService = /** @class */ (function () {
 }());
 var dataService = new DataService();
 var appPaginator = new index_1.AppPaginator(dataService);
-appPaginator.cacheItemLimit = 0;
+appPaginator.cacheItemLimit = 8;
 appPaginator.itemsPerPage = 5;
-appPaginator.currentPageNumber = 1;
-console.log(appPaginator.currentPage);
-++appPaginator.currentPageNumber;
+appPaginator.currentPageNumber = 1; // it contains first 6.
+console.log(appPaginator.currentPage); //  shows first 5.
+++appPaginator.currentPageNumber; // it contains second 6.
 console.log(appPaginator.currentPage);
 ++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage);

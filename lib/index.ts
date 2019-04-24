@@ -18,7 +18,7 @@ export class AppPaginator extends BaseClass {
 	// thru 50.  If it wants batch 2, it tells __dataSource to fetch items 51 thru 100).  It also
 	// tells __arrPaginator what page to show.
 
-	private __batchinator = new Batchinator();
+	private __batchinator: Batchinator;
 
 
 	constructor(
@@ -29,31 +29,28 @@ export class AppPaginator extends BaseClass {
 			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
 
 			// dataTotal: number of items in entire dataset, not the batch.
-			// This must stay accurate after user-actions that change the total, such as
-			// searches.
+			// This must stay accurate after user-actions that change the total, such as searches.
 
 			dataTotal: number;
 		}
 	) {
 		super();
 
-		this.__batchinator.totalDataCount = this.__dataSource.dataTotal;
-		this.cacheItemLimit = 500;
-		this.itemsPerPage = 25;
-		this.__loadBatchAndPage(1);
+		this.__batchinator = new Batchinator(this.__dataSource);
+		this.cacheItemLimit = 250;  // Batchinator requires this to be set before itemsPerPage.
+		this.itemsPerPage = 25;  // Batchinator requires this to be set before you load a batch.
 	}
 
 
 	set cacheItemLimit(value) {
 		this.__batchinator.itemsPerBatch = value;  // batchinator validates value.
-		this.__keepItemsPerBatchNoGreaterThanTotalItems();
+
+		// temp:
+		console.log(this.__arrPaginator.data);
 	}
 
 
 	get cacheItemLimit(): number {
-		// This line is necessary in case this.totalItems changes at any point.
-		this.__keepItemsPerBatchNoGreaterThanTotalItems();
-
 		return this.__batchinator.itemsPerBatch;
 	}
 
@@ -72,8 +69,7 @@ export class AppPaginator extends BaseClass {
 	set currentPageNumber(value) {
 		if (this.__batchinator.currentBatchContainsPage(value)) {
 			this.__setCurrentPageInCurrentBatch(value);
-		}
-		else this.__loadBatchAndPage(value);
+		} else this.__loadBatchAndPage(value);
 	}
 
 
@@ -119,13 +115,6 @@ export class AppPaginator extends BaseClass {
 	private __setCurrentPageInCurrentBatch(pageNumber) {
 		this.__arrPaginator.currentPageNumber =
 			this.__batchinator.getCurrentPageNumberForPaginator(pageNumber);
-	}
-
-
-	private __keepItemsPerBatchNoGreaterThanTotalItems() {
-		if (this.__batchinator.itemsPerBatch > this.totalItems) {
-			this.__batchinator.itemsPerBatch = this.totalItems;
-		}
 	}
 
 
