@@ -14,8 +14,9 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var base_class_1 = require("@writetome51/base-class");
-var batchinator_1 = require("@writetome51/batchinator");
+var index_1 = require("./test_batchinator/index");
 var array_paginator_1 = require("@writetome51/array-paginator");
+var has_value_no_value_1 = require("@writetome51/has-value-no-value");
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
     function AppPaginator(__dataSource) {
@@ -24,9 +25,9 @@ var AppPaginator = /** @class */ (function (_super) {
         // __arrPaginator is only designed for paginating a dataset small enough to fit entirely
         // inside it without having to split it into batches.
         _this.__arrPaginator = new array_paginator_1.ArrayPaginator();
-        _this.__batchinator = new batchinator_1.Batchinator(_this.__dataSource);
-        _this.cacheItemLimit = 250; // Batchinator requires this to be set before itemsPerPage.
-        _this.itemsPerPage = 25; // Batchinator requires this to be set before you load a batch.
+        _this.__batchinator = new index_1.Batchinator(_this.__dataSource);
+        _this.itemsPerPage = 1; // Batchinator requires this to be set before you load a batch.
+        _this.cacheItemLimit = 1;
         return _this;
     }
     Object.defineProperty(AppPaginator.prototype, "cacheItemLimit", {
@@ -35,8 +36,7 @@ var AppPaginator = /** @class */ (function (_super) {
         },
         set: function (value) {
             this.__batchinator.itemsPerBatch = value; // batchinator validates value.
-            // temp:
-            console.log(this.__arrPaginator.data);
+            this.__loadBatchAndPage(1);
         },
         enumerable: true,
         configurable: true
@@ -54,6 +54,8 @@ var AppPaginator = /** @class */ (function (_super) {
     });
     Object.defineProperty(AppPaginator.prototype, "currentPageNumber", {
         get: function () {
+            if (has_value_no_value_1.noValue(this.__batchinator.currentBatchNumber))
+                throw new Error("You can't get the property \"currentPageNumber\" because this.__batchinator.currentBatchNumber \n\t\t\tis undefined.");
             return (this.__arrPaginator.currentPageNumber +
                 ((this.__batchinator.currentBatchNumber - 1) * this.__batchinator.pagesPerBatch));
         },
@@ -83,9 +85,7 @@ var AppPaginator = /** @class */ (function (_super) {
     });
     Object.defineProperty(AppPaginator.prototype, "totalItems", {
         get: function () {
-            // This will keep batchinator.totalDataCount in sync with dataSource.dataTotal.
-            this.__batchinator.totalDataCount = this.__dataSource.dataTotal;
-            return this.__batchinator.totalDataCount;
+            return this.__dataSource.dataTotal;
         },
         enumerable: true,
         configurable: true
@@ -96,7 +96,7 @@ var AppPaginator = /** @class */ (function (_super) {
     };
     AppPaginator.prototype.__loadBatchContainingPage = function (pageNumber) {
         this.__batchinator.set_currentBatchNumber_basedOnPage(pageNumber);
-        this.__arrPaginator.data = this.__dataSource.getData(this.__batchinator.currentBatchNumber, this.cacheItemLimit);
+        this.__arrPaginator.data = this.__dataSource.getData(this.__batchinator.currentBatchNumber, this.cacheItemLimit, this.__batchinator.currentBatchNumberIsLast());
     };
     AppPaginator.prototype.__setCurrentPageInCurrentBatch = function (pageNumber) {
         this.__arrPaginator.currentPageNumber =

@@ -1,6 +1,7 @@
 import { BaseClass } from '@writetome51/base-class';
-import { Batchinator } from '@writetome51/batchinator';
+import { Batchinator } from './test_batchinator/index';
 import { ArrayPaginator } from '@writetome51/array-paginator';
+import { hasValue, noValue } from '@writetome51/has-value-no-value';
 
 
 export class AppPaginator extends BaseClass {
@@ -25,8 +26,11 @@ export class AppPaginator extends BaseClass {
 		private __dataSource: {
 
 			// getData() is called whenever a new batch must be loaded.
+			// The number of items it returns matches itemsPerBatch.
+			// If isLastBatch is true, it only returns the remaining items in the dataset, and ignores
+			// the itemsPerBatch parameter.
 
-			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
+			getData: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
 
 			// dataTotal: number of items in entire dataset, not the batch.
 			// This must stay accurate after user-actions that change the total, such as searches.
@@ -37,16 +41,14 @@ export class AppPaginator extends BaseClass {
 		super();
 
 		this.__batchinator = new Batchinator(this.__dataSource);
-		this.cacheItemLimit = 250;  // Batchinator requires this to be set before itemsPerPage.
-		this.itemsPerPage = 25;  // Batchinator requires this to be set before you load a batch.
+		this.itemsPerPage = 1;  // Batchinator requires this to be set before you load a batch.
+		this.cacheItemLimit = 1;
 	}
 
 
 	set cacheItemLimit(value) {
 		this.__batchinator.itemsPerBatch = value;  // batchinator validates value.
-
-		// temp:
-		console.log(this.__arrPaginator.data);
+		this.__loadBatchAndPage(1);
 	}
 
 
@@ -69,11 +71,16 @@ export class AppPaginator extends BaseClass {
 	set currentPageNumber(value) {
 		if (this.__batchinator.currentBatchContainsPage(value)) {
 			this.__setCurrentPageInCurrentBatch(value);
-		} else this.__loadBatchAndPage(value);
+		}
+		else this.__loadBatchAndPage(value);
 	}
 
 
 	get currentPageNumber(): number {
+		if (noValue(this.__batchinator.currentBatchNumber)) throw new Error(
+			`You can't get the property "currentPageNumber" because this.__batchinator.currentBatchNumber 
+			is undefined.`
+		);
 		return (this.__arrPaginator.currentPageNumber +
 			((this.__batchinator.currentBatchNumber - 1) * this.__batchinator.pagesPerBatch));
 	}
@@ -90,9 +97,7 @@ export class AppPaginator extends BaseClass {
 
 
 	get totalItems(): number {
-		// This will keep batchinator.totalDataCount in sync with dataSource.dataTotal.
-		this.__batchinator.totalDataCount = this.__dataSource.dataTotal;
-		return this.__batchinator.totalDataCount;
+		return this.__dataSource.dataTotal;
 	}
 
 
@@ -107,7 +112,8 @@ export class AppPaginator extends BaseClass {
 
 		this.__arrPaginator.data = this.__dataSource.getData(
 			this.__batchinator.currentBatchNumber,
-			this.cacheItemLimit
+			this.cacheItemLimit,
+			this.__batchinator.currentBatchNumberIsLast()
 		);
 	}
 
