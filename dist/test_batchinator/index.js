@@ -86,6 +86,13 @@ var Batchinator = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Batchinator.prototype, "currentBatchNumberIsLast", {
+        get: function () {
+            return (this.currentBatchNumber === this.totalBatches);
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Batchinator.prototype, "totalBatches", {
         get: function () {
             return get_rounded_up_down_1.getRoundedUp(this.totalPages / this.pagesPerBatch);
@@ -132,9 +139,6 @@ var Batchinator = /** @class */ (function (_super) {
             throw new Error("The property \"currentBatchNumber\" is not set to the batch number \n\t\t\tthat contains the passed pageNumber. Call this.set_currentBatchNumber_basedOnPage(pageNumber)\n\t\t\tbefore calling this function.");
         }
         return (pageNumber - ((this.currentBatchNumber - 1) * this.pagesPerBatch));
-    };
-    Batchinator.prototype.currentBatchNumberIsLast = function () {
-        return (this.currentBatchNumber === this.totalBatches);
     };
     Batchinator.prototype.__errorIfPropertyHasNoValue = function (property) {
         if (has_value_no_value_1.noValue(this["__" + property])) {

@@ -36,6 +36,8 @@ var AppPaginator = /** @class */ (function (_super) {
         },
         set: function (value) {
             this.__batchinator.itemsPerBatch = value; // batchinator validates value.
+            // Every time cacheItemLimit changes, the batch must be reloaded.
+            // For simplicity, we'll reload the first batch.
             this.__loadBatchAndPage(1);
         },
         enumerable: true,
@@ -96,11 +98,14 @@ var AppPaginator = /** @class */ (function (_super) {
     };
     AppPaginator.prototype.__loadBatchContainingPage = function (pageNumber) {
         this.__batchinator.set_currentBatchNumber_basedOnPage(pageNumber);
-        this.__arrPaginator.data = this.__dataSource.getData(this.__batchinator.currentBatchNumber, this.cacheItemLimit, this.__batchinator.currentBatchNumberIsLast());
+        this.__loadBatch();
     };
     AppPaginator.prototype.__setCurrentPageInCurrentBatch = function (pageNumber) {
         this.__arrPaginator.currentPageNumber =
             this.__batchinator.getCurrentPageNumberForPaginator(pageNumber);
+    };
+    AppPaginator.prototype.__loadBatch = function () {
+        this.__arrPaginator.data = this.__dataSource.getData(this.__batchinator.currentBatchNumber, this.cacheItemLimit, this.__batchinator.currentBatchNumberIsLast);
     };
     return AppPaginator;
 }(base_class_1.BaseClass));

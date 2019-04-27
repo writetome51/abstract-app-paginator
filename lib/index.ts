@@ -48,6 +48,8 @@ export class AppPaginator extends BaseClass {
 
 	set cacheItemLimit(value) {
 		this.__batchinator.itemsPerBatch = value;  // batchinator validates value.
+		// Every time cacheItemLimit changes, the batch must be reloaded.
+		// For simplicity, we'll reload the first batch.
 		this.__loadBatchAndPage(1);
 	}
 
@@ -109,18 +111,24 @@ export class AppPaginator extends BaseClass {
 
 	private __loadBatchContainingPage(pageNumber) {
 		this.__batchinator.set_currentBatchNumber_basedOnPage(pageNumber);
-
-		this.__arrPaginator.data = this.__dataSource.getData(
-			this.__batchinator.currentBatchNumber,
-			this.cacheItemLimit,
-			this.__batchinator.currentBatchNumberIsLast()
-		);
+		this.__loadBatch();
 	}
 
 
 	private __setCurrentPageInCurrentBatch(pageNumber) {
 		this.__arrPaginator.currentPageNumber =
 			this.__batchinator.getCurrentPageNumberForPaginator(pageNumber);
+	}
+
+
+	private __loadBatch() {
+
+		this.__arrPaginator.data = this.__dataSource.getData(
+			this.__batchinator.currentBatchNumber,
+			this.cacheItemLimit,
+			this.__batchinator.currentBatchNumberIsLast
+		);
+
 	}
 
 

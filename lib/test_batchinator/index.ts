@@ -54,7 +54,7 @@ export class Batchinator extends BaseClass {
 		this.__errorIfValueIsNotOneOrGreater(value, 'itemsPerPage');
 		this.__itemsPerPage = value;
 
-		if (hasValue(this.__itemsPerBatch)){
+		if (hasValue(this.__itemsPerBatch)) {
 			if (this.__itemsPerPage > this.__itemsPerBatch) throw new Error(
 				`The property "itemsPerPage" cannot be greater than "itemsPerBatch"`
 			);
@@ -101,6 +101,11 @@ export class Batchinator extends BaseClass {
 
 	get currentBatchNumber(): number {
 		return this.__currentBatchNumber;
+	}
+
+
+	get currentBatchNumberIsLast() {
+		return (this.currentBatchNumber === this.totalBatches);
 	}
 
 
@@ -153,11 +158,6 @@ export class Batchinator extends BaseClass {
 			before calling this function.`);
 		}
 		return (pageNumber - ((this.currentBatchNumber - 1) * this.pagesPerBatch));
-	}
-
-
-	currentBatchNumberIsLast() {
-		return (this.currentBatchNumber === this.totalBatches);
 	}
 
 
