@@ -34,6 +34,6 @@ Say paginator.data = [1....100] .  itemsPerBatch is 100.  itemsPerPage is 10.  p
 Then at some point in the program itemsPerBatch is changed to 80.  itemsPerPage remains at 10,
 so pagesPerBatch is now 8.
 At this point paginator.data still is [1....100] .
-User requests page 8.  Batchinator checks if
+User requests page 8.  BatchCalculator checks if
 
 ***********************************/ 

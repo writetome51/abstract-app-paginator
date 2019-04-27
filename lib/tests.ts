@@ -26,26 +26,29 @@ class DataService {
 let dataService = new DataService();
 let appPaginator = new AppPaginator(dataService);
 
-
-appPaginator.currentPageNumber = 1;
+appPaginator.cacheItemLimit = 30;
 console.log('begin');
-console.log(appPaginator.currentPage);
-
-appPaginator.cacheItemLimit = 4;
-appPaginator.itemsPerPage = 4;
-
-console.log(appPaginator.currentPage);
 
 appPaginator.currentPageNumber = 1;
-console.log(appPaginator.currentPage);
+console.log(appPaginator.currentPage); // [ 1 ... 25 ]
 
 ++appPaginator.currentPageNumber;
-console.log(appPaginator.currentPage);
+console.log(appPaginator.currentPage); // [ 26, 27, 28 ]
+
+appPaginator.itemsPerPage = 7;
+appPaginator.cacheItemLimit = 10;
+
+console.log(appPaginator.currentPageNumber); // 2
+
 
 ++appPaginator.currentPageNumber;
-console.log(appPaginator.currentPage);
+console.log(appPaginator.currentPage); // [ 15, 16, 17, 18, 19, 20, 21 ]
+
+++appPaginator.currentPageNumber;
+console.log(appPaginator.currentPage); // [ 22, 23, 24, 25, 26, 27, 28 ]
 
 
-console.log(appPaginator.cacheItemLimit);
 
-console.log(appPaginator.currentPageNumber);
+console.log(appPaginator.cacheItemLimit); // 7
+
+console.log(appPaginator.currentPageNumber); // 4

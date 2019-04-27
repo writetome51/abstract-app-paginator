@@ -20,26 +20,26 @@ var in_range_1 = require("@writetome51/in-range");
 var not_1 = require("@writetome51/not");
 var has_value_no_value_1 = require("@writetome51/has-value-no-value");
 /********************
- This class is intended to help a separate Paginator class paginate data that can only be saved
- in-memory one batch at-a-time, where each batch is taken from a much bigger data set that can't
+ This class is intended to help a separate Paginator class paginate data that can only be stored
+ in memory one batch at-a-time, because each batch is taken from a much bigger data set that can't
  be completely fetched all at once.
 
  An example: if the user is clicking thru pagination controls and clicks to page 10, it's this
  class' job to figure out which batch page 10 is in and tell the Paginator what page to show.
  *******************/
-var Batchinator = /** @class */ (function (_super) {
-    __extends(Batchinator, _super);
-    function Batchinator(__dataSource) {
+var BatchCalculator = /** @class */ (function (_super) {
+    __extends(BatchCalculator, _super);
+    function BatchCalculator(__dataSource) {
         var _this = _super.call(this) || this;
         _this.__dataSource = __dataSource;
         return _this;
     }
-    Object.defineProperty(Batchinator.prototype, "itemsPerPage", {
+    Object.defineProperty(BatchCalculator.prototype, "itemsPerPage", {
         get: function () {
             this.__errorIfPropertyHasNoValue('itemsPerPage');
             return this.__itemsPerPage;
         },
-        // If this.itemsPerBatch / this.itemsPerPage does not divide evenly, Batchinator decrements
+        // If this.itemsPerBatch / this.itemsPerPage does not divide evenly, BatchCalculator decrements
         // this.itemsPerBatch until they do.  So, sometimes after assigning a value to this.itemsPerPage,
         // this.itemsPerBatch will change slightly.
         set: function (value) {
@@ -55,7 +55,7 @@ var Batchinator = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Batchinator.prototype, "itemsPerBatch", {
+    Object.defineProperty(BatchCalculator.prototype, "itemsPerBatch", {
         get: function () {
             this.__errorIfPropertyHasNoValue('itemsPerBatch');
             return this.__itemsPerBatch;
@@ -63,9 +63,9 @@ var Batchinator = /** @class */ (function (_super) {
         set: function (value) {
             this.__errorIfValueIsNotOneOrGreater(value, 'itemsPerBatch');
             this.__itemsPerBatch = value;
-            // Since itemsPerBatch is changing, there can no longer be a 'current batch'.  This would cause
-            // buggy behavior.  The user of this class must call this.set_currentBatchNumber_basedOnPage()
-            // to reset this.currentBatchNumber.
+            // Since itemsPerBatch is changing, there can no longer be a 'current batch number'.  This would
+            // cause buggy behavior.  The user must call this.set_currentBatchNumber_basedOnPage() to
+            // reset this.currentBatchNumber.
             this.__currentBatchNumber = undefined;
             if (has_value_no_value_1.hasValue(this.__itemsPerPage)) {
                 if (this.__itemsPerBatch < this.__itemsPerPage) {
@@ -78,7 +78,7 @@ var Batchinator = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Batchinator.prototype, "currentBatchNumber", {
+    Object.defineProperty(BatchCalculator.prototype, "currentBatchNumber", {
         // set value of  this.currentBatchNumber  using  this.set_currentBatchNumber_basedOnPage(pageNumber)
         get: function () {
             return this.__currentBatchNumber;
@@ -86,28 +86,28 @@ var Batchinator = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Batchinator.prototype, "currentBatchNumberIsLast", {
+    Object.defineProperty(BatchCalculator.prototype, "currentBatchNumberIsLast", {
         get: function () {
             return (this.currentBatchNumber === this.totalBatches);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Batchinator.prototype, "totalBatches", {
+    Object.defineProperty(BatchCalculator.prototype, "totalBatches", {
         get: function () {
             return get_rounded_up_down_1.getRoundedUp(this.totalPages / this.pagesPerBatch);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Batchinator.prototype, "totalPages", {
+    Object.defineProperty(BatchCalculator.prototype, "totalPages", {
         get: function () {
             return get_rounded_up_down_1.getRoundedUp(this.__dataSource.dataTotal / this.itemsPerPage);
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Batchinator.prototype, "pagesPerBatch", {
+    Object.defineProperty(BatchCalculator.prototype, "pagesPerBatch", {
         get: function () {
             // Should not have to be rounded.  They will divide evenly.
             return (this.itemsPerBatch / this.itemsPerPage);
@@ -115,16 +115,16 @@ var Batchinator = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Batchinator.prototype.set_currentBatchNumber_basedOnPage = function (pageNumber) {
+    BatchCalculator.prototype.set_currentBatchNumber_basedOnPage = function (pageNumber) {
         this.__currentBatchNumber = this.getBatchNumberContainingPage(pageNumber);
     };
-    Batchinator.prototype.currentBatchContainsPage = function (pageNumber) {
+    BatchCalculator.prototype.currentBatchContainsPage = function (pageNumber) {
         if (has_value_no_value_1.noValue(this.currentBatchNumber))
             return false;
         var batchNumber = this.getBatchNumberContainingPage(pageNumber);
         return (this.currentBatchNumber === batchNumber);
     };
-    Batchinator.prototype.getBatchNumberContainingPage = function (pageNumber) {
+    BatchCalculator.prototype.getBatchNumberContainingPage = function (pageNumber) {
         if (not_1.not(in_range_1.inRange([1, this.totalPages], pageNumber))) {
             throw new Error('The requested page does not exist.');
         }
@@ -133,31 +133,23 @@ var Batchinator = /** @class */ (function (_super) {
     // Because the Paginator is not designed for handling batches (we assume), we have to translate
     // the passed pageNumber into a different number, returned by this function, which is the page
     // number the Paginator needs to show.
-    Batchinator.prototype.getCurrentPageNumberForPaginator = function (pageNumber) {
+    BatchCalculator.prototype.getCurrentPageNumberForPaginator = function (pageNumber) {
         var batchNumber = this.getBatchNumberContainingPage(pageNumber);
         if (this.currentBatchNumber !== batchNumber) {
             throw new Error("The property \"currentBatchNumber\" is not set to the batch number \n\t\t\tthat contains the passed pageNumber. Call this.set_currentBatchNumber_basedOnPage(pageNumber)\n\t\t\tbefore calling this function.");
         }
         return (pageNumber - ((this.currentBatchNumber - 1) * this.pagesPerBatch));
     };
-    Batchinator.prototype.__errorIfPropertyHasNoValue = function (property) {
+    BatchCalculator.prototype.__errorIfPropertyHasNoValue = function (property) {
         if (has_value_no_value_1.noValue(this["__" + property])) {
             throw new Error("The property \"" + property + "\" must be given a value first.");
         }
     };
-    Batchinator.prototype.__errorIfValueIsNotOneOrGreater = function (value, property) {
+    BatchCalculator.prototype.__errorIfValueIsNotOneOrGreater = function (value, property) {
         error_if_not_integer_1.errorIfNotInteger(value);
         if (value < 1)
             throw new Error("The property \"" + property + "\" must be at least 1.");
     };
-    return Batchinator;
+    return BatchCalculator;
 }(base_class_1.BaseClass));
-exports.Batchinator = Batchinator;
-/***********************************
- Say paginator.data = [1....100] .  itemsPerBatch is 100.  itemsPerPage is 10.  pagesPerBatch is 10.
- Then at some point in the program itemsPerBatch is changed to 80.  itemsPerPage remains at 10,
- so pagesPerBatch is now 8.
- At this point paginator.data still is [1....100] .
- User requests page 8.  Batchinator checks if
-
- ***********************************/
+exports.BatchCalculator = BatchCalculator;

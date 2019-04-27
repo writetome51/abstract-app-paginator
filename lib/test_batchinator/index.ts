@@ -8,8 +8,8 @@ import { hasValue, noValue } from '@writetome51/has-value-no-value';
 
 
 /********************
- This class is intended to help a separate Paginator class paginate data that can only be saved
- in-memory one batch at-a-time, where each batch is taken from a much bigger data set that can't
+ This class is intended to help a separate Paginator class paginate data that can only be stored
+ in memory one batch at-a-time, because each batch is taken from a much bigger data set that can't
  be completely fetched all at once.
 
  An example: if the user is clicking thru pagination controls and clicks to page 10, it's this
@@ -17,13 +17,14 @@ import { hasValue, noValue } from '@writetome51/has-value-no-value';
  *******************/
 
 
-export class Batchinator extends BaseClass {
+export class BatchCalculator extends BaseClass {
 
 	// These first 2 properties must be set before doing anything else:
-	// itemsPerBatch  (total number of items the Paginator can handle at once.)
 	// itemsPerPage
+	// itemsPerBatch  (total number of items the Paginator can handle at once.)
 
 	// currentBatchNumber  (read-only)
+	// currentBatchNumberIsLast: boolean  (read-only)
 	// totalBatches  (read-only)
 	// totalPages  (read-only)
 	// pagesPerBatch  (read-only)
@@ -46,7 +47,7 @@ export class Batchinator extends BaseClass {
 	}
 
 
-	// If this.itemsPerBatch / this.itemsPerPage does not divide evenly, Batchinator decrements
+	// If this.itemsPerBatch / this.itemsPerPage does not divide evenly, BatchCalculator decrements
 	// this.itemsPerBatch until they do.  So, sometimes after assigning a value to this.itemsPerPage,
 	// this.itemsPerBatch will change slightly.
 
@@ -73,9 +74,9 @@ export class Batchinator extends BaseClass {
 		this.__errorIfValueIsNotOneOrGreater(value, 'itemsPerBatch');
 		this.__itemsPerBatch = value;
 
-		// Since itemsPerBatch is changing, there can no longer be a 'current batch'.  This would cause
-		// buggy behavior.  The user of this class must call this.set_currentBatchNumber_basedOnPage()
-		// to reset this.currentBatchNumber.
+		// Since itemsPerBatch is changing, there can no longer be a 'current batch number'.  This would
+		// cause buggy behavior.  The user must call this.set_currentBatchNumber_basedOnPage() to
+		// reset this.currentBatchNumber.
 
 		this.__currentBatchNumber = undefined;
 
@@ -175,13 +176,3 @@ export class Batchinator extends BaseClass {
 
 
 }
-
-
-/***********************************
- Say paginator.data = [1....100] .  itemsPerBatch is 100.  itemsPerPage is 10.  pagesPerBatch is 10.
- Then at some point in the program itemsPerBatch is changed to 80.  itemsPerPage remains at 10,
- so pagesPerBatch is now 8.
- At this point paginator.data still is [1....100] .
- User requests page 8.  Batchinator checks if
-
- ***********************************/

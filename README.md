@@ -33,13 +33,11 @@ constructor(
 
 ## Properties
 ```ts
-cacheItemLimit: integer (default is 500).
+itemsPerPage: integer (This must be set first)
+
+cacheItemLimit: integer
     // Total number of items app can hold at once. Set this to the largest
     // number that doesn't negatively affect app performance.
-    // If you set it to a value larger than this.totalItems, it's automatically 
-    // reset to this.totalItems .
-
-itemsPerPage: integer (default is 25)
 
 currentPageNumber: integer
     // Setting this automatically updates this.currentPage
