@@ -1,5 +1,5 @@
 import { BaseClass } from '@writetome51/base-class';
-import { BatchCalculator } from './test_batchinator/index';
+import { BatchCalculator } from '@writetome51/batch-calculator';
 import { ArrayPaginator } from '@writetome51/array-paginator';
 import { hasValue, noValue } from '@writetome51/has-value-no-value';
 

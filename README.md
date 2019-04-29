@@ -35,7 +35,7 @@ constructor(
 ```ts
 itemsPerPage: integer (This must be set first)
 
-cacheItemLimit: integer
+cacheItemLimit: integer (This must be set second)
     // Total number of items app can hold at once. Set this to the largest
     // number that doesn't negatively affect app performance.
 

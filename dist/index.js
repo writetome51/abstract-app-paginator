@@ -14,7 +14,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var base_class_1 = require("@writetome51/base-class");
-var index_1 = require("./test_batchinator/index");
+var batch_calculator_1 = require("@writetome51/batch-calculator");
 var array_paginator_1 = require("@writetome51/array-paginator");
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
@@ -24,7 +24,7 @@ var AppPaginator = /** @class */ (function (_super) {
         // __arrPaginator is only designed for paginating a dataset small enough to fit entirely
         // inside it without having to split it into batches.
         _this.__arrPaginator = new array_paginator_1.ArrayPaginator();
-        _this.__batchCalc = new index_1.BatchCalculator(_this.__dataSource);
+        _this.__batchCalc = new batch_calculator_1.BatchCalculator(_this.__dataSource);
         // This default is necessary because the user can't do anything until this property is set.
         _this.itemsPerPage = 25;
         return _this;
