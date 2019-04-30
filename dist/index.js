@@ -13,9 +13,10 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+var array_paginator_1 = require("@writetome51/array-paginator");
 var base_class_1 = require("@writetome51/base-class");
 var batch_calculator_1 = require("@writetome51/batch-calculator");
-var array_paginator_1 = require("@writetome51/array-paginator");
+var set_array_1 = require("@writetome51/set-array");
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
     function AppPaginator(__dataSource) {
@@ -86,6 +87,14 @@ var AppPaginator = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    // Intended to be called after the order of the entire dataset changes (like after sorting),
+    // or after the dataTotal changes.
+    AppPaginator.prototype.reload = function () {
+        // This causes __batchCalc.currentBatchNumber to become undefined.
+        this.cacheItemLimit = this.cacheItemLimit;
+        // Resets __batchCalc.currentBatchNumber to 1 and re-retrieves batch 1.
+        this.currentPageNumber = 1;
+    };
     AppPaginator.prototype.__loadBatchAndPage = function (pageNumber) {
         this.__loadBatchContainingPage(pageNumber);
         this.__setCurrentPageInCurrentBatch(pageNumber);
@@ -99,7 +108,8 @@ var AppPaginator = /** @class */ (function (_super) {
             this.__batchCalc.getCurrentPageNumberForPaginator(pageNumber);
     };
     AppPaginator.prototype.__loadBatch = function () {
-        this.__arrPaginator.data = this.__dataSource.getData(this.__batchCalc.currentBatchNumber, this.cacheItemLimit, this.__batchCalc.currentBatchNumberIsLast);
+        var batch = this.__dataSource.getData(this.__batchCalc.currentBatchNumber, this.cacheItemLimit, this.__batchCalc.currentBatchNumberIsLast);
+        set_array_1.setArray(this.__arrPaginator.data, batch);
     };
     return AppPaginator;
 }(base_class_1.BaseClass));

@@ -1,7 +1,7 @@
+import { ArrayPaginator } from '@writetome51/array-paginator';
 import { BaseClass } from '@writetome51/base-class';
 import { BatchCalculator } from '@writetome51/batch-calculator';
-import { ArrayPaginator } from '@writetome51/array-paginator';
-import { hasValue, noValue } from '@writetome51/has-value-no-value';
+import { setArray } from '@writetome51/set-array';
 
 
 export class AppPaginator extends BaseClass {
@@ -32,7 +32,7 @@ export class AppPaginator extends BaseClass {
 			getData: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
 
 			// dataTotal: number of items in entire dataset, not the batch.
-			// This must stay accurate after user-actions that change the total, such as searches.
+			// This must stay accurate after actions that change the total, such as searches.
 
 			dataTotal: number;
 		}
@@ -70,7 +70,8 @@ export class AppPaginator extends BaseClass {
 	set currentPageNumber(value) {
 		if (this.__batchCalc.currentBatchContainsPage(value)) {
 			this.__setCurrentPageInCurrentBatch(value);
-		} else this.__loadBatchAndPage(value);
+		}
+		else this.__loadBatchAndPage(value);
 
 		this.__currentPageNumber = value;
 	}
@@ -96,6 +97,17 @@ export class AppPaginator extends BaseClass {
 	}
 
 
+	// Intended to be called after the order of the entire dataset changes (like after sorting),
+	// or after the dataTotal changes.
+
+	reload(): void {
+		// This causes __batchCalc.currentBatchNumber to become undefined.
+		this.cacheItemLimit = this.cacheItemLimit;
+		// Resets __batchCalc.currentBatchNumber to 1 and re-retrieves batch 1.
+		this.currentPageNumber = 1;
+	}
+
+
 	private __loadBatchAndPage(pageNumber) {
 		this.__loadBatchContainingPage(pageNumber);
 		this.__setCurrentPageInCurrentBatch(pageNumber);
@@ -115,13 +127,14 @@ export class AppPaginator extends BaseClass {
 
 
 	private __loadBatch() {
-		this.__arrPaginator.data = this.__dataSource.getData(
+		let batch = this.__dataSource.getData(
 
 			this.__batchCalc.currentBatchNumber,
 			this.cacheItemLimit,
 			this.__batchCalc.currentBatchNumberIsLast
 		);
 
+		setArray(this.__arrPaginator.data,  batch);
 	}
 
 

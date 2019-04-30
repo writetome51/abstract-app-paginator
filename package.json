@@ -27,12 +27,13 @@
   },
   "homepage": "https://github.com/writetome51/app-paginator#readme",
   "devDependencies": {
-    "@writetome51/array-get-adjacent-at": "~1.0.4"
+    "@writetome51/array-get-adjacent-at": "~1.0.4",
+    "@writetome51/array-get-head-tail": "~1.0.5"
   },
   "dependencies": {
     "@writetome51/array-paginator": "~4.0.0",
     "@writetome51/base-class": "~0.0.3",
     "@writetome51/batch-calculator": "~1.0.0",
-    "@writetome51/array-get-head-tail": "~1.0.5"
+    "@writetome51/set-array": "~1.0.2"
   }
 }

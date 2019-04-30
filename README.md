@@ -12,30 +12,35 @@ A dataSource object must be injected in the constructor.
 ```ts
 constructor(
     // This supplies AppPaginator with data to paginate:
-    __dataSource: {
+    dataSource: {
         getData: (
             batchNumber,
                 // This number is which 'chunk' of items to be returned (i.e, say 
-                // numberOfItemsToGet is 50.  If batchNumber is 1, getData() returns 
+                // itemsPerBatch is 50.  If batchNumber is 1, getData() returns 
                 // items 1 thru 50.  If batchNumber is 2, getData() returns items 51 thru 100).
-
-            numberOfItemsToGet
+                
+            itemsPerBatch,
                 // When getData() is called, this number will be the cacheItemLimit 
                 // (see properties below).
+                
+            isLastBatch: boolean
+                // If isLastBatch is true, it only returns the remaining items in the dataset, 
+                // and ignores the itemsPerBatch parameter.
 
         ) => any[],
 
         dataTotal: number
-            // must be number of items in entire dataset, not the batch.
+            // number of items in entire dataset, not the batch.
+            // This must stay accurate after actions that change the total, such as searches.
     }
 )
 ```
 
 ## Properties
 ```ts
-itemsPerPage: integer (This must be set first)
+itemsPerPage: integer // default is 25.
 
-cacheItemLimit: integer (This must be set second)
+cacheItemLimit: integer (This must be set before doing any pagination)
     // Total number of items app can hold at once. Set this to the largest
     // number that doesn't negatively affect app performance.
 
@@ -58,6 +63,11 @@ className : string (read-only)
 <details>
 <summary>view methods</summary>
 
+```
+reload(): void
+    // Intended to be called after the order of the entire dataset changes (like after sorting),
+    // or after the dataTotal changes.
+```
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .
 ```ts
