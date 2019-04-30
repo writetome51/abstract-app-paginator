@@ -6,25 +6,28 @@ export declare class AppPaginator extends BaseClass {
 	cacheItemLimit: number;
 	itemsPerPage: number;
 	currentPageNumber: number;
+
 	readonly currentPage: any[];
 	readonly totalPages: number;
 	readonly totalItems: number;
 
 	private __dataSource;
-	private __batchinator;
 	private __arrPaginator;
+	private __batchCalc;
+	private __currentPageNumber;
 
 
-	constructor(
-		__dataSource: {
-			getData: (batchNumber: number, numberOfItemsToGet: number) => any[];
-			getDataTotal: () => number;
-		}
-	);
+	constructor(__dataSource: {
+		getData: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
+		dataTotal: number;
+	});
 
 
-	private __setCurrentPageInCurrentBatch;
+	reload(): void;
+
+
 	private __loadBatchAndPage;
 	private __loadBatchContainingPage;
-
+	private __setCurrentPageInCurrentBatch;
+	private __loadBatch;
 }

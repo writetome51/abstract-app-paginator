@@ -38,21 +38,21 @@ constructor(
 
 ## Properties
 ```ts
-itemsPerPage: integer // default is 25.
+itemsPerPage : integer // default is 25.
 
-cacheItemLimit: integer (This must be set before doing any pagination)
+cacheItemLimit : integer (This must be set before doing any pagination)
     // Total number of items app can hold at once. Set this to the largest
     // number that doesn't negatively affect app performance.
 
-currentPageNumber: integer
+currentPageNumber : integer
     // Setting this automatically updates this.currentPage
 
-currentPage: any[]  (read-only)
+currentPage : any[]  (read-only)
     // All items in the current page.
 
-totalPages: integer  (read-only)
+totalPages : integer  (read-only)
 
-totalItems: integer  (read-only)
+totalItems : integer  (read-only)
     // number of items in entire dataset.
 
 className : string (read-only)
@@ -64,9 +64,9 @@ className : string (read-only)
 <summary>view methods</summary>
 
 ```
-reload(): void
-    // Intended to be called after the order of the entire dataset changes (like after sorting),
-    // or after the dataTotal changes.
+reload() : void
+    // Intended to be called after the order of the entire dataset changes 
+    // (like after sorting), or after the dataTotal changes.
 ```
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .
