@@ -63,7 +63,7 @@ className : string (read-only)
 <details>
 <summary>view methods</summary>
 
-```
+```ts
 reload() : void
     // Intended to be called after the order of the entire dataset changes 
     // (like after sorting), or after the dataTotal changes.

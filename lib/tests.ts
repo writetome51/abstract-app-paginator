@@ -52,3 +52,7 @@ console.log(appPaginator.currentPage); // [ 22, 23, 24, 25, 26, 27, 28 ]
 console.log(appPaginator.cacheItemLimit); // 7
 
 console.log(appPaginator.currentPageNumber); // 4
+
+appPaginator.reload();
+console.log(appPaginator.currentPage); // [ 1 ... 7 ]
+console.log(appPaginator.currentPageNumber); // 1
