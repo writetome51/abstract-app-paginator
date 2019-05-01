@@ -20,9 +20,7 @@ var BatchLoader = /** @class */ (function (_super) {
     function BatchLoader(
     // The same `__dataSource` object must be injected into this.__batchCalc .
     __dataSource, 
-    // `__batchCalc` is needed just in case this.itemsPerBatch < this.__dataSource.dataTotal .
-    // This means the entire dataset must be split into batches.  __batchCalc tells this.__dataSource
-    // what batch to fetch.
+    // __batchCalc tells this.__dataSource what batch to fetch.
     __batchCalc, 
     // `__arrPaginator` is needed because it will contain a reference to the loaded batch.
     __arrPaginator) {
