@@ -22,7 +22,7 @@ var AppPaginator = /** @class */ (function (_super) {
     function AppPaginator(__dataSource) {
         var _this = _super.call(this) || this;
         _this.__dataSource = __dataSource;
-        // __arrPaginator is only designed for paginating a dataset small enough to fit entirely
+        // `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely
         // inside it without having to split it into batches.
         _this.__arrPaginator = new array_paginator_1.ArrayPaginator();
         _this.__batchCalc = new batch_calculator_1.BatchCalculator(_this.__dataSource);

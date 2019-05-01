@@ -7,15 +7,15 @@ import { setArray } from '@writetome51/set-array';
 export class AppPaginator extends BaseClass {
 
 
-	// __arrPaginator is only designed for paginating a dataset small enough to fit entirely
+	// `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely
 	// inside it without having to split it into batches.
 
 	private __arrPaginator = new ArrayPaginator();
 
-	// __batchCalc is needed just in case this.cacheItemLimit is smaller than this.totalItems.
+	// `__batchCalc` is needed just in case this.cacheItemLimit  <  this.totalItems.
 	// This means the entire dataset must be split into batches, where 1 batch is the size of
-	// this.cacheItemLimit.  __batchCalc tells __dataSource what data to fetch.  It also tells
-	// __arrPaginator what page to show.
+	// this.cacheItemLimit.  __batchCalc tells this.__dataSource what data to fetch.  It also tells
+	// `__arrPaginator` what page to show.
 
 	private __batchCalc: BatchCalculator;
 	private __currentPageNumber: number;
@@ -24,10 +24,10 @@ export class AppPaginator extends BaseClass {
 	constructor(
 		private __dataSource: {
 
-			// getData() is called whenever a new batch is loaded.
-			// The number of items it returns matches itemsPerBatch.
-			// If isLastBatch is true, it only returns the remaining items in the dataset, and ignores
-			// the itemsPerBatch parameter.
+			// `getData()` is called whenever a new batch is loaded.
+			// The number of items it returns matches `itemsPerBatch`.
+			// If `isLastBatch` is true, it only returns the remaining items in the dataset, and ignores
+			// `itemsPerBatch`.
 
 			getData: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
 

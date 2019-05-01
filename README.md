@@ -4,43 +4,48 @@ A TypeScript/Javascript class for pagination in a real-world web app.
 It supports paginating data that can only be fetched from its source in batches if  
 the entire dataset is too big to be fetched all at once.  If the user requests a page  
 that isn't in the currently fetched batch, AppPaginator automatically fetches the  
-batch that contains that page and shows the requested page.  
-A dataSource object must be injected in the constructor.  
+batch that contains that page and shows the requested page.
 
 
 ## Constructor
 ```ts
 constructor(
-    // This supplies AppPaginator with data to paginate:
     dataSource: {
+        // object that supplies AppPaginator with data to paginate.
+
         getData: (
+            // called whenever a batch is loaded.
+
             batchNumber,
-                // This number is which 'chunk' of items to be returned (i.e, say 
-                // itemsPerBatch is 50.  If batchNumber is 1, getData() returns 
-                // items 1 thru 50.  If batchNumber is 2, getData() returns items 51 thru 100).
+                // Which 'chunk' of items to be returned (i.e, say itemsPerBatch is 50.
+                // If batchNumber is 1, getData() returns items 1 thru 50.  If 
+                // batchNumber is 2, getData() returns items 51 thru 100).
                 
             itemsPerBatch,
                 // When getData() is called, this number will be the cacheItemLimit 
                 // (see properties below).
                 
             isLastBatch: boolean
-                // If isLastBatch is true, it only returns the remaining items in the dataset, 
-                // and ignores the itemsPerBatch parameter.
+                // If isLastBatch is true, it only returns the remaining items in the 
+                // dataset, and ignores the itemsPerBatch parameter.
 
         ) => any[],
 
-        dataTotal: number
-            // number of items in entire dataset, not the batch.
-            // This must stay accurate after actions that change the total, such as searches.
+        dataTotal: integer
+            // number of items in entire dataset, not the batch.  It must stay accurate 
+            // after actions that change the total, such as searches.
     }
 )
 ```
 
 ## Properties
+<details>
+<summary>view properties</summary>
+
 ```ts
 itemsPerPage : integer // default is 25.
 
-cacheItemLimit : integer (This must be set before doing any pagination)
+cacheItemLimit : integer // This must be set before setting this.currentPageNumber.
     // Total number of items app can hold at once. Set this to the largest
     // number that doesn't negatively affect app performance.
 
@@ -58,6 +63,8 @@ totalItems : integer  (read-only)
 className : string (read-only)
     // Not important. Inherited from BaseClass (see Inheritance Chain below).
 ```
+</details>
+
 
 ## Methods
 <details>
@@ -65,6 +72,7 @@ className : string (read-only)
 
 ```ts
 reload() : void
+    // Loads batch 1 and resets this.currentPageNumber to 1.
     // Intended to be called after the order of the entire dataset changes 
     // (like after sorting), or after the dataTotal changes.
 ```
