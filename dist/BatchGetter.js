@@ -16,7 +16,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var base_class_1 = require("@writetome51/base-class");
 var BatchGetter = /** @class */ (function (_super) {
     __extends(BatchGetter, _super);
-    function BatchGetter(__dataSource, __batchCalc) {
+    function BatchGetter(
+    // The same `__dataSource` object must also be injected into this.__batchCalc .
+    __dataSource, __batchCalc) {
         var _this = _super.call(this) || this;
         _this.__dataSource = __dataSource;
         _this.__batchCalc = __batchCalc;
@@ -34,9 +36,9 @@ var BatchGetter = /** @class */ (function (_super) {
     });
     BatchGetter.prototype.getBatchContainingPage = function (pageNumber) {
         this.__batchCalc.set_currentBatchNumber_basedOnPage(pageNumber);
-        this.getBatch();
+        return this.__getBatch();
     };
-    BatchGetter.prototype.getBatch = function () {
+    BatchGetter.prototype.__getBatch = function () {
         return this.__dataSource.getData(this.__batchCalc.currentBatchNumber, this.itemsPerBatch, this.__batchCalc.currentBatchNumberIsLast);
     };
     return BatchGetter;

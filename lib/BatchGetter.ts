@@ -2,12 +2,12 @@ import { BaseClass } from '@writetome51/base-class';
 import { BatchCalculator } from '@writetome51/batch-calculator';
 
 
-export class Batchinator extends BaseClass {
+export class BatchGetter extends BaseClass {
 
 
 	constructor(
 
-		// The same `__dataSource` object must also be injected into `__batchCalc`.
+		// The same `__dataSource` object must also be injected into this.__batchCalc .
 
 		private __dataSource: {
 

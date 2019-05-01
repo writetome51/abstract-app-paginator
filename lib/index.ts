@@ -1,7 +1,7 @@
 import { ArrayPaginator } from '@writetome51/array-paginator';
 import { BaseClass } from '@writetome51/base-class';
 import { BatchCalculator } from '@writetome51/batch-calculator';
-import { Batchinator } from './Batchinator';
+import { BatchGetter } from './BatchGetter';
 import { setArray } from '@writetome51/set-array';
 
 
@@ -18,12 +18,12 @@ export class AppPaginator extends BaseClass {
 
 	constructor(
 
-		private __batchinator: Batchinator,
+		private __batchGetter: BatchGetter,
 
 		// `__batchCalc` is needed just in case this.itemsPerBatch < this.__dataSource.dataTotal .
 		// This means the entire dataset must be split into batches.  __batchCalc tells this.__dataSource
 		// what data to fetch.  It also tells __arrPaginator what page to show.
-		// The same __batchCalc instance must also be injected into this.__batchinator .
+		// The same __batchCalc instance must also be injected into this.__batchGetter .
 
 		private __batchCalc: BatchCalculator
 	) {
@@ -95,7 +95,7 @@ export class AppPaginator extends BaseClass {
 
 
 	private __loadBatchContainingPage(pageNumber) {
-		let batch = this.__batchinator.getBatchContainingPage(pageNumber);
+		let batch = this.__batchGetter.getBatchContainingPage(pageNumber);
 		setArray(this.__arrPaginator.data, batch);
 	}
 

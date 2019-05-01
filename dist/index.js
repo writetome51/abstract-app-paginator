@@ -18,14 +18,14 @@ var base_class_1 = require("@writetome51/base-class");
 var set_array_1 = require("@writetome51/set-array");
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
-    function AppPaginator(__batchinator, 
+    function AppPaginator(__batchGetter, 
     // `__batchCalc` is needed just in case this.itemsPerBatch < this.__dataSource.dataTotal .
     // This means the entire dataset must be split into batches.  __batchCalc tells this.__dataSource
     // what data to fetch.  It also tells __arrPaginator what page to show.
-    // The same __batchCalc instance must also be injected into this.__batchinator .
+    // The same __batchCalc instance must also be injected into this.__batchGetter .
     __batchCalc) {
         var _this = _super.call(this) || this;
-        _this.__batchinator = __batchinator;
+        _this.__batchGetter = __batchGetter;
         _this.__batchCalc = __batchCalc;
         // `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely
         // inside it without having to split it into batches.
@@ -91,7 +91,7 @@ var AppPaginator = /** @class */ (function (_super) {
             this.__batchCalc.getCurrentPageNumberForPaginator(pageNumber);
     };
     AppPaginator.prototype.__loadBatchContainingPage = function (pageNumber) {
-        var batch = this.__batchinator.getBatchContainingPage(pageNumber);
+        var batch = this.__batchGetter.getBatchContainingPage(pageNumber);
         set_array_1.setArray(this.__arrPaginator.data, batch);
     };
     return AppPaginator;
