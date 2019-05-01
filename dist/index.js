@@ -30,7 +30,7 @@ var AppPaginator = /** @class */ (function (_super) {
         _this.itemsPerPage = 25;
         return _this;
     }
-    Object.defineProperty(AppPaginator.prototype, "cacheItemLimit", {
+    Object.defineProperty(AppPaginator.prototype, "itemsPerBatch", {
         get: function () {
             return this.__batchCalc.itemsPerBatch;
         },
@@ -91,7 +91,7 @@ var AppPaginator = /** @class */ (function (_super) {
     // or after the dataTotal changes.
     AppPaginator.prototype.reload = function () {
         // This causes __batchCalc.currentBatchNumber to become undefined.
-        this.cacheItemLimit = this.cacheItemLimit;
+        this.itemsPerBatch = this.itemsPerBatch;
         // Resets __batchCalc.currentBatchNumber to 1 and re-retrieves batch 1.
         this.currentPageNumber = 1;
     };
@@ -108,7 +108,7 @@ var AppPaginator = /** @class */ (function (_super) {
             this.__batchCalc.getCurrentPageNumberForPaginator(pageNumber);
     };
     AppPaginator.prototype.__loadBatch = function () {
-        var batch = this.__dataSource.getData(this.__batchCalc.currentBatchNumber, this.cacheItemLimit, this.__batchCalc.currentBatchNumberIsLast);
+        var batch = this.__dataSource.getData(this.__batchCalc.currentBatchNumber, this.itemsPerBatch, this.__batchCalc.currentBatchNumberIsLast);
         set_array_1.setArray(this.__arrPaginator.data, batch);
     };
     return AppPaginator;

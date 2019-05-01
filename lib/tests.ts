@@ -26,7 +26,7 @@ class DataService {
 let dataService = new DataService();
 let appPaginator = new AppPaginator(dataService);
 
-appPaginator.cacheItemLimit = 30;
+appPaginator.itemsPerBatch = 30;
 console.log('begin');
 
 appPaginator.currentPageNumber = 1;
@@ -36,7 +36,7 @@ console.log(appPaginator.currentPage); // [ 1 ... 25 ]
 console.log(appPaginator.currentPage); // [ 26, 27, 28 ]
 
 appPaginator.itemsPerPage = 7;
-appPaginator.cacheItemLimit = 10;
+appPaginator.itemsPerBatch = 10;
 
 console.log(appPaginator.currentPageNumber); // 2
 
@@ -49,7 +49,7 @@ console.log(appPaginator.currentPage); // [ 22, 23, 24, 25, 26, 27, 28 ]
 
 
 
-console.log(appPaginator.cacheItemLimit); // 7
+console.log(appPaginator.itemsPerBatch); // 7
 
 console.log(appPaginator.currentPageNumber); // 4
 

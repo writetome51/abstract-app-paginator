@@ -3,10 +3,9 @@ import { BaseClass } from '@writetome51/base-class';
 
 export declare class AppPaginator extends BaseClass {
 
-	cacheItemLimit: number;
+	itemsPerBatch: number;
 	itemsPerPage: number;
 	currentPageNumber: number;
-
 	readonly currentPage: any[];
 	readonly totalPages: number;
 	readonly totalItems: number;
@@ -30,4 +29,6 @@ export declare class AppPaginator extends BaseClass {
 	private __loadBatchContainingPage;
 	private __setCurrentPageInCurrentBatch;
 	private __loadBatch;
+
+
 }

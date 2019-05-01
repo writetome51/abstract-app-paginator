@@ -22,8 +22,6 @@ constructor(
                 // batchNumber is 2, getData() returns items 51 thru 100).
                 
             itemsPerBatch,
-                // When getData() is called, this number will be the cacheItemLimit 
-                // (see properties below).
                 
             isLastBatch: boolean
                 // If isLastBatch is true, it only returns the remaining items in the 
@@ -45,7 +43,7 @@ constructor(
 ```ts
 itemsPerPage : integer // default is 25.
 
-cacheItemLimit : integer // This must be set before setting this.currentPageNumber.
+itemsPerBatch : integer // This must be set before setting this.currentPageNumber.
     // Total number of items app can hold at once. Set this to the largest
     // number that doesn't negatively affect app performance.
 

@@ -25,20 +25,20 @@ var DataService = /** @class */ (function () {
 }());
 var dataService = new DataService();
 var appPaginator = new index_1.AppPaginator(dataService);
-appPaginator.cacheItemLimit = 30;
+appPaginator.itemsPerBatch = 30;
 console.log('begin');
 appPaginator.currentPageNumber = 1;
 console.log(appPaginator.currentPage); // [ 1 ... 25 ]
 ++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage); // [ 26, 27, 28 ]
 appPaginator.itemsPerPage = 7;
-appPaginator.cacheItemLimit = 10;
+appPaginator.itemsPerBatch = 10;
 console.log(appPaginator.currentPageNumber); // 2
 ++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage); // [ 15, 16, 17, 18, 19, 20, 21 ]
 ++appPaginator.currentPageNumber;
 console.log(appPaginator.currentPage); // [ 22, 23, 24, 25, 26, 27, 28 ]
-console.log(appPaginator.cacheItemLimit); // 7
+console.log(appPaginator.itemsPerBatch); // 7
 console.log(appPaginator.currentPageNumber); // 4
 appPaginator.reload();
 console.log(appPaginator.currentPage); // [ 1 ... 7 ]
