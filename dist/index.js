@@ -80,13 +80,6 @@ var AppPaginator = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AppPaginator.prototype, "totalItems", {
-        get: function () {
-            return this.__dataSource.dataTotal;
-        },
-        enumerable: true,
-        configurable: true
-    });
     // Intended to be called after the order of the entire dataset changes (like after sorting),
     // or after the dataTotal changes.
     AppPaginator.prototype.reload = function () {

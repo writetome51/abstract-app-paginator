@@ -12,7 +12,7 @@ export class AppPaginator extends BaseClass {
 
 	private __arrPaginator = new ArrayPaginator();
 
-	// `__batchCalc` is needed just in case this.itemsPerBatch < this.totalItems.
+	// `__batchCalc` is needed just in case this.itemsPerBatch < this.__dataSource.dataTotal .
 	// This means the entire dataset must be split into batches.  __batchCalc tells this.__dataSource
 	// what data to fetch.  It also tells __arrPaginator what page to show.
 
@@ -87,11 +87,6 @@ export class AppPaginator extends BaseClass {
 
 	get totalPages(): number {
 		return this.__batchCalc.totalPages;
-	}
-
-
-	get totalItems(): number {
-		return this.__dataSource.dataTotal;
 	}
 
 
