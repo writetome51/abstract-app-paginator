@@ -15,31 +15,25 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var array_paginator_1 = require("@writetome51/array-paginator");
 var base_class_1 = require("@writetome51/base-class");
-var batch_calculator_1 = require("@writetome51/batch-calculator");
 var set_array_1 = require("@writetome51/set-array");
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
-    function AppPaginator(__dataSource) {
+    function AppPaginator(__batchinator, 
+    // `__batchCalc` is needed just in case this.itemsPerBatch < this.__dataSource.dataTotal .
+    // This means the entire dataset must be split into batches.  __batchCalc tells this.__dataSource
+    // what data to fetch.  It also tells __arrPaginator what page to show.
+    // The same __batchCalc instance must also be injected into this.__batchinator .
+    __batchCalc) {
         var _this = _super.call(this) || this;
-        _this.__dataSource = __dataSource;
+        _this.__batchinator = __batchinator;
+        _this.__batchCalc = __batchCalc;
         // `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely
         // inside it without having to split it into batches.
         _this.__arrPaginator = new array_paginator_1.ArrayPaginator();
-        _this.__batchCalc = new batch_calculator_1.BatchCalculator(_this.__dataSource);
         // This default is necessary because the user can't do anything until this property is set.
         _this.itemsPerPage = 25;
         return _this;
     }
-    Object.defineProperty(AppPaginator.prototype, "itemsPerBatch", {
-        get: function () {
-            return this.__batchCalc.itemsPerBatch;
-        },
-        set: function (value) {
-            this.__batchCalc.itemsPerBatch = value; // __batchCalc validates value.
-        },
-        enumerable: true,
-        configurable: true
-    });
     Object.defineProperty(AppPaginator.prototype, "itemsPerPage", {
         get: function () {
             return this.__batchCalc.itemsPerPage;
@@ -83,8 +77,8 @@ var AppPaginator = /** @class */ (function (_super) {
     // Intended to be called after the order of the entire dataset changes (like after sorting),
     // or after the dataTotal changes.
     AppPaginator.prototype.reload = function () {
-        // This causes __batchCalc.currentBatchNumber to become undefined.
-        this.itemsPerBatch = this.itemsPerBatch;
+        // This causes __batchCalc.currentBatchNumber to become undefined.  This is good.
+        this.__batchCalc.itemsPerBatch = this.__batchCalc.itemsPerBatch;
         // Resets __batchCalc.currentBatchNumber to 1 and re-retrieves batch 1.
         this.currentPageNumber = 1;
     };
@@ -92,16 +86,12 @@ var AppPaginator = /** @class */ (function (_super) {
         this.__loadBatchContainingPage(pageNumber);
         this.__setCurrentPageInCurrentBatch(pageNumber);
     };
-    AppPaginator.prototype.__loadBatchContainingPage = function (pageNumber) {
-        this.__batchCalc.set_currentBatchNumber_basedOnPage(pageNumber);
-        this.__loadBatch();
-    };
     AppPaginator.prototype.__setCurrentPageInCurrentBatch = function (pageNumber) {
         this.__arrPaginator.currentPageNumber =
             this.__batchCalc.getCurrentPageNumberForPaginator(pageNumber);
     };
-    AppPaginator.prototype.__loadBatch = function () {
-        var batch = this.__dataSource.getData(this.__batchCalc.currentBatchNumber, this.itemsPerBatch, this.__batchCalc.currentBatchNumberIsLast);
+    AppPaginator.prototype.__loadBatchContainingPage = function (pageNumber) {
+        var batch = this.__batchinator.getBatchContainingPage(pageNumber);
         set_array_1.setArray(this.__arrPaginator.data, batch);
     };
     return AppPaginator;

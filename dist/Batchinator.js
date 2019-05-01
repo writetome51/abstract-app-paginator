@@ -14,16 +14,17 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var base_class_1 = require("@writetome51/base-class");
-var batch_calculator_1 = require("@writetome51/batch-calculator");
-var DataBatchGetter = /** @class */ (function (_super) {
-    __extends(DataBatchGetter, _super);
-    function DataBatchGetter(__dataSource) {
+var Batchinator = /** @class */ (function (_super) {
+    __extends(Batchinator, _super);
+    function Batchinator(
+    // The same `__dataSource` object must also be injected into `__batchCalc`.
+    __dataSource, __batchCalc) {
         var _this = _super.call(this) || this;
         _this.__dataSource = __dataSource;
-        _this.__batchCalc = new batch_calculator_1.BatchCalculator(_this.__dataSource);
+        _this.__batchCalc = __batchCalc;
         return _this;
     }
-    Object.defineProperty(DataBatchGetter.prototype, "itemsPerBatch", {
+    Object.defineProperty(Batchinator.prototype, "itemsPerBatch", {
         get: function () {
             return this.__batchCalc.itemsPerBatch;
         },
@@ -33,9 +34,13 @@ var DataBatchGetter = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    DataBatchGetter.prototype.__loadBatch = function () {
+    Batchinator.prototype.getBatchContainingPage = function (pageNumber) {
+        this.__batchCalc.set_currentBatchNumber_basedOnPage(pageNumber);
+        return this.__getBatch();
+    };
+    Batchinator.prototype.__getBatch = function () {
         return this.__dataSource.getData(this.__batchCalc.currentBatchNumber, this.itemsPerBatch, this.__batchCalc.currentBatchNumberIsLast);
     };
-    return DataBatchGetter;
+    return Batchinator;
 }(base_class_1.BaseClass));
-exports.DataBatchGetter = DataBatchGetter;
+exports.Batchinator = Batchinator;

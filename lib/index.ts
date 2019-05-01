@@ -1,6 +1,7 @@
 import { ArrayPaginator } from '@writetome51/array-paginator';
 import { BaseClass } from '@writetome51/base-class';
 import { BatchCalculator } from '@writetome51/batch-calculator';
+import { Batchinator } from './Batchinator';
 import { setArray } from '@writetome51/set-array';
 
 
@@ -12,45 +13,25 @@ export class AppPaginator extends BaseClass {
 
 	private __arrPaginator = new ArrayPaginator();
 
-	// `__batchCalc` is needed just in case this.itemsPerBatch < this.__dataSource.dataTotal .
-	// This means the entire dataset must be split into batches.  __batchCalc tells this.__dataSource
-	// what data to fetch.  It also tells __arrPaginator what page to show.
-
-	private __batchCalc: BatchCalculator;
 	private __currentPageNumber: number;
 
 
 	constructor(
-		private __dataSource: {
 
-			// `getData()` is called whenever a new batch is loaded.  The number of items it returns
-			// matches `itemsPerBatch`.  If `isLastBatch` is true, it only returns the remaining items
-			// in the dataset, and ignores itemsPerBatch.
+		private __batchinator: Batchinator,
 
-			getData: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
+		// `__batchCalc` is needed just in case this.itemsPerBatch < this.__dataSource.dataTotal .
+		// This means the entire dataset must be split into batches.  __batchCalc tells this.__dataSource
+		// what data to fetch.  It also tells __arrPaginator what page to show.
+		// The same __batchCalc instance must also be injected into this.__batchinator .
 
-			// `dataTotal`: number of items in entire dataset, not the batch.
-			// This must stay accurate after actions that change the total, such as searches.
-
-			dataTotal: number;
-		}
+		private __batchCalc: BatchCalculator
 	) {
 		super();
 
-		this.__batchCalc = new BatchCalculator(this.__dataSource);
 
 		// This default is necessary because the user can't do anything until this property is set.
 		this.itemsPerPage = 25;
-	}
-
-
-	set itemsPerBatch(value) {
-		this.__batchCalc.itemsPerBatch = value;  // __batchCalc validates value.
-	}
-
-
-	get itemsPerBatch(): number {
-		return this.__batchCalc.itemsPerBatch;
 	}
 
 
@@ -94,8 +75,8 @@ export class AppPaginator extends BaseClass {
 	// or after the dataTotal changes.
 
 	reload(): void {
-		// This causes __batchCalc.currentBatchNumber to become undefined.
-		this.itemsPerBatch = this.itemsPerBatch;
+		// This causes __batchCalc.currentBatchNumber to become undefined.  This is good.
+		this.__batchCalc.itemsPerBatch = this.__batchCalc.itemsPerBatch;
 		// Resets __batchCalc.currentBatchNumber to 1 and re-retrieves batch 1.
 		this.currentPageNumber = 1;
 	}
@@ -107,26 +88,14 @@ export class AppPaginator extends BaseClass {
 	}
 
 
-	private __loadBatchContainingPage(pageNumber) {
-		this.__batchCalc.set_currentBatchNumber_basedOnPage(pageNumber);
-		this.__loadBatch();
-	}
-
-
 	private __setCurrentPageInCurrentBatch(pageNumber) {
 		this.__arrPaginator.currentPageNumber =
 			this.__batchCalc.getCurrentPageNumberForPaginator(pageNumber);
 	}
 
 
-	private __loadBatch() {
-		let batch = this.__dataSource.getData(
-
-			this.__batchCalc.currentBatchNumber,
-			this.itemsPerBatch,
-			this.__batchCalc.currentBatchNumberIsLast
-		);
-
+	private __loadBatchContainingPage(pageNumber) {
+		let batch = this.__batchinator.getBatchContainingPage(pageNumber);
 		setArray(this.__arrPaginator.data, batch);
 	}
 

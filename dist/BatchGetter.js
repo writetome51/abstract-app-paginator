@@ -32,6 +32,10 @@ var BatchGetter = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    BatchGetter.prototype.getBatchContainingPage = function (pageNumber) {
+        this.__batchCalc.set_currentBatchNumber_basedOnPage(pageNumber);
+        this.getBatch();
+    };
     BatchGetter.prototype.getBatch = function () {
         return this.__dataSource.getData(this.__batchCalc.currentBatchNumber, this.itemsPerBatch, this.__batchCalc.currentBatchNumberIsLast);
     };

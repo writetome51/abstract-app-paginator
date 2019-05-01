@@ -2,10 +2,13 @@ import { BaseClass } from '@writetome51/base-class';
 import { BatchCalculator } from '@writetome51/batch-calculator';
 
 
-export class BatchGetter extends BaseClass {
+export class Batchinator extends BaseClass {
 
 
 	constructor(
+
+		// The same `__dataSource` object must also be injected into `__batchCalc`.
+
 		private __dataSource: {
 
 			// `getData()` is called whenever a new batch is loaded.  The number of items it returns
@@ -36,7 +39,13 @@ export class BatchGetter extends BaseClass {
 	}
 
 
-	getBatch(): any[] {
+	getBatchContainingPage(pageNumber): any[] {
+		this.__batchCalc.set_currentBatchNumber_basedOnPage(pageNumber);
+		return this.__getBatch();
+	}
+
+
+	private __getBatch(): any[] {
 		return this.__dataSource.getData(
 
 			this.__batchCalc.currentBatchNumber,
