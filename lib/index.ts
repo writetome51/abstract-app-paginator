@@ -45,7 +45,7 @@ export class AppPaginator extends BaseClass {
 
 
 	set itemsPerBatch(value) {
-		this.__batchCalc.itemsPerBatch = value;  // batchinator validates value.
+		this.__batchCalc.itemsPerBatch = value;  // __batchCalc validates value.
 	}
 
 

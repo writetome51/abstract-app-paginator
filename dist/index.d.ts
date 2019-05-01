@@ -16,10 +16,12 @@ export declare class AppPaginator extends BaseClass {
 	private __currentPageNumber;
 
 
-	constructor(__dataSource: {
-		getData: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
-		dataTotal: number;
-	});
+	constructor(
+		__dataSource: {
+			getData: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
+			dataTotal: number;
+		}
+	);
 
 
 	reload(): void;

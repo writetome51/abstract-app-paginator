@@ -8,6 +8,9 @@ batch that contains that page and shows the requested page.
 
 
 ## Constructor
+<details>
+<summary>view constructor</summary>
+
 ```ts
 constructor(
     dataSource: {
@@ -16,16 +19,16 @@ constructor(
         getData: (
             // called whenever a batch is loaded.
 
-            batchNumber,
-                // Which 'chunk' of items to be returned (i.e, say itemsPerBatch is 50.
+            batchNumber: integer,
+                // Which 'chunk' of items to be returned (i.e, say `itemsPerBatch` is 50.
                 // If batchNumber is 1, getData() returns items 1 thru 50.  If 
                 // batchNumber is 2, getData() returns items 51 thru 100).
                 
-            itemsPerBatch,
+            itemsPerBatch: integer,
                 
             isLastBatch: boolean
-                // If isLastBatch is true, it only returns the remaining items in the 
-                // dataset, and ignores the itemsPerBatch parameter.
+                // If isLastBatch is true, getData() only returns the remaining items in 
+                // the dataset, and ignores itemsPerBatch.
 
         ) => any[],
 
@@ -35,6 +38,8 @@ constructor(
     }
 )
 ```
+</details>
+
 
 ## Properties
 <details>
@@ -72,7 +77,7 @@ className : string (read-only)
 reload() : void
     // Loads batch 1 and resets this.currentPageNumber to 1.
     // Intended to be called after the order of the entire dataset changes 
-    // (like after sorting), or after the dataTotal changes.
+    // (like after sorting), or after this.totalItems changes.
 ```
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .

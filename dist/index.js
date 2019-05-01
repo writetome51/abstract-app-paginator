@@ -35,7 +35,7 @@ var AppPaginator = /** @class */ (function (_super) {
             return this.__batchCalc.itemsPerBatch;
         },
         set: function (value) {
-            this.__batchCalc.itemsPerBatch = value; // batchinator validates value.
+            this.__batchCalc.itemsPerBatch = value; // __batchCalc validates value.
         },
         enumerable: true,
         configurable: true
