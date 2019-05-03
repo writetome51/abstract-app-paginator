@@ -1,7 +1,7 @@
 import { ArrayPaginator } from '@writetome51/array-paginator';
 import { BaseClass } from '@writetome51/base-class';
 import { BatchCalculator } from '@writetome51/batch-calculator';
-import { BatchLoader } from './BatchLoader';
+import { BatchLoader } from '@writetome51/batch-loader';
 
 
 export class AppPaginator extends BaseClass {
@@ -12,12 +12,12 @@ export class AppPaginator extends BaseClass {
 	constructor(
 
 		// `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely inside it 
-		// without having to split it into batches.  The same instance must be injected into this.__batchLoader.
+		// without having to split it into batches.  The same instance must be injected into `__batchLoader`.
 
 		private __arrPaginator: ArrayPaginator,
 
 		// `__batchCalc` tells this.__arrPaginator what page to show.  The same instance must be injected 
-		// into this.__batchLoader .
+		// into `__batchLoader` .
 
 		private __batchCalc: BatchCalculator,
 

@@ -18,10 +18,10 @@ var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
     function AppPaginator(
     // `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely inside it 
-    // without having to split it into batches.  The same instance must be injected into this.__batchLoader.
+    // without having to split it into batches.  The same instance must be injected into `__batchLoader`.
     __arrPaginator, 
     // `__batchCalc` tells this.__arrPaginator what page to show.  The same instance must be injected 
-    // into this.__batchLoader .
+    // into `__batchLoader` .
     __batchCalc, 
     // `__batchLoader` is needed just in case the entire dataset is too big to be handled by
     // this.__arrPaginator all at once.  It directly accesses the data source.
