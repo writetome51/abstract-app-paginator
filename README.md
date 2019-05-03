@@ -13,29 +13,18 @@ batch that contains that page and shows the requested page.
 
 ```ts
 constructor(
-    dataSource: {
-        // object that supplies AppPaginator with data to paginate.
+    
+    arrPaginator: ArrayPaginator,
+        // The same instance must be injected into `batchLoader` as the `batchContainer` 
+        // argument.
 
-        getData: (
-            // called whenever a batch is loaded.
-
-            batchNumber: integer,
-                // Which 'chunk' of items to be returned (i.e, say `itemsPerBatch` is 50.
-                // If batchNumber is 1, getData() returns items 1 thru 50.  If 
-                // batchNumber is 2, getData() returns items 51 thru 100).
-                
-            itemsPerBatch: integer,
-                
-            isLastBatch: boolean
-                // If isLastBatch is true, getData() only returns the remaining items in 
-                // the dataset, and ignores itemsPerBatch.
-
-        ) => any[],
-
-        dataTotal: integer
-            // number of items in entire dataset, not the batch.  It must stay accurate 
-            // after actions that change the total, such as searches.
-    }
+    batchCalc: BatchCalculator,
+        // Tells `arrPaginator` what page to show.  The same instance must be injected 
+        // into `batchLoader`.
+        
+    batchLoader: BatchLoader,
+        // Needed just in case the entire dataset is too big to be handled by
+        // `arrPaginator` all at once.  It directly accesses the data source.
 )
 ```
 </details>
@@ -48,10 +37,6 @@ constructor(
 ```ts
 itemsPerPage : integer // default is 25.
 
-itemsPerBatch : integer // This must be set before setting this.currentPageNumber.
-    // Total number of items app can hold at once. Set this to the largest
-    // number that doesn't negatively affect app performance.
-
 currentPageNumber : integer
     // Setting this automatically updates this.currentPage
 
@@ -59,9 +44,6 @@ currentPage : any[]  (read-only)
     // All items in the current page.
 
 totalPages : integer  (read-only)
-
-totalItems : integer  (read-only)
-    // number of items in entire dataset.
 
 className : string (read-only)
     // Not important. Inherited from BaseClass (see Inheritance Chain below).
@@ -76,8 +58,8 @@ className : string (read-only)
 ```ts
 reload() : void
     // Loads batch 1 and resets this.currentPageNumber to 1.
-    // Intended to be called after the order of the entire dataset changes 
-    // (like after sorting), or after this.totalItems changes.
+    // Intended to be called after the order of the entire dataset changes (like after sorting),
+    // or after the total number of items changes.
 ```
 The methods below are not important to know about in order to use this  
 class.  They're inherited from [BaseClass](https://github.com/writetome51/typescript-base-class#baseclass) .
