@@ -31,13 +31,14 @@
     "@writetome51/array-get-head-tail": "~1.0.5"
   },
   "dependencies": {
-    "@writetome51/batch-to-page-translator": "~0.0.2",
-    "@writetome51/pagination-page-info": "~0.0.1",
-    "@writetome51/pagination-batch-info": "~0.0.1",
     "@writetome51/array-paginator": "~4.0.0",
-    "@writetome51/base-class": "~0.0.3",
+    "@writetome51/base-class": "~1.0.0",
     "@writetome51/batch-calculator": "~1.0.0",
     "@writetome51/batch-loader": "~2.0.0",
+    "@writetome51/batch-to-page-translator": "~0.0.2",
+    "@writetome51/not": "~1.0.5",
+    "@writetome51/pagination-batch-info": "~1.0.0",
+    "@writetome51/pagination-page-info": "~0.0.1",
     "@writetome51/set-array": "~1.0.2"
   }
 }

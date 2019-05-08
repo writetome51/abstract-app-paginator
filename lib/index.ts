@@ -2,6 +2,7 @@ import { ArrayPaginator } from '@writetome51/array-paginator';
 import { BaseClass } from '@writetome51/base-class';
 import { PaginationPageInfo } from '@writetome51/pagination-page-info';
 import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
+import { PageLoader } from './PageLoader';
 
 
 export class AppPaginator extends BaseClass {
@@ -11,13 +12,15 @@ export class AppPaginator extends BaseClass {
 
 
 	constructor(
-		// `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely inside it
-		// without having to split it into batches.  The same instance must be injected into `__batchLoader`.
+		// `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely
+		// inside it without having to split it into batches.  The same instance must be injected into
+		// `__pageLoader`.
 
 		private __arrPaginator: ArrayPaginator, // Acts as the batch container.
 
 		private __pageInfo: PaginationPageInfo,
 		private __batchInfo: PaginationBatchInfo,
+		private __pageLoader: PageLoader
 	) {
 		super();
 
@@ -39,9 +42,7 @@ export class AppPaginator extends BaseClass {
 	// Setting this.currentPageNumber automatically updates this.currentPage
 
 	set currentPageNumber(value) {
-		if (this.__bch2pgTranslator.currentBatchContainsPage(value)) {
-			this.__set_currentPage_inCurrentBatch(value);
-		} else this.__loadBatchAndPage(value);
+		this.__pageLoader.loadPage(value);
 
 		this.__currentPageNumber = value;
 	}
@@ -67,8 +68,7 @@ export class AppPaginator extends BaseClass {
 
 	reload(): void {
 		// This causes __batchInfo.currentBatchNumber to become undefined.  This is what we want.
-		this.__batchInfo.itemsPerBatch += this.__pageInfo.itemsPerPage;
-		this.__batchInfo.itemsPerBatch -= this.__pageInfo.itemsPerPage;
+		this.__batchInfo.currentBatchNumber = undefined;
 
 		// Resets __batchInfo.currentBatchNumber to 1 and re-retrieves batch 1.
 		this.currentPageNumber = 1;

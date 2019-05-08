@@ -17,14 +17,16 @@ var base_class_1 = require("@writetome51/base-class");
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
     function AppPaginator(
-    // `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely inside it
-    // without having to split it into batches.  The same instance must be injected into `__batchLoader`.
+    // `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely
+    // inside it without having to split it into batches.  The same instance must be injected into
+    // `__pageLoader`.
     __arrPaginator, // Acts as the batch container.
-    __pageInfo, __batchInfo) {
+    __pageInfo, __batchInfo, __pageLoader) {
         var _this = _super.call(this) || this;
         _this.__arrPaginator = __arrPaginator;
         _this.__pageInfo = __pageInfo;
         _this.__batchInfo = __batchInfo;
+        _this.__pageLoader = __pageLoader;
         // This default is necessary because the user can't do anything until this property is set.
         _this.itemsPerPage = 25;
         return _this;
@@ -45,11 +47,7 @@ var AppPaginator = /** @class */ (function (_super) {
         },
         // Setting this.currentPageNumber automatically updates this.currentPage
         set: function (value) {
-            if (this.__bch2pgTranslator.currentBatchContainsPage(value)) {
-                this.__set_currentPage_inCurrentBatch(value);
-            }
-            else
-                this.__loadBatchAndPage(value);
+            this.__pageLoader.loadPage(value);
             this.__currentPageNumber = value;
         },
         enumerable: true,
@@ -73,8 +71,7 @@ var AppPaginator = /** @class */ (function (_super) {
     // or after the total number of items changes.
     AppPaginator.prototype.reload = function () {
         // This causes __batchInfo.currentBatchNumber to become undefined.  This is what we want.
-        this.__batchInfo.itemsPerBatch += this.__pageInfo.itemsPerPage;
-        this.__batchInfo.itemsPerBatch -= this.__pageInfo.itemsPerPage;
+        this.__batchInfo.currentBatchNumber = undefined;
         // Resets __batchInfo.currentBatchNumber to 1 and re-retrieves batch 1.
         this.currentPageNumber = 1;
     };
