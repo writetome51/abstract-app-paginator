@@ -21,11 +21,10 @@ var AppPaginator = /** @class */ (function (_super) {
     // inside it without having to split it into batches.  The same instance must be injected into
     // `__pageLoader`.
     __batchPaginator, // Acts as the batch container.
-    __pageInfo, __batchInfo, __pageLoader) {
+    __pageInfo, __pageLoader) {
         var _this = _super.call(this) || this;
         _this.__batchPaginator = __batchPaginator;
         _this.__pageInfo = __pageInfo;
-        _this.__batchInfo = __batchInfo;
         _this.__pageLoader = __pageLoader;
         // This default is necessary because the user can't do anything until this property is set.
         _this.itemsPerPage = 25;
@@ -70,9 +69,7 @@ var AppPaginator = /** @class */ (function (_super) {
     // Intended to be called after the order of the entire dataset changes (like after sorting),
     // or after the total number of items changes.
     AppPaginator.prototype.reload = function () {
-        this.__batchInfo.currentBatchNumber = undefined;
-        // Resets __batchInfo.currentBatchNumber to 1 and re-retrieves batch 1.
-        this.currentPageNumber = 1;
+        this.__pageLoader.reloadPage(1);
     };
     return AppPaginator;
 }(base_class_1.BaseClass));

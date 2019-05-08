@@ -1,7 +1,6 @@
 import { ArrayPaginator } from '@writetome51/array-paginator';
 import { BaseClass } from '@writetome51/base-class';
 import { PaginationPageInfo } from '@writetome51/pagination-page-info';
-import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
 import { PageLoader } from './PageLoader';
 
 
@@ -19,7 +18,6 @@ export class AppPaginator extends BaseClass {
 		private __batchPaginator: ArrayPaginator, // Acts as the batch container.
 
 		private __pageInfo: PaginationPageInfo,
-		private __batchInfo: PaginationBatchInfo,
 		private __pageLoader: PageLoader
 	) {
 		super();
@@ -67,10 +65,7 @@ export class AppPaginator extends BaseClass {
 	// or after the total number of items changes.
 
 	reload(): void {
-		this.__batchInfo.currentBatchNumber = undefined;
-
-		// Resets __batchInfo.currentBatchNumber to 1 and re-retrieves batch 1.
-		this.currentPageNumber = 1;
+		this.__pageLoader.reloadPage(1);
 	}
 
 

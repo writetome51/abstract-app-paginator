@@ -3,11 +3,18 @@ import { BatchToPageTranslator } from '@writetome51/batch-to-page-translator';
 import { not } from '@writetome51/not';
 
 
+/**********************
+ This class loads a 'page' of data by first loading the batch (array) of data that will
+ contain that page, then setting the batchPaginator's current page to that page.
+ *********************/
+
+
 export class PageLoader {
 
 
 	constructor(
-		private __batchPaginator: {currentPageNumber: number}, // Acts as the batch container.
+		private __batchInfo: { currentBatchNumber: number },
+		private __batchPaginator: { currentPageNumber: number }, // Acts as the batch container.
 
 		private __bch2pgTranslator: BatchToPageTranslator,
 
@@ -26,6 +33,14 @@ export class PageLoader {
 
 		this.__batchPaginator.currentPageNumber =
 			this.__bch2pgTranslator.getPageNumberInCurrentBatchFromAbsolutePage(pageNumber);
+	}
+
+
+	reloadPage(pageNumber): void {
+		// This forces '__batchLoader' to reload the batch containing pageNumber.
+		this.__batchInfo.currentBatchNumber = undefined;
+
+		this.loadPage(pageNumber);
 	}
 
 
