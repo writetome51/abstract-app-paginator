@@ -12,11 +12,11 @@ export class AppPaginator extends BaseClass {
 
 
 	constructor(
-		// `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely
+		// `__batchPaginator` is only designed for paginating a dataset small enough to fit entirely
 		// inside it without having to split it into batches.  The same instance must be injected into
 		// `__pageLoader`.
 
-		private __arrPaginator: ArrayPaginator, // Acts as the batch container.
+		private __batchPaginator: ArrayPaginator, // Acts as the batch container.
 
 		private __pageInfo: PaginationPageInfo,
 		private __batchInfo: PaginationBatchInfo,
@@ -54,7 +54,7 @@ export class AppPaginator extends BaseClass {
 
 
 	get currentPage(): any[] {
-		return this.__arrPaginator.currentPage;
+		return this.__batchPaginator.currentPage;
 	}
 
 
@@ -67,7 +67,6 @@ export class AppPaginator extends BaseClass {
 	// or after the total number of items changes.
 
 	reload(): void {
-		// This causes __batchInfo.currentBatchNumber to become undefined.  This is what we want.
 		this.__batchInfo.currentBatchNumber = undefined;
 
 		// Resets __batchInfo.currentBatchNumber to 1 and re-retrieves batch 1.
