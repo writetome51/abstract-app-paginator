@@ -17,30 +17,24 @@ var base_class_1 = require("@writetome51/base-class");
 var AppPaginator = /** @class */ (function (_super) {
     __extends(AppPaginator, _super);
     function AppPaginator(
-    // `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely inside it 
+    // `__arrPaginator` is only designed for paginating a dataset small enough to fit entirely inside it
     // without having to split it into batches.  The same instance must be injected into `__batchLoader`.
-    __arrPaginator, 
-    // `__batchCalc` tells this.__arrPaginator what page to show.  The same instance must be injected 
-    // into `__batchLoader` .
-    __batchCalc, 
-    // `__batchLoader` is needed just in case the entire dataset is too big to be handled by
-    // this.__arrPaginator all at once.  It directly accesses the data source.
-    __batchLoader) {
+    __arrPaginator, // Acts as the batch container.
+    __pageInfo, __batchInfo) {
         var _this = _super.call(this) || this;
         _this.__arrPaginator = __arrPaginator;
-        _this.__batchCalc = __batchCalc;
-        _this.__batchLoader = __batchLoader;
+        _this.__pageInfo = __pageInfo;
+        _this.__batchInfo = __batchInfo;
         // This default is necessary because the user can't do anything until this property is set.
         _this.itemsPerPage = 25;
         return _this;
     }
     Object.defineProperty(AppPaginator.prototype, "itemsPerPage", {
         get: function () {
-            return this.__batchCalc.itemsPerPage;
+            return this.__pageInfo.itemsPerPage;
         },
         set: function (value) {
-            this.__batchCalc.itemsPerPage = value;
-            this.__arrPaginator.itemsPerPage = value;
+            this.__pageInfo.itemsPerPage = value;
         },
         enumerable: true,
         configurable: true
@@ -51,8 +45,8 @@ var AppPaginator = /** @class */ (function (_super) {
         },
         // Setting this.currentPageNumber automatically updates this.currentPage
         set: function (value) {
-            if (this.__batchCalc.currentBatchContainsPage(value)) {
-                this.__setCurrentPageInCurrentBatch(value);
+            if (this.__bch2pgTranslator.currentBatchContainsPage(value)) {
+                this.__set_currentPage_inCurrentBatch(value);
             }
             else
                 this.__loadBatchAndPage(value);
@@ -70,7 +64,7 @@ var AppPaginator = /** @class */ (function (_super) {
     });
     Object.defineProperty(AppPaginator.prototype, "totalPages", {
         get: function () {
-            return this.__batchCalc.totalPages;
+            return this.__pageInfo.totalPages;
         },
         enumerable: true,
         configurable: true
@@ -78,18 +72,11 @@ var AppPaginator = /** @class */ (function (_super) {
     // Intended to be called after the order of the entire dataset changes (like after sorting),
     // or after the total number of items changes.
     AppPaginator.prototype.reload = function () {
-        // This causes __batchCalc.currentBatchNumber to become undefined.  This is what we want.
-        this.__batchCalc.itemsPerBatch = this.__batchCalc.itemsPerBatch;
-        // Resets __batchCalc.currentBatchNumber to 1 and re-retrieves batch 1.
+        // This causes __batchInfo.currentBatchNumber to become undefined.  This is what we want.
+        this.__batchInfo.itemsPerBatch += this.__pageInfo.itemsPerPage;
+        this.__batchInfo.itemsPerBatch -= this.__pageInfo.itemsPerPage;
+        // Resets __batchInfo.currentBatchNumber to 1 and re-retrieves batch 1.
         this.currentPageNumber = 1;
-    };
-    AppPaginator.prototype.__loadBatchAndPage = function (pageNumber) {
-        this.__batchLoader.loadBatchContainingPage(pageNumber);
-        this.__setCurrentPageInCurrentBatch(pageNumber);
-    };
-    AppPaginator.prototype.__setCurrentPageInCurrentBatch = function (pageNumber) {
-        this.__arrPaginator.currentPageNumber =
-            this.__batchCalc.getCurrentPageNumberForPaginator(pageNumber);
     };
     return AppPaginator;
 }(base_class_1.BaseClass));
