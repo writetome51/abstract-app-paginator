@@ -13,7 +13,7 @@ export class PageLoader {
 
 
 	constructor(
-		private __batchInfo: { currentBatchNumber: number },
+		private __batchInfo: { currentBatchNumber: number | undefined },
 		private __batchPaginator: { currentPageNumber: number }, // Acts as the batch container.
 
 		private __bch2pgTranslator: BatchToPageTranslator,
@@ -37,7 +37,7 @@ export class PageLoader {
 
 
 	reloadPage(pageNumber): void {
-		// This forces '__batchLoader' to reload the batch containing pageNumber.
+		// This forces this.loadPage() to reload the batch containing pageNumber.
 		this.__batchInfo.currentBatchNumber = undefined;
 
 		this.loadPage(pageNumber);

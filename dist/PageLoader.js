@@ -24,7 +24,7 @@ var PageLoader = /** @class */ (function () {
             this.__bch2pgTranslator.getPageNumberInCurrentBatchFromAbsolutePage(pageNumber);
     };
     PageLoader.prototype.reloadPage = function (pageNumber) {
-        // This forces '__batchLoader' to reload the batch containing pageNumber.
+        // This forces this.loadPage() to reload the batch containing pageNumber.
         this.__batchInfo.currentBatchNumber = undefined;
         this.loadPage(pageNumber);
     };

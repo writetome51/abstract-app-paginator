@@ -1,39 +1,20 @@
-import { ArrayPaginator } from '@writetome51/array-paginator';
-import { BaseClass } from '@writetome51/base-class';
-import { PaginationPageInfo } from '@writetome51/pagination-page-info';
 import { PageLoader } from './PageLoader';
 
 
-export class AppPaginator extends BaseClass {
+export class AppPaginator {
 
 
 	private __currentPageNumber: number;
 
 
 	constructor(
-		// `__batchPaginator` is only designed for paginating a dataset small enough to fit entirely
-		// inside it without having to split it into batches.  The same instance must be injected into
-		// `__pageLoader`.
+		// `__batchPaginator` contains a reference to the loaded batch.  The same instance must be
+		// injected into `__pageLoader`.
 
-		private __batchPaginator: ArrayPaginator, // Acts as the batch container.
+		private __batchPaginator: { currentPage: any[] }, // Acts as the batch container.
 
-		private __pageInfo: PaginationPageInfo,
 		private __pageLoader: PageLoader
 	) {
-		super();
-
-		// This default is necessary because the user can't do anything until this property is set.
-		this.itemsPerPage = 25;
-	}
-
-
-	set itemsPerPage(value) {
-		this.__pageInfo.itemsPerPage = value;
-	}
-
-
-	get itemsPerPage(): number {
-		return this.__pageInfo.itemsPerPage;
 	}
 
 
@@ -53,11 +34,6 @@ export class AppPaginator extends BaseClass {
 
 	get currentPage(): any[] {
 		return this.__batchPaginator.currentPage;
-	}
-
-
-	get totalPages(): number {
-		return this.__pageInfo.totalPages;
 	}
 
 
