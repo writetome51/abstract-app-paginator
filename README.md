@@ -1,10 +1,7 @@
-# AppPaginator
+# FullDatasetPaginator
 
-A TypeScript/Javascript class for pagination in a real-world web app.   
-It supports paginating data that can only be fetched from its source in batches if  
-the entire dataset is too big to be fetched all at once.  If the user requests a page  
-that isn't in the currently fetched batch, AppPaginator automatically fetches the  
-batch that contains that page and shows the requested page.
+A TypeScript/Javascript class intended for paginating a big dataset.  
+It supports batchination, in case the full dataset is too big to load entirely.
 
 
 ## Constructor
@@ -13,20 +10,22 @@ batch that contains that page and shows the requested page.
 
 ```ts
 constructor(
-    batchPaginator: { currentPage: any[] }, // Acts as the batch container.
-        // batchPaginator contains a reference to the loaded batch.  The same instance must be
-        // injected into `pageLoader`.
+    batchPaginator: { currentPage: any[] },
+        // This must contain a reference to the loaded batch.
    
-    pageLoader: PageLoader
+    pageLoader: {
+        // Loads the data into memory and makes the requested page the 
+        // current page.
+        
+        loadPage: (pageNumber) => void,
+        reloadPage: (pageNumber) => void
+    }
 )
 ```
 </details>
 
 
 ## Properties
-<details>
-<summary>view properties</summary>
-
 ```ts
 currentPageNumber : integer
     // Setting this automatically updates this.currentPage
@@ -34,38 +33,28 @@ currentPageNumber : integer
 currentPage : any[] // read-only
     // All items in the current page.
 ```
-</details>
 
 
 ## Methods
-<details>
-<summary>view methods</summary>
-
 ```ts
-reload() : void
-    // Loads batch 1 and resets this.currentPageNumber to 1.
+reset() : void
+    // Loads batch 1 and sets this.currentPageNumber to 1.
     // Intended to be called after the order of the entire dataset changes (like after sorting),
     // or after the total number of items changes.
 ```
 
-</details>
-
-
-## Inheritance Chain
-
-AppPaginator<--[BaseClass](https://github.com/writetome51/typescript-base-class#baseclass)
-
 
 ## Installation
 
-`npm install @writetome51/app-paginator`
+`npm install @writetome51/full-dataset-paginator`
 
 ## Loading
 ```ts
 // if using TypeScript:
-import { AppPaginator } from '@writetome51/app-paginator';
+import { FullDatasetPaginator } from '@writetome51/full-dataset-paginator';
 // if using ES5 JavaScript:
-var AppPaginator = require('@writetome51/app-paginator').AppPaginator;
+var FullDatasetPaginator = 
+    require('@writetome51/full-dataset-paginator').FullDatasetPaginator;
 ```
 
 ## License

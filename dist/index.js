@@ -1,14 +1,20 @@
 "use strict";
+/***************************
+ This class is intended for paginating a big dataset.
+ It supports batchination, in case the full dataset is too big to load entirely.
+ ***************************/
 Object.defineProperty(exports, "__esModule", { value: true });
-var AppPaginator = /** @class */ (function () {
-    function AppPaginator(
-    // `__batchPaginator` contains a reference to the loaded batch.  The same instance must be
-    // injected into `__pageLoader`.
-    __batchPaginator, __pageLoader) {
+var FullDatasetPaginator = /** @class */ (function () {
+    function FullDatasetPaginator(
+    // `__batchPaginator` must contain a reference to the loaded batch.
+    __batchPaginator, 
+    // `__pageLoader` loads the data into memory and makes the requested page the
+    // current page.
+    __pageLoader) {
         this.__batchPaginator = __batchPaginator;
         this.__pageLoader = __pageLoader;
     }
-    Object.defineProperty(AppPaginator.prototype, "currentPageNumber", {
+    Object.defineProperty(FullDatasetPaginator.prototype, "currentPageNumber", {
         get: function () {
             return this.__currentPageNumber;
         },
@@ -20,18 +26,18 @@ var AppPaginator = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AppPaginator.prototype, "currentPage", {
+    Object.defineProperty(FullDatasetPaginator.prototype, "currentPage", {
         get: function () {
             return this.__batchPaginator.currentPage;
         },
         enumerable: true,
         configurable: true
     });
-    // Intended to be called after the order of the entire dataset changes (like after sorting),
-    // or after the total number of items changes.
-    AppPaginator.prototype.reload = function () {
+    // Intended to be called after the order of the dataset changes (like after sorting),
+    // or after the total number of items changes (like after a search).
+    FullDatasetPaginator.prototype.reset = function () {
         this.__pageLoader.reloadPage(1);
     };
-    return AppPaginator;
+    return FullDatasetPaginator;
 }());
-exports.AppPaginator = AppPaginator;
+exports.FullDatasetPaginator = FullDatasetPaginator;

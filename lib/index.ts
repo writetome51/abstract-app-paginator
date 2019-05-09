@@ -1,19 +1,27 @@
-import { PageLoader } from '@writetome51/page-loader';
+/***************************
+ This class is intended for paginating a big dataset.
+ It supports batchination, in case the full dataset is too big to load entirely.
+ ***************************/
 
 
-export class AppPaginator {
+export class FullDatasetPaginator {
 
 
 	private __currentPageNumber: number;
 
 
 	constructor(
-		// `__batchPaginator` contains a reference to the loaded batch.  The same instance must be
-		// injected into `__pageLoader`.
+		// `__batchPaginator` must contain a reference to the loaded batch.
 
 		private __batchPaginator: { currentPage: any[] },
 
-		private __pageLoader: PageLoader
+		// `__pageLoader` loads the data into memory and makes the requested page the
+		// current page.
+
+		private __pageLoader: {
+			loadPage: (pageNumber) => void,
+			reloadPage: (pageNumber) => void
+		}
 	) {
 	}
 
@@ -37,10 +45,10 @@ export class AppPaginator {
 	}
 
 
-	// Intended to be called after the order of the entire dataset changes (like after sorting),
-	// or after the total number of items changes.
+	// Intended to be called after the order of the dataset changes (like after sorting),
+	// or after the total number of items changes (like after a search).
 
-	reload(): void {
+	reset(): void {
 		this.__pageLoader.reloadPage(1);
 	}
 

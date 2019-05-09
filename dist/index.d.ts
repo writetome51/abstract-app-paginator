@@ -1,33 +1,29 @@
-import { ArrayPaginator } from '@writetome51/array-paginator';
-import { BaseClass } from '@writetome51/base-class';
-import { BatchCalculator } from '@writetome51/batch-calculator';
-import { BatchLoader } from '@writetome51/batch-loader';
+/***************************
+ This class is intended for paginating a big dataset.
+ It supports batchination, in case the full dataset is too big to load entirely.
+ ***************************/
 
+export declare class FullDatasetPaginator {
 
-export declare class AppPaginator extends BaseClass {
-
-	itemsPerPage: number;
 	currentPageNumber: number;
 	readonly currentPage: any[];
-	readonly totalPages: number;
 
-	private __arrPaginator;
-	private __batchCalc;
-	private __batchLoader;
+	private __batchPaginator;
+	private __pageLoader;
 	private __currentPageNumber;
 
 
 	constructor(
-		__arrPaginator: ArrayPaginator,
-		__batchCalc: BatchCalculator,
-		__batchLoader: BatchLoader
+		__batchPaginator: {
+			currentPage: any[];
+		},
+		__pageLoader: {
+			loadPage: (pageNumber: number) => void;
+			reloadPage: (pageNumber: number) => void;
+		}
 	);
 
 
-	reload(): void;
-
-
-	private __loadBatchAndPage;
-	private __setCurrentPageInCurrentBatch;
+	reset(): void;
 
 }
