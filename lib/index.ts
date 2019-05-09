@@ -1,4 +1,4 @@
-import { PageLoader } from './PageLoader';
+import { PageLoader } from '@writetome51/page-loader';
 
 
 export class AppPaginator {
@@ -11,7 +11,7 @@ export class AppPaginator {
 		// `__batchPaginator` contains a reference to the loaded batch.  The same instance must be
 		// injected into `__pageLoader`.
 
-		private __batchPaginator: { currentPage: any[] }, // Acts as the batch container.
+		private __batchPaginator: { currentPage: any[] },
 
 		private __pageLoader: PageLoader
 	) {

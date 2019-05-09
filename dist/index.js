@@ -4,8 +4,7 @@ var AppPaginator = /** @class */ (function () {
     function AppPaginator(
     // `__batchPaginator` contains a reference to the loaded batch.  The same instance must be
     // injected into `__pageLoader`.
-    __batchPaginator, // Acts as the batch container.
-    __pageLoader) {
+    __batchPaginator, __pageLoader) {
         this.__batchPaginator = __batchPaginator;
         this.__pageLoader = __pageLoader;
     }
