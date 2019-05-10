@@ -41,8 +41,10 @@ itemsPerBatch: number
 itemsPerPage: number
 
 currentPageNumber: number
+    // Setting this automatically updates this.currentPage
 
 currentPage: any[] // read-only
+    // All items in the current page.
 
 totalPages: number // read-only
 ```

@@ -23,7 +23,7 @@ export class AppPaginator {
 	constructor(
 		dataSource: {
 
-			// The number of items `getBatch()` returns matches `itemsPerBatch`.  If `isLastBatch` is
+			// The number of items `getBatch()` returns must match `itemsPerBatch`.  If `isLastBatch` is
 			// true, it must only return the remaining items in the dataset and ignore itemsPerBatch.
 
 			getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
@@ -60,6 +60,8 @@ export class AppPaginator {
 		return this.__pageInfo.itemsPerPage;
 	}
 
+
+	// Setting this.currentPageNumber automatically updates this.currentPage
 
 	set currentPageNumber(value) {
 		this.__fullDatasetPaginator.currentPageNumber = value;

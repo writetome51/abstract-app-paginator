@@ -38,6 +38,7 @@ var AppPaginator = /** @class */ (function () {
         get: function () {
             return this.__fullDatasetPaginator.currentPageNumber;
         },
+        // Setting this.currentPageNumber automatically updates this.currentPage
         set: function (value) {
             this.__fullDatasetPaginator.currentPageNumber = value;
         },
