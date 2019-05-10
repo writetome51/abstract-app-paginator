@@ -5,12 +5,7 @@
  ***************************/
 Object.defineProperty(exports, "__esModule", { value: true });
 var FullDatasetPaginator = /** @class */ (function () {
-    function FullDatasetPaginator(
-    // `__batchPaginator` must contain a reference to the loaded batch.
-    __batchPaginator, 
-    // `__pageLoader` loads the data into memory and makes the requested page the
-    // current page.
-    __pageLoader) {
+    function FullDatasetPaginator(__batchPaginator, __pageLoader) {
         this.__batchPaginator = __batchPaginator;
         this.__pageLoader = __pageLoader;
     }

@@ -3,16 +3,17 @@ import { PaginationPageInfo } from '@writetome51/pagination-page-info';
 import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
 import { FullDatasetPaginator } from './FullDatasetPaginator';
 
-/***************************
 
+/***************************
+ AppPaginator is intended for a real-world web application.
+ It automatically batchinates the full dataset in case it's huge.
+ In case you want to use multiple paginators in a single page (say you're displaying multiple
+ tables and each has its own pagination controls), you can create multiple instances of
+ AppPaginator, and give each its own `dataSource` (see constructor).
  ***************************/
 
 export class AppPaginator {
 
-	// Class must handle dependency injection for all the different objects used by it and its 
-	// dependencies.  The intent is for this class to be self-sufficient, like a module.
-
-	id: string;  // In case there's more than one instance.
 
 	private __fullDatasetPaginator: FullDatasetPaginator;
 	private __pageInfo: PaginationPageInfo;
@@ -22,8 +23,8 @@ export class AppPaginator {
 	constructor(
 		dataSource: {
 
-			// The number of items `getBatch()` returns matches `itemsPerBatch`.  If `isLastBatch` is true, 
-			// it must only return the remaining items in the dataset, and ignore itemsPerBatch.
+			// The number of items `getBatch()` returns matches `itemsPerBatch`.  If `isLastBatch` is
+			// true, it must only return the remaining items in the dataset and ignore itemsPerBatch.
 
 			getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
 
@@ -36,6 +37,9 @@ export class AppPaginator {
 		__loadAppPaginatorDependencies(this, dataSource);
 	}
 
+
+	// Total number of items the app can have loaded in memory.  Set this to highest number that
+	// does not negatively affect app performance.
 
 	set itemsPerBatch(value) {
 		this.__batchInfo.itemsPerBatch = value;
@@ -74,6 +78,14 @@ export class AppPaginator {
 
 	get totalPages(): number {
 		return this.__pageInfo.totalPages;
+	}
+
+
+	// Intended to be called after the order of the dataset changes (like after sorting),
+	// or after the total number of items changes (like after a search).
+
+	reset(): void {
+		this.__fullDatasetPaginator.reset();
 	}
 
 

@@ -11,12 +11,7 @@ export class FullDatasetPaginator {
 
 
 	constructor(
-		// `__batchPaginator` must contain a reference to the loaded batch.
-
 		private __batchPaginator: { currentPage: any[] },
-
-		// `__pageLoader` loads the data into memory and makes the requested page the
-		// current page.
 
 		private __pageLoader: {
 			loadPage: (pageNumber) => void,

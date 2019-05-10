@@ -1,7 +1,8 @@
 # AppPaginator
 
-A TypeScript/Javascript class intended for a fancy real-world web application.
-It is easy to use and supports batchination, in case the full dataset is too big to load entirely.
+A TypeScript/Javascript class intended for a real-world web application.  
+It automatically batchinates (divides into batches) the full dataset in case it's huge.  
+
 
 
 ## Constructor
@@ -10,6 +11,22 @@ It is easy to use and supports batchination, in case the full dataset is too big
 
 ```ts
 constructor(
+    dataSource: {
+
+        getBatch: (
+            // The number of items `getBatch()` returns must match `itemsPerBatch`.
+            // If `isLastBatch` is true, it must only return the remaining items 
+            // in the dataset and ignore itemsPerBatch.
+                        
+            batchNumber: number, itemsPerBatch: number, isLastBatch: boolean
+            
+        ) => any[];
+        
+        dataTotal: number;
+            // The number of items in entire dataset, not the batch.
+            // This must stay accurate after actions that change the total, such 
+            // as searches.
+    }
 )
 ```
 </details>
@@ -17,39 +34,41 @@ constructor(
 
 ## Properties
 ```ts
-ItemsPerBatch: integer
-    // Total number of items the app can have loaded at once.
+itemsPerBatch: number
+    // Total number of items the app can have loaded in memory.  Set this to 
+    // highest number that does not negatively affect app performance.
 
-itemsPerPage: integer
+itemsPerPage: number
 
-currentPageNumber : integer
-    // Setting this automatically updates this.currentPage
+currentPageNumber: number
 
-currentPage : any[] // read-only
-    // All items in the current page.
+currentPage: any[] // read-only
+
+totalPages: number // read-only
 ```
 
 
 ## Methods
 ```ts
 reset() : void
-    // Loads batch 1 and sets this.currentPageNumber to 1.
-    // Intended to be called after the order of the entire dataset changes (like after sorting),
-    // or after the total number of items changes.
+    // reloads the first batch and sets this.currentPageNumber to 1.
+    // Intended to be called after the order of the dataset changes (like 
+    // after sorting), or after the total number of items changes (like after 
+    // a search).
 ```
 
 
 ## Installation
 
-`npm install @writetome51/full-dataset-paginator`
+`npm install @writetome51/app-paginator`
 
 ## Loading
 ```ts
 // if using TypeScript:
-import { FullDatasetPaginator } from '@writetome51/full-dataset-paginator';
+import { AppPaginator } from '@writetome51/app-paginator';
 // if using ES5 JavaScript:
-var FullDatasetPaginator = 
-    require('@writetome51/full-dataset-paginator').FullDatasetPaginator;
+var AppPaginator = 
+    require('@writetome51/app-paginator').AppPaginator;
 ```
 
 ## License
