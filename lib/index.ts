@@ -1,6 +1,4 @@
 import { __loadAppPaginatorDependencies } from './privy/dependencyLoader';
-import { PaginationPageInfo } from '@writetome51/pagination-page-info';
-import { PaginationBatchInfo } from '@writetome51/pagination-batch-info';
 import { FullDatasetPaginator } from './FullDatasetPaginator';
 
 
@@ -16,24 +14,11 @@ export class AppPaginator {
 
 
 	private __fullDatasetPaginator: FullDatasetPaginator;
-	private __pageInfo: PaginationPageInfo;
-	private __batchInfo: PaginationBatchInfo;
+	private __pageInfo: {itemsPerPage: number, totalPages: number};
+	private __batchInfo: {itemsPerBatch: number};
 
 
-	constructor(
-		dataSource: {
-
-			// The number of items `getBatch()` returns must match `itemsPerBatch`.  If `isLastBatch` is
-			// true, it must only return the remaining items in the dataset and ignore itemsPerBatch.
-
-			getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
-
-			// `dataTotal`: number of items in entire dataset, not the batch.
-			// This must stay accurate after actions that change the total, such as searches.
-
-			dataTotal: number;
-		}
-	) {
+	constructor(dataSource) {
 		__loadAppPaginatorDependencies(this, dataSource);
 	}
 
