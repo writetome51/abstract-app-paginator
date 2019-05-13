@@ -1,7 +1,7 @@
 {
-  "name": "@writetome51/app-paginator",
+  "name": "@writetome51/abstract-app-paginator",
   "version": "3.0.0",
-  "description": "A TypeScript/JavaScript pagination class",
+  "description": "An abstract TypeScript/JavaScript pagination class",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/writetome51/app-paginator.git"
+    "url": "git+https://github.com/writetome51/abstract-app-paginator.git"
   },
   "keywords": [
     "data",
@@ -23,9 +23,9 @@
   "author": "Steve Thompson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/writetome51/app-paginator/issues"
+    "url": "https://github.com/writetome51/abstract-app-paginator/issues"
   },
-  "homepage": "https://github.com/writetome51/app-paginator#readme",
+  "homepage": "https://github.com/writetome51/abstract-app-paginator#readme",
   "devDependencies": {
     "@writetome51/array-get-adjacent-at": "~1.0.4",
     "@writetome51/array-get-head-tail": "~1.0.5"
