@@ -28,10 +28,11 @@ export abstract class AbstractAppPaginator {
 
 		loadPage: (pageNumber) => void,
 
-
 		// Must load `pageNumber` all over again, even if that page is already currently loaded.
 
 		forceLoadPage: (pageNumber) => void,
+
+		// All items in the loaded page.
 
 		loadedPage: any[]
 	};
