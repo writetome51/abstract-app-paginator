@@ -83,7 +83,7 @@ reset() : void
 
 ## Installation
 
-`npm install @writetome51/abstract-app-paginator`
+`npm i  @writetome51/abstract-app-paginator`
 
 ## Loading
 ```ts

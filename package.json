@@ -1,6 +1,6 @@
 {
   "name": "@writetome51/abstract-app-paginator",
-  "version": "3.0.0",
+  "version": "0.0.1",
   "description": "An abstract TypeScript/JavaScript pagination class",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,15 +27,7 @@
   },
   "homepage": "https://github.com/writetome51/abstract-app-paginator#readme",
   "devDependencies": {
-    "@writetome51/array-get-adjacent-at": "~1.0.4",
-    "@writetome51/array-get-head-tail": "~1.0.5"
   },
   "dependencies": {
-    "@writetome51/array-paginator": "~4.0.0",
-    "@writetome51/pagination-page-info": "~0.0.1",
-    "@writetome51/pagination-batch-info": "~1.0.0",
-    "@writetome51/page-loader": "~0.0.1",
-    "@writetome51/batch-loader": "~3.0.0",
-    "@writetome51/batch-to-page-translator": "~0.0.2"
   }
 }
