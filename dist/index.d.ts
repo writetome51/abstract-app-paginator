@@ -1,9 +1,9 @@
 /***************************
- AppPaginator is intended for a real-world web application.
+ AbstractAppPaginator is intended for a real-world web application.
  It automatically batchinates the full dataset in case it's huge.
  In case you want to use multiple paginators in a single page (say you're displaying multiple
  tables and each has its own pagination controls), you can create multiple instances of
- AppPaginator, and each gets its own `dataSource`.
+ AbstractAppPaginator, and each gets its own `dataSource`.
  ***************************/
 
 export declare class AppPaginator {

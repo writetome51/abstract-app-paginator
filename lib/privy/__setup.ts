@@ -5,11 +5,9 @@ import { GetBatch } from '@writetome51/batch-loader';
 import { PageLoader } from '@writetome51/page-loader';
 import { BatchToPageTranslator } from '@writetome51/batch-to-page-translator';
 import { FullDatasetPaginator } from '../FullDatasetPaginator';
-import { AppPaginator } from '../index';
 
 
-export function __loadAppPaginatorDependencies(
-	appPaginator: AppPaginator,
+export function __setup(
 	dataSource: {
 
 		// The number of items `getBatch()` returns must match `itemsPerBatch`.  If `isLastBatch` is
@@ -28,17 +26,17 @@ export function __loadAppPaginatorDependencies(
 		currentPage: any[], currentPageNumber: number, itemsPerPage: number, data: any[]
 	} = new ArrayPaginator();
 
-	appPaginator.__pageInfo = new PaginationPageInfo(dataSource, batchPaginator);
-	appPaginator.__batchInfo = new PaginationBatchInfo(appPaginator.__pageInfo);
+	this._pageInfo = new PaginationPageInfo(dataSource, batchPaginator);
+	this._batchInfo = new PaginationBatchInfo(this._pageInfo);
 
-	let bch2pgTranslator = new BatchToPageTranslator(appPaginator.__pageInfo, appPaginator.__batchInfo);
+	let bch2pgTranslator = new BatchToPageTranslator(this._pageInfo, this._batchInfo);
 
 	let getBatch = new GetBatch(
-		dataSource, appPaginator.__batchInfo, bch2pgTranslator
+		dataSource, this._batchInfo, bch2pgTranslator
 	);
 	let pageLoader = new PageLoader(
 		batchPaginator, bch2pgTranslator, getBatch
 	);
-	appPaginator.__fullDatasetPaginator = new FullDatasetPaginator(pageLoader);
+	this._fullDatasetPaginator = new FullDatasetPaginator(pageLoader);
 
 }

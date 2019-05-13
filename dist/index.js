@@ -1,69 +1,72 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var dependencyLoader_1 = require("./privy/dependencyLoader");
 /***************************
- AppPaginator is intended for a real-world web application.
- It automatically batchinates the full dataset in case it's huge.
- In case you want to use multiple paginators in a single page (say you're displaying multiple
- tables and each has its own pagination controls), you can create multiple instances of
- AppPaginator, and give each its own `dataSource` (see constructor).
+ AbstractAppPaginator is intended for a real-world web application.  It automatically
+ batchinates the full dataset in case it's huge.
+
+ To use: create a subclass of this and call super() inside the constructor, passing
+ in a `dataSource` and a `setup` function that becomes a private method of
+ AbstractAppPaginator.  setup() must take dataSource as a parameter and assign values
+ to the properties `_pageInfo`, `_batchInfo`, and `_fullDatasetPaginator`.  setup()
+ is what makes the class actually functional.
  ***************************/
-var AppPaginator = /** @class */ (function () {
-    function AppPaginator(dataSource) {
-        dependencyLoader_1.__loadAppPaginatorDependencies(this, dataSource);
+Object.defineProperty(exports, "__esModule", { value: true });
+var AbstractAppPaginator = /** @class */ (function () {
+    function AbstractAppPaginator(dataSource, __setup) {
+        this.__setup = __setup;
+        this.__setup(dataSource);
     }
-    Object.defineProperty(AppPaginator.prototype, "itemsPerBatch", {
+    Object.defineProperty(AbstractAppPaginator.prototype, "itemsPerBatch", {
         get: function () {
-            return this.__batchInfo.itemsPerBatch;
+            return this._batchInfo.itemsPerBatch;
         },
         // Total number of items the app can have loaded in memory.  Set this to highest number that
         // does not negatively affect app performance.
         set: function (value) {
-            this.__batchInfo.itemsPerBatch = value;
+            this._batchInfo.itemsPerBatch = value;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AppPaginator.prototype, "itemsPerPage", {
+    Object.defineProperty(AbstractAppPaginator.prototype, "itemsPerPage", {
         get: function () {
-            return this.__pageInfo.itemsPerPage;
+            return this._pageInfo.itemsPerPage;
         },
         set: function (value) {
-            this.__pageInfo.itemsPerPage = value;
+            this._pageInfo.itemsPerPage = value;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AppPaginator.prototype, "currentPageNumber", {
+    Object.defineProperty(AbstractAppPaginator.prototype, "currentPageNumber", {
         get: function () {
-            return this.__fullDatasetPaginator.currentPageNumber;
+            return this._fullDatasetPaginator.currentPageNumber;
         },
         // Setting this.currentPageNumber automatically updates this.currentPage
         set: function (value) {
-            this.__fullDatasetPaginator.currentPageNumber = value;
+            this._fullDatasetPaginator.currentPageNumber = value;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AppPaginator.prototype, "currentPage", {
+    Object.defineProperty(AbstractAppPaginator.prototype, "currentPage", {
         get: function () {
-            return this.__fullDatasetPaginator.currentPage;
+            return this._fullDatasetPaginator.currentPage;
         },
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(AppPaginator.prototype, "totalPages", {
+    Object.defineProperty(AbstractAppPaginator.prototype, "totalPages", {
         get: function () {
-            return this.__pageInfo.totalPages;
+            return this._pageInfo.totalPages;
         },
         enumerable: true,
         configurable: true
     });
     // Intended to be called after the order of the dataset changes (like after sorting),
     // or after the total number of items changes (like after a search).
-    AppPaginator.prototype.reset = function () {
-        this.__fullDatasetPaginator.reset();
+    AbstractAppPaginator.prototype.reset = function () {
+        this._fullDatasetPaginator.reset();
     };
-    return AppPaginator;
+    return AbstractAppPaginator;
 }());
-exports.AppPaginator = AppPaginator;
+exports.AbstractAppPaginator = AbstractAppPaginator;
