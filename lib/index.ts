@@ -5,24 +5,26 @@
  To use: create a subclass of this and call super() inside the constructor, passing
  in a `dataSource` and a `setup` function that becomes a private method of
  AbstractAppPaginator.  setup() must take dataSource as a parameter and assign values
- to the properties `_pageInfo`, `_batchInfo`, and `_fullDatasetPaginator`.  setup()
+ to the properties `__pageInfo`, `__batchInfo`, and `__pageLoader`.  setup()
  is what makes the class actually functional.
  ***************************/
 
 export abstract class AbstractAppPaginator {
 
+	private __currentPageNumber: number;
 
-	protected _pageInfo: { itemsPerPage: number, totalPages: number };
-	protected _batchInfo: { itemsPerBatch: number };
+	private __pageInfo: { itemsPerPage: number, totalPages: number };
+	private __batchInfo: { itemsPerBatch: number };
 
-	protected _fullDatasetPaginator: {
-		// Setting `currentPageNumber` must automatically update `currentPage`
+	private __pageLoader: {
 
-		currentPageNumber: number, currentPage: any[],
+		loadPage: (pageNumber) => void,
 
-		// This must reload the data of page 1 and set `currentPageNumber` to 1.
+		// Must load `pageNumber` all over again, even if that page is already currently loaded.
 
-		reset: () => void
+		forceLoadPage: (pageNumber) => void,
+
+		loadedPage: any[]
 	};
 
 
@@ -35,44 +37,45 @@ export abstract class AbstractAppPaginator {
 	// does not negatively affect app performance.
 
 	set itemsPerBatch(value) {
-		this._batchInfo.itemsPerBatch = value;
+		this.__batchInfo.itemsPerBatch = value;
 	}
 
 
 	get itemsPerBatch(): number {
-		return this._batchInfo.itemsPerBatch;
+		return this.__batchInfo.itemsPerBatch;
 	}
 
 
 	set itemsPerPage(value) {
-		this._pageInfo.itemsPerPage = value;
+		this.__pageInfo.itemsPerPage = value;
 	}
 
 
 	get itemsPerPage(): number {
-		return this._pageInfo.itemsPerPage;
+		return this.__pageInfo.itemsPerPage;
 	}
 
 
 	// Setting this.currentPageNumber automatically updates this.currentPage
 
 	set currentPageNumber(value) {
-		this._fullDatasetPaginator.currentPageNumber = value;
+		this.__pageLoader.loadPage(value);
+		this.__currentPageNumber = value;
 	}
 
 
 	get currentPageNumber(): number {
-		return this._fullDatasetPaginator.currentPageNumber;
+		return this.__currentPageNumber;
 	}
 
 
 	get currentPage(): any[] {
-		return this._fullDatasetPaginator.currentPage;
+		return this.__pageLoader.loadedPage;
 	}
 
 
 	get totalPages(): number {
-		return this._pageInfo.totalPages;
+		return this.__pageInfo.totalPages;
 	}
 
 
@@ -80,7 +83,8 @@ export abstract class AbstractAppPaginator {
 	// or after the total number of items changes (like after a search).
 
 	reset(): void {
-		this._fullDatasetPaginator.reset();
+		this.__pageLoader.forceLoadPage(1);
+		this.__currentPageNumber = 1;
 	}
 
 

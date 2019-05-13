@@ -1,12 +1,15 @@
 /***************************
- AbstractAppPaginator is intended for a real-world web application.
- It automatically batchinates the full dataset in case it's huge.
- In case you want to use multiple paginators in a single page (say you're displaying multiple
- tables and each has its own pagination controls), you can create multiple instances of
- AbstractAppPaginator, and each gets its own `dataSource`.
+ AbstractAppPaginator is intended for a real-world web application.  It automatically
+ batchinates the full dataset in case it's huge.
+
+ To use: create a subclass of this and call super() inside the constructor, passing
+ in a `dataSource` and a `setup` function that becomes a private method of
+ AbstractAppPaginator.  setup() must take dataSource as a parameter and assign values
+ to the properties `__pageInfo`, `__batchInfo`, and `__pageLoader`.  setup()
+ is what makes the class actually functional.
  ***************************/
 
-export declare class AppPaginator {
+export declare abstract class AbstractAppPaginator {
 
 	itemsPerBatch: number;
 	itemsPerPage: number;
@@ -14,19 +17,18 @@ export declare class AppPaginator {
 	readonly currentPage: any[];
 	readonly totalPages: number;
 
-	private __fullDatasetPaginator;
+	private __setup;
+	private __currentPageNumber;
 	private __pageInfo;
 	private __batchInfo;
+	private __pageLoader;
 
 
 	constructor(
-		dataSource: {
-			getBatch: (batchNumber: number, itemsPerBatch: number, isLastBatch: boolean) => any[];
-			dataTotal: number;
-		}
+		dataSource: any,
+		__setup: (dataSource: any) => void
 	);
 
 
 	reset(): void;
-
 }

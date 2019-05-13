@@ -1,6 +1,6 @@
-# AppPaginator
+# AbstractAppPaginator
 
-A TypeScript/Javascript class intended for a real-world web application.  
+An abstract TypeScript/Javascript pagination class intended for a real-world web application.  
 It automatically batchinates (divides into batches) the full dataset in case it's huge.  
 
 
@@ -11,22 +11,8 @@ It automatically batchinates (divides into batches) the full dataset in case it'
 
 ```ts
 constructor(
-    dataSource: {
-
-        getBatch: (
-            // The number of items `getBatch()` returns must match `itemsPerBatch`.
-            // If `isLastBatch` is true, it must only return the remaining items 
-            // in the dataset and ignore itemsPerBatch.
-                        
-            batchNumber: number, itemsPerBatch: number, isLastBatch: boolean
-            
-        ) => any[];
-        
-        dataTotal: number;
-            // The number of items in entire dataset, not the batch.
-            // This must stay accurate after actions that change the total, such 
-            // as searches.
-    }
+    dataSource,
+    private __setup: (dataSource) => void
 )
 ```
 </details>
@@ -62,15 +48,15 @@ reset() : void
 
 ## Installation
 
-`npm install @writetome51/app-paginator`
+`npm install @writetome51/abstract-app-paginator`
 
 ## Loading
 ```ts
 // if using TypeScript:
-import { AppPaginator } from '@writetome51/app-paginator';
+import { AbstractAppPaginator } from '@writetome51/abstract-app-paginator';
 // if using ES5 JavaScript:
-var AppPaginator = 
-    require('@writetome51/app-paginator').AppPaginator;
+var AbstractAppPaginator = 
+    require('@writetome51/abstract-app-paginator').AbstractAppPaginator;
 ```
 
 ## License
