@@ -1,6 +1,6 @@
 {
   "name": "@writetome51/abstract-app-paginator",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An abstract TypeScript/JavaScript pagination class",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
