@@ -33,6 +33,9 @@ constructor(
 
 
 ## Properties
+<details>
+<summary>view properties</summary>
+
 ```ts
 itemsPerBatch: number
     // Total number of items the app can have loaded in memory.  Set this to 
@@ -70,15 +73,21 @@ __pageLoader: {
         // All items in the loaded page.
 }
 ```
+</details>
+
 
 ## Methods
+<details>
+<summary>view methods</summary>
+
 ```ts
 reset() : void
-    // reloads the first batch and sets this.currentPageNumber to 1.
+    // force-loads page 1.
     // Intended to be called after the order of the dataset changes (like 
     // after sorting), or after the total number of items changes (like after 
     // a search).
 ```
+</details>
 
 
 ## Installation
