@@ -43,8 +43,7 @@ itemsPerBatch: number
 
 itemsPerPage: number
 
-currentPageNumber: number
-    // Setting this automatically updates this.currentPage
+currentPageNumber: number // read-only
 
 currentPage: any[] // read-only
     // All items in the current page.
@@ -63,9 +62,9 @@ __batchInfo: { itemsPerBatch: number }
 
 __pageLoader: {
 
-    loadPage: (pageNumber) => void,
+    loadPage: (pageNumber) => Promise<void>,
 
-    forceLoadPage: (pageNumber) => void,
+    forceLoadPage: (pageNumber) => Promise<void>,
         // Must load `pageNumber` all over again, even if that page is already 
         // currently loaded.
 
@@ -81,7 +80,10 @@ __pageLoader: {
 <summary>view methods</summary>
 
 ```ts
-reset() : void
+async set_currentPageNumber(num): Promise<void>
+    // updates this.currentPage
+
+async reset() : Promise<void>
     // force-loads page 1.
     // Intended to be called after the order of the dataset changes (like 
     // after sorting), or after the total number of items changes (like after 

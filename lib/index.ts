@@ -26,11 +26,11 @@ export abstract class AbstractAppPaginator {
 
 	private __pageLoader: {
 
-		loadPage: (pageNumber) => void,
+		loadPage: (pageNumber) => Promise<void>,
 
 		// Must load `pageNumber` all over again, even if that page is already currently loaded.
 
-		forceLoadPage: (pageNumber) => void,
+		forceLoadPage: (pageNumber) => Promise<void>,
 
 		// All items in the loaded page.
 
@@ -66,14 +66,6 @@ export abstract class AbstractAppPaginator {
 	}
 
 
-	// Setting this.currentPageNumber automatically updates this.currentPage
-
-	set currentPageNumber(value) {
-		this.__pageLoader.loadPage(value);
-		this.__currentPageNumber = value;
-	}
-
-
 	get currentPageNumber(): number {
 		return this.__currentPageNumber;
 	}
@@ -89,12 +81,20 @@ export abstract class AbstractAppPaginator {
 	}
 
 
+	// Updates this.currentPage
+
+	async set_currentPageNumber(value): Promise<void> {
+		this.__currentPageNumber = value;
+		await this.__pageLoader.loadPage(value);
+	}
+
+
 	// Intended to be called after the order of the dataset changes (like after sorting),
 	// or after the total number of items changes (like after a search).
 
-	reset(): void {
-		this.__pageLoader.forceLoadPage(1);
+	async reset(): Promise<void> {
 		this.__currentPageNumber = 1;
+		await this.__pageLoader.forceLoadPage(1);
 	}
 
 

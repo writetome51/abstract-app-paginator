@@ -18,20 +18,36 @@ export declare abstract class AbstractAppPaginator {
 
 	itemsPerBatch: number;
 	itemsPerPage: number;
-	currentPageNumber: number;
+	readonly currentPageNumber: number;
 	readonly currentPage: any[];
 	readonly totalPages: number;
 
+	private __pageInfo: { itemsPerPage: number, totalPages: number };
+	private __batchInfo: { itemsPerBatch: number };
+
+	private __pageLoader: {
+
+		loadPage: (pageNumber) => Promise<void>,
+
+		// Must load `pageNumber` all over again, even if that page is already currently loaded.
+
+		forceLoadPage: (pageNumber) => Promise<void>,
+
+		// All items in the loaded page.
+
+		loadedPage: any[]
+	};
+
 	private __setup;
 	private __currentPageNumber;
-	private __pageInfo;
-	private __batchInfo;
-	private __pageLoader;
 
 
 	constructor(dataSource: any, __setup: (dataSource: any) => void);
 
 
-	reset(): void;
+	set_currentPageNumber(value: number): Promise<void>;
+
+
+	reset(): Promise<void>;
 
 }
