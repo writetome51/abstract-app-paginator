@@ -92,7 +92,7 @@ export abstract class AbstractAppPaginator {
 	// Intended to be called after the order of the dataset changes (like after sorting),
 	// or after the total number of items changes (like after a search).
 
-	async reset(): Promise<void> {
+	async resetToFirstPage(): Promise<void> {
 		this.__currentPageNumber = 1;
 		await this.__pageLoader.forceLoadPage(1);
 	}

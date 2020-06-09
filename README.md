@@ -83,7 +83,7 @@ __pageLoader: {
 async set_currentPageNumber(num): Promise<void>
     // updates this.currentPage
 
-async reset() : Promise<void>
+async resetToFirstPage() : Promise<void>
     // force-loads page 1.
     // Intended to be called after the order of the dataset changes (like 
     // after sorting), or after the total number of items changes (like after 

@@ -48,6 +48,6 @@ export declare abstract class AbstractAppPaginator {
 	set_currentPageNumber(value: number): Promise<void>;
 
 
-	reset(): Promise<void>;
+	resetToFirstPage(): Promise<void>;
 
 }

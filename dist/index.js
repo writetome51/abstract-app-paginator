@@ -116,7 +116,7 @@ var AbstractAppPaginator = /** @class */ (function () {
     };
     // Intended to be called after the order of the dataset changes (like after sorting),
     // or after the total number of items changes (like after a search).
-    AbstractAppPaginator.prototype.reset = function () {
+    AbstractAppPaginator.prototype.resetToFirstPage = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
