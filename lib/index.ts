@@ -5,14 +5,13 @@
  paginator has the option of requesting a bigger load, determined by the  
  property `itemsPerLoad`.
 
- Though it is a class, most of its implementation does not exist as-is.  A  
- subclass must be made, which provides a `dataSource` and  
- `__setup()` function to this class' constructor.  `__setup()` becomes a  
- class method and must accept `dataSource` as a parameter, but as for  
- what `dataSource` is and what `__setup()` does, that is up to the  
- subclass.  The only requirement this class makes is `__setup()` must  
- assign values to the properties `__pageInfo`, `__loadInfo`, and  
- `__pageLoader` so the code in this class will execute properly.
+ A subclass must pass a `__setup()` function to this class' constructor
+ (`__setup()` becomes a private method to give it access to this class'
+ private properties).  Any further arguments to the constructor are
+ passed to `__setup()`.  As for what `__setup()` does, the only
+ requirement is the properties `__pageInfo`,`__loadInfo`, and
+ `__currentPage` must be assigned values inside it so the code here will
+ execute.
  ***************************/
 
 export abstract class AbstractBigDatasetPaginator {
@@ -32,8 +31,11 @@ export abstract class AbstractBigDatasetPaginator {
 	};
 
 
-	constructor(dataSource, private __setup: (dataSource) => void) {
-		this.__setup(dataSource);
+	constructor(
+		private __setup: (...args) => void,
+		setupArgs: any[]
+	) {
+		this.__setup(...setupArgs);
 	}
 
 

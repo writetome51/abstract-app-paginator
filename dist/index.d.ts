@@ -1,53 +1,59 @@
 /***************************
- This class is intended for pagination in a real-world web app.  Though it is a class, most of its
- implementation does not exist as-is.  A subclass must be made, which provides a `dataSource` and
- `__setup` function to this class' constructor.  __setup() becomes a class method and must accept
- dataSource as a parameter, but as for what dataSource is and what __setup() does, that is up to
- the subclass.  The only requirement this class makes is __setup() must assign values to the
- properties `__pageInfo`, `__batchInfo`, and `__pageLoader`, so the code in this class will execute
- properly.
+ An abstract TypeScript/Javascript class intended for pagination where
+ all the data to be paginated can't be loaded in memory at once.  Instead
+ of only requesting one page of data at-a-time from the data source, the
+ paginator has the option of requesting a bigger load, determined by the
+ property `itemsPerLoad`.
 
- It's possible to use this class for 'batchination', where, instead of only requesting one page of
- data at-a-time from the server, the client requests a bigger `batch`, the size of which is determined
- by the property `itemsPerBatch`.  Then the batch is paginated in the client.  If the user requests a
- page that would be found in a different batch, the client requests that batch from the server and
- paginates it.  And so on.
+ A subclass must pass a `__setup()` function to this class' constructor
+ (`__setup()` becomes a private method to give it access to this class'
+ private properties).  Any further arguments to the constructor are
+ passed to `__setup()`.  As for what `__setup()` does, the only
+ requirement is the properties `__pageInfo`,`__loadInfo`, and
+ `__currentPage` must be assigned values inside it so the code here will
+ execute.
  ***************************/
 
-export declare abstract class AbstractAppPaginator {
-
-	itemsPerBatch: number;
-	itemsPerPage: number;
-	readonly currentPageNumber: number;
-	readonly currentPage: any[];
-	readonly totalPages: number;
-
-	private __pageInfo: { itemsPerPage: number, totalPages: number };
-	private __batchInfo: { itemsPerBatch: number };
-
-	private __pageLoader: {
-
-		loadPage: (pageNumber) => Promise<void>,
-
-		// Must load `pageNumber` all over again, even if that page is already currently loaded.
-
-		forceLoadPage: (pageNumber) => Promise<void>,
-
-		// All items in the loaded page.
-
-		loadedPage: any[]
-	};
+export declare abstract class AbstractBigDatasetPaginator {
 
 	private __setup;
 	private __currentPageNumber;
 
+	private __pageInfo: {
+		setItemsPerPage: (num: number) => void;
+		getItemsPerPage: () => number;
+		getTotalPages: () => number;
+	};
+	private __loadInfo: {
+		setItemsPerLoad: (num: number) => void;
+		getItemsPerLoad: () => number;
+	};
 
-	constructor(dataSource: any, __setup: (dataSource: any) => void);
+	private __currentPage: {
+		get: () => any[];
+		set: (pageNumber: number) => Promise<void>;
+		reset: (pageNumber: number) => Promise<void>;
+	};
 
 
-	set_currentPageNumber(value: number): Promise<void>;
+	constructor(__setup: (...args: any[]) => void, setupArgs: any[]);
 
+	setItemsPerLoad(num: number): void;
+
+	getItemsPerLoad(): number;
+
+	setItemsPerPage(num: number): void;
+
+	getItemsPerPage(): number;
+
+	setCurrentPageNumber(num: number): Promise<void>;
 
 	resetToFirstPage(): Promise<void>;
+
+	getCurrentPageNumber(): number;
+
+	getCurrentPage(): any[];
+
+	getTotalPages(): number;
 
 }

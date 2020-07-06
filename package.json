@@ -12,11 +12,11 @@
     "url": "git+https://github.com/writetome51/abstract-big-dataset-paginator.git"
   },
   "keywords": [
+    "big",
     "data",
+    "dataset",
     "paginator",
     "pagination",
-    "app",
-    "application",
     "typescript",
     "class"
   ],

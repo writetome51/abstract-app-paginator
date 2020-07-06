@@ -1,18 +1,18 @@
 "use strict";
 /***************************
- This class is intended for pagination in a real-world web app.  Though it is a class, most of its
- implementation does not exist as-is.  A subclass must be made, which provides a `dataSource` and
- `__setup` function to this class' constructor.  __setup() becomes a class method and must accept
- dataSource as a parameter, but as for what dataSource is and what __setup() does, that is up to
- the subclass.  The only requirement this class makes is __setup() must assign values to the
- properties `__pageInfo`, `__batchInfo`, and `__pageLoader`, so the code in this class will execute
- properly.
+ An abstract TypeScript/Javascript class intended for pagination where
+ all the data to be paginated can't be loaded in memory at once.  Instead
+ of only requesting one page of data at-a-time from the data source, the
+ paginator has the option of requesting a bigger load, determined by the
+ property `itemsPerLoad`.
 
- It's possible to use this class for 'batchination', where, instead of only requesting one page of
- data at-a-time from the server, the client requests a bigger `batch`, the size of which is determined
- by the property `itemsPerBatch`.  Then the batch is paginated in the client.  If the user requests a
- page that would be found in a different batch, the client requests that batch from the server and
- paginates it.  And so on.
+ A subclass must pass a `__setup()` function to this class' constructor
+ (`__setup()` becomes a private method to give it access to this class'
+ private properties).  Any further arguments to the constructor are
+ passed to `__setup()`.  As for what `__setup()` does, the only
+ requirement is the properties `__pageInfo`,`__loadInfo`, and
+ `__currentPage` must be assigned values inside it so the code here will
+ execute.
  ***************************/
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -51,62 +51,32 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var AbstractAppPaginator = /** @class */ (function () {
-    function AbstractAppPaginator(dataSource, __setup) {
+var AbstractBigDatasetPaginator = /** @class */ (function () {
+    function AbstractBigDatasetPaginator(__setup, setupArgs) {
         this.__setup = __setup;
-        this.__setup(dataSource);
+        this.__setup.apply(this, setupArgs);
     }
-    Object.defineProperty(AbstractAppPaginator.prototype, "itemsPerBatch", {
-        get: function () {
-            return this.__batchInfo.itemsPerBatch;
-        },
-        // Total number of items the app can have loaded in memory.  Set this to highest number that
-        // does not negatively affect app performance.
-        set: function (value) {
-            this.__batchInfo.itemsPerBatch = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractAppPaginator.prototype, "itemsPerPage", {
-        get: function () {
-            return this.__pageInfo.itemsPerPage;
-        },
-        set: function (value) {
-            this.__pageInfo.itemsPerPage = value;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractAppPaginator.prototype, "currentPageNumber", {
-        get: function () {
-            return this.__currentPageNumber;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractAppPaginator.prototype, "currentPage", {
-        get: function () {
-            return this.__pageLoader.loadedPage;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(AbstractAppPaginator.prototype, "totalPages", {
-        get: function () {
-            return this.__pageInfo.totalPages;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    // Updates this.currentPage
-    AbstractAppPaginator.prototype.set_currentPageNumber = function (value) {
+    // Total number of items the app can have loaded in memory.  Set this to highest number that
+    // does not negatively affect app performance.
+    AbstractBigDatasetPaginator.prototype.setItemsPerLoad = function (num) {
+        this.__loadInfo.setItemsPerLoad(num);
+    };
+    AbstractBigDatasetPaginator.prototype.getItemsPerLoad = function () {
+        return this.__loadInfo.getItemsPerLoad();
+    };
+    AbstractBigDatasetPaginator.prototype.setItemsPerPage = function (num) {
+        this.__pageInfo.setItemsPerPage(num);
+    };
+    AbstractBigDatasetPaginator.prototype.getItemsPerPage = function () {
+        return this.__pageInfo.getItemsPerPage();
+    };
+    AbstractBigDatasetPaginator.prototype.setCurrentPageNumber = function (num) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.__currentPageNumber = value;
-                        return [4 /*yield*/, this.__pageLoader.loadPage(value)];
+                        this.__currentPageNumber = num;
+                        return [4 /*yield*/, this.__currentPage.set(num)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -116,13 +86,13 @@ var AbstractAppPaginator = /** @class */ (function () {
     };
     // Intended to be called after the order of the dataset changes (like after sorting),
     // or after the total number of items changes (like after a search).
-    AbstractAppPaginator.prototype.resetToFirstPage = function () {
+    AbstractBigDatasetPaginator.prototype.resetToFirstPage = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.__currentPageNumber = 1;
-                        return [4 /*yield*/, this.__pageLoader.forceLoadPage(1)];
+                        return [4 /*yield*/, this.__currentPage.reset(1)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -130,6 +100,15 @@ var AbstractAppPaginator = /** @class */ (function () {
             });
         });
     };
-    return AbstractAppPaginator;
+    AbstractBigDatasetPaginator.prototype.getCurrentPageNumber = function () {
+        return this.__currentPageNumber;
+    };
+    AbstractBigDatasetPaginator.prototype.getCurrentPage = function () {
+        return this.__currentPage.get();
+    };
+    AbstractBigDatasetPaginator.prototype.getTotalPages = function () {
+        return this.__pageInfo.getTotalPages();
+    };
+    return AbstractBigDatasetPaginator;
 }());
-exports.AbstractAppPaginator = AbstractAppPaginator;
+exports.AbstractBigDatasetPaginator = AbstractBigDatasetPaginator;
