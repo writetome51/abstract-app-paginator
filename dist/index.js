@@ -84,6 +84,9 @@ var AbstractBigDatasetPaginator = /** @class */ (function () {
             });
         });
     };
+    AbstractBigDatasetPaginator.prototype.getCurrentPageNumber = function () {
+        return this.__currentPageNumber;
+    };
     // Intended to be called after the order of the dataset changes (like after sorting),
     // or after the total number of items changes (like after a search).
     AbstractBigDatasetPaginator.prototype.resetToFirstPage = function () {
@@ -99,9 +102,6 @@ var AbstractBigDatasetPaginator = /** @class */ (function () {
                 }
             });
         });
-    };
-    AbstractBigDatasetPaginator.prototype.getCurrentPageNumber = function () {
-        return this.__currentPageNumber;
     };
     AbstractBigDatasetPaginator.prototype.getCurrentPage = function () {
         return this.__currentPage.get();
