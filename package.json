@@ -1,6 +1,6 @@
 {
-  "name": "@writetome51/abstract-app-paginator",
-  "version": "1.0.0",
+  "name": "@writetome51/abstract-big-dataset-paginator",
+  "version": "0.0.1",
   "description": "An abstract TypeScript/JavaScript pagination class",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/writetome51/abstract-app-paginator.git"
+    "url": "git+https://github.com/writetome51/abstract-big-dataset-paginator.git"
   },
   "keywords": [
     "data",
@@ -23,9 +23,9 @@
   "author": "Steve Thompson",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/writetome51/abstract-app-paginator/issues"
+    "url": "https://github.com/writetome51/abstract-big-dataset-paginator/issues"
   },
-  "homepage": "https://github.com/writetome51/abstract-app-paginator#readme",
+  "homepage": "https://github.com/writetome51/abstract-big-dataset-paginator#readme",
   "devDependencies": {
   },
   "dependencies": {

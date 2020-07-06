@@ -1,20 +1,22 @@
 /***************************
- This class is intended for pagination in a real-world web app.  Though it is a class, most of its
- implementation does not exist as-is.  A subclass must be made, which provides a `dataSource` and
- `__setup` function to this class' constructor.  __setup() becomes a class method and must accept
- dataSource as a parameter, but as for what dataSource is and what __setup() does, that is up to
- the subclass.  The only requirement this class makes is __setup() must assign values to the
- properties `__pageInfo`, `__batchInfo`, and `__pageLoader`, so the code in this class will execute
- properly.
+ An abstract TypeScript/Javascript class intended for pagination where   
+ all the data to be paginated can't be loaded in memory at once.  Instead  
+ of only requesting one page of data at-a-time from the data source, the  
+ paginator has the option of requesting a bigger load, determined by the  
+ property `itemsPerLoad`.  This makes the paginator's communication  
+ with the data source more efficient.
 
- It's possible to use this class for 'batchination', where, instead of only requesting one page of
- data at-a-time from the server, the client requests a bigger `batch`, the size of which is determined
- by the property `itemsPerBatch`.  Then the batch is paginated in the client.  If the user requests a
- page that would be found in a different batch, the client requests that batch from the server and
- paginates it.  And so on.
+ Though it is a class, most of its implementation does not exist as-is.  A  
+ subclass must be made, which provides a `dataSource` and  
+ `__setup()` function to this class' constructor.  `__setup()` becomes a  
+ class method and must accept `dataSource` as a parameter, but as for  
+ what `dataSource` is and what `__setup()` does, that is up to the  
+ subclass.  The only requirement this class makes is `__setup()` must  
+ assign values to the properties `__pageInfo`, `__loadInfo`, and  
+ `__pageLoader` so the code in this class will execute properly.
  ***************************/
 
-export abstract class AbstractAppPaginator {
+export abstract class AbstractBigDatasetPaginator {
 
 	private __currentPageNumber: number;
 
@@ -22,7 +24,7 @@ export abstract class AbstractAppPaginator {
 	// These 3 properties must be assigned values inside `this.__setup()` (see constructor).
 
 	private __pageInfo: { itemsPerPage: number, totalPages: number };
-	private __batchInfo: { itemsPerBatch: number };
+	private __loadInfo: { itemsPerLoad: number };
 
 	private __pageLoader: {
 
@@ -46,13 +48,13 @@ export abstract class AbstractAppPaginator {
 	// Total number of items the app can have loaded in memory.  Set this to highest number that
 	// does not negatively affect app performance.
 
-	set itemsPerBatch(value) {
-		this.__batchInfo.itemsPerBatch = value;
+	set itemsPerLoad(value) {
+		this.__loadInfo.itemsPerLoad = value;
 	}
 
 
-	get itemsPerBatch(): number {
-		return this.__batchInfo.itemsPerBatch;
+	get itemsPerLoad(): number {
+		return this.__loadInfo.itemsPerLoad;
 	}
 
 
