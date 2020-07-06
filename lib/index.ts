@@ -3,7 +3,7 @@
  all the data to be paginated can't be loaded in memory at once.  Instead  
  of only requesting one page of data at-a-time from the data source, the  
  paginator has the option of requesting a bigger load, determined by the  
- property `itemsPerLoad`.
+ function `setItemsPerLoad()`.
 
  A subclass must pass a `__setup()` function to this class' constructor
  (`__setup()` becomes a private method to give it access to this class'
