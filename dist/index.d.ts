@@ -48,9 +48,9 @@ export declare abstract class AbstractBigDatasetPaginator {
 
 	setCurrentPageNumber(num: number): Promise<void>;
 
-	resetToFirstPage(): Promise<void>;
-
 	getCurrentPageNumber(): number;
+
+	resetToFirstPage(): Promise<void>;
 
 	getCurrentPage(): any[];
 

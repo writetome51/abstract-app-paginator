@@ -90,12 +90,8 @@ getTotalPages(): number
 `npm i  @writetome51/abstract-big-dataset-paginator`
 
 ## Loading
-```ts
-// if using TypeScript:
+```js
 import { AbstractBigDatasetPaginator } from '@writetome51/abstract-big-dataset-paginator';
-// if using ES5 JavaScript:
-var AbstractBigDatasetPaginator = 
-    require('@writetome51/abstract-big-dataset-paginator').AbstractBigDatasetPaginator;
 ```
 
 ## License
