@@ -1,6 +1,6 @@
 {
   "name": "@writetome51/abstract-big-dataset-paginator",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "An abstract TypeScript/JavaScript pagination class",
  "type": "module",
   "main": "dist/index.js",

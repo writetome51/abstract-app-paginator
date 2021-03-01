@@ -17,7 +17,6 @@
 export declare abstract class AbstractBigDatasetPaginator {
 
 	private __setup;
-	private __currentPageNumber;
 
 	private __pageInfo: {
 		setItemsPerPage: (num: number) => void;
@@ -33,10 +32,11 @@ export declare abstract class AbstractBigDatasetPaginator {
 		get: () => any[];
 		set: (pageNumber: number) => Promise<void>;
 		reset: (pageNumber: number) => Promise<void>;
+		getNumber: () => number;
 	};
 
 
-	constructor(__setup: (...args: any[]) => void, setupArgs: any[]);
+	constructor(__setup: (...args: any[]) => void, setupArgs?: any[]);
 
 	setItemsPerLoad(num: number): void;
 
