@@ -59,8 +59,9 @@ export abstract class AbstractBigDatasetPaginator {
 	}
 
 
-	async setCurrentPageNumber(num): Promise<void> {
-		await this.__currentPage.set(num);
+	async setCurrentPageNumber(num, option = {reload:false}): Promise<void> {
+                if (option.reload) await this.__currentPage.reset(num);
+		else await this.__currentPage.set(num);
 	}
 
 
