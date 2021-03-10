@@ -18,15 +18,17 @@ export abstract class AbstractBigDatasetPaginator {
 	// These 3 properties must be assigned values inside `this.__setup()` (see constructor).
 
 	private __pageInfo: {
-		setItemsPerPage: (num) => void, getItemsPerPage: () => number, getTotalPages: () => number
+		setItemsPerPage: (num: number) => void,  getItemsPerPage: () => number,
+		getTotalPages: () => number
 	};
-	private __loadInfo: { setItemsPerLoad: (num) => void, getItemsPerLoad: () => number };
-
+	private __loadInfo: {
+		setItemsPerLoad: (num: number) => void,  getItemsPerLoad: () => number
+	};
 	private __loadedPage: {
-		get: () => any[], set: (pageNumber) => Promise<void>,
+		get: () => any[],  set: (pageNumber: number) => Promise<void>,
 
 		// `reset` must reload page data from the source
-		reset: (pageNumber) => Promise<void>,
+		reset: (pageNumber: number) => Promise<void>,
 		getNumber: () => number
 	};
 
@@ -39,7 +41,7 @@ export abstract class AbstractBigDatasetPaginator {
 	}
 
 
-	setItemsPerLoad(num): void {
+	setItemsPerLoad(num: number): void {
 		this.__loadInfo.setItemsPerLoad(num);
 	}
 
@@ -49,7 +51,7 @@ export abstract class AbstractBigDatasetPaginator {
 	}
 
 
-	setItemsPerPage(num): void {
+	setItemsPerPage(num: number): void {
 		this.__pageInfo.setItemsPerPage(num);
 	}
 
