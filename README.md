@@ -10,10 +10,9 @@
  whichever is less.)
 
 A subclass must pass a `__setup()` function to this class' constructor (`__setup()`  
-becomes a private method to give it access to this class' private properties).  As  
-for what `__setup()` does, the only requirement is the properties `__pageInfo`,  
-`__loadInfo`, and `__currentPage` must be assigned values inside it so the code  
-here will execute.
+becomes a private method to give it access to this class' private properties). The only  
+requirement for `__setup()` is the properties `__pageInfo`, `__loadInfo`, and  
+`__loadedPage` must be assigned values inside it.
 
 
 ## Constructor
@@ -34,7 +33,7 @@ constructor(
 <summary>view properties</summary>
 
 ```ts
-// These 3 properties must be assigned values inside `this.__setup()` 
+// These 3 properties must be assigned values inside 'this.__setup()' 
 // (see constructor).
 
 __pageInfo: {
@@ -48,9 +47,11 @@ __loadInfo: {
     getItemsPerLoad: () => number;
 }
 
-__currentPage: {
+__loadedPage: {
     get: () => any[];
     set: (pageNumber) => Promise<void>;
+    
+    // 'reset' must reload page data from the source
     reset: (pageNumber) => Promise<void>;
     getNumber: () => number;
 }
@@ -71,18 +72,15 @@ setItemsPerPage(num): void
 
 getItemsPerPage(): number
 
-setCurrentPageNumber(num): Promise<void>
+getTotalPages(): number
+
+setCurrentPageNumber(num, option? = {reload: false}): Promise<void>
+    // Set 'option.reload' to true if page data must be reloaded from the source
 
 getCurrentPageNumber(): number
 
-resetToFirstPage(): Promise<void>
-    // Intended to be called after the order of the dataset changes 
-    // (like after sorting), or after the total number of items changes 
-    // (like after a search).
-
 getCurrentPage(): any[]
 
-getTotalPages(): number
 ```
 </details>
 
