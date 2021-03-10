@@ -1,19 +1,16 @@
 /***************************
- An abstract TypeScript/Javascript class intended for pagination where   
- all the data to be paginated can't be loaded in memory at once.  Instead  
- of only requesting one page of data at-a-time from the data source, the
- paginator has the option of requesting multiple pages of data to make
- requests more efficient.  You configure this with the functions
- `setItemsPerPage()` and `setItemsPerLoad()`. (A load is either the total
- number of items you want the app to have in memory at once, or the total
- number of items your data source is willing to give you at once —— whichever
- is less.)
+ An abstract TypeScript/Javascript class intended for pagination where all the data to be
+ paginated can't be loaded in memory at once.  Instead of only requesting one page of data
+ at-a-time from the data source, the paginator has the option of requesting multiple pages
+ of data to make requests more efficient.  You configure this with the functions
+ `setItemsPerPage()` and `setItemsPerLoad()`. (A load is either the total number of items
+ you want the app to have in memory at once, or the total number of items your data source
+ is willing to give you at once —— whichever is less.)
 
- A subclass must pass a `__setup()` function to this class' constructor
- (`__setup()` becomes a private method to give it access to this class'
- private properties).  As for what `__setup()` does, the only requirement is
- the properties `__pageInfo`,`__loadInfo`, and `__currentPage` must be
- assigned values inside it so the code here will execute.
+ A subclass must pass a `__setup()` function to this class' constructor (`__setup()`
+ becomes a private method to give it access to this class' private properties).  The only
+ requirement for `__setup()` is the properties `__pageInfo`, `__loadInfo`, and
+ `__loadedPage` must be assigned values inside it.
  ***************************/
 
 export abstract class AbstractBigDatasetPaginator {
@@ -25,11 +22,11 @@ export abstract class AbstractBigDatasetPaginator {
 	};
 	private __loadInfo: { setItemsPerLoad: (num) => void, getItemsPerLoad: () => number };
 
-	private __currentPage: {
+	private __loadedPage: {
 		get: () => any[], set: (pageNumber) => Promise<void>,
 
-                // Must reload the load from the source
-                reset: (pageNumber) => Promise<void>,
+		// `reset` must reload page data from the source
+		reset: (pageNumber) => Promise<void>,
 		getNumber: () => number
 	};
 
@@ -42,7 +39,7 @@ export abstract class AbstractBigDatasetPaginator {
 	}
 
 
-	setItemsPerLoad(num) {
+	setItemsPerLoad(num): void {
 		this.__loadInfo.setItemsPerLoad(num);
 	}
 
@@ -52,7 +49,7 @@ export abstract class AbstractBigDatasetPaginator {
 	}
 
 
-	setItemsPerPage(num) {
+	setItemsPerPage(num): void {
 		this.__pageInfo.setItemsPerPage(num);
 	}
 
@@ -62,26 +59,26 @@ export abstract class AbstractBigDatasetPaginator {
 	}
 
 
-        // Set `option.reload` to true if page data must be reloaded from the source
+	getTotalPages(): number {
+		return this.__pageInfo.getTotalPages();
+	}
 
-	async setCurrentPageNumber(num, option = {reload:false}): Promise<void> {
-                if (option.reload) await this.__currentPage.reset(num);
-		else await this.__currentPage.set(num);
+
+	// Set `option.reload` to true if page data must be reloaded from the source
+
+	async setCurrentPageNumber(num: number, option = {reload: false}): Promise<void> {
+		if (option.reload) await this.__loadedPage.reset(num);
+		else await this.__loadedPage.set(num);
 	}
 
 
 	getCurrentPageNumber(): number {
-		return this.__currentPage.getNumber();
+		return this.__loadedPage.getNumber();
 	}
 
 
 	getCurrentPage(): any[] {
-		return this.__currentPage.get();
-	}
-
-
-	getTotalPages(): number {
-		return this.__pageInfo.getTotalPages();
+		return this.__loadedPage.get();
 	}
 
 }
