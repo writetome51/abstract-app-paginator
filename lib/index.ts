@@ -26,7 +26,10 @@ export abstract class AbstractBigDatasetPaginator {
 	private __loadInfo: { setItemsPerLoad: (num) => void, getItemsPerLoad: () => number };
 
 	private __currentPage: {
-		get: () => any[], set: (pageNumber) => Promise<void>, reset: (pageNumber) => Promise<void>,
+		get: () => any[], set: (pageNumber) => Promise<void>,
+
+                // Must reload the load from the source
+                reset: (pageNumber) => Promise<void>,
 		getNumber: () => number
 	};
 
@@ -58,6 +61,8 @@ export abstract class AbstractBigDatasetPaginator {
 		return this.__pageInfo.getItemsPerPage();
 	}
 
+
+        // Set `option.reload` to true if page data must be reloaded from the source
 
 	async setCurrentPageNumber(num, option = {reload:false}): Promise<void> {
                 if (option.reload) await this.__currentPage.reset(num);
