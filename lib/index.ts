@@ -70,14 +70,6 @@ export abstract class AbstractBigDatasetPaginator {
 	}
 
 
-	// Intended to be called after the order of the dataset changes (like after sorting),
-	// or after the total number of items changes (like after a search).
-
-	async resetToFirstPage(): Promise<void> {
-		await this.__currentPage.reset(1);
-	}
-
-
 	getCurrentPage(): any[] {
 		return this.__currentPage.get();
 	}
